@@ -1,0 +1,21 @@
+body.md-theme-default, .main-content {
+    background-color: lighten(#212121, 5%) !important;
+    color: $white-ish !important;
+    font-family: 'Roboto', 'Noto Sans CJK JP Regular' ,'Meiryo UI';
+}
+
+a {
+    color: $not-yuki !important;
+    text-decoration: none !important;
+    &:hover {
+        color: lighten($not-yuki, 10%) !important;
+    }
+}
+
+.md-icon {
+    color: $white-ish !important;
+}
+
+.md-list-text-container > span {
+    color: $white-ish !important;
+}

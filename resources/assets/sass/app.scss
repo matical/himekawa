@@ -1,0 +1,14 @@
+$not-yuki: #ff9800;
+$white-ish: #e7e7e7;
+
+@import url("~vue-material/dist/vue-material.css");
+@import 'common';
+@import 'moverrides';
+
+.header {
+    font-weight: 300;
+}
+
+span.muted {
+    color: darken($white-ish, 20%) !important;
+}
