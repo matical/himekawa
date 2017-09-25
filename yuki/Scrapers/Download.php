@@ -96,18 +96,25 @@ class Download extends Scraper
 
     /**
      * @param $packageName
-     * @param $hash
+     * @param $reportedHash
      * @throws \yuki\Exceptions\FailedToVerifyHashException
      */
-    protected function verifyFileIntegrity($packageName, $hash)
+    protected function verifyFileIntegrity($packageName, $reportedHash)
     {
         $packagePath = config('googleplay.apk_path') . DIRECTORY_SEPARATOR . $packageName;
         $hashOfLocalPackage = sha1_file($packagePath);
 
-        if ($hashOfLocalPackage !== $hash) {
-            throw new FailedToVerifyHashException('Hash of downloaded package does not match!');
+        if ($hashOfLocalPackage !== $reportedHash) {
+            throw new FailedToVerifyHashException(
+                "Failed to verify hash for $packageName.",
+                0,
+                null,
+                $packageName,
+                $hashOfLocalPackage,
+                $reportedHash
+            );
         }
 
-        Log::info('Verified hash for ' . $packageName . '. SHA1: ' . $hash);
+        Log::info("Downloaded $packageName. Verified hash SHA1: $reportedHash");
     }
 }
