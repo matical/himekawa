@@ -3,6 +3,7 @@
 namespace yuki\Parsers;
 
 use Symfony\Component\Process\Process;
+use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class Badging
 {
@@ -23,11 +24,12 @@ class Badging
 
     /**
      * @param $packageName
+     * @param $package
      * @return $this
      */
-    public function package($packageName)
+    public function package($packageName, $package)
     {
-        $this->process = $this->createNewProcess($packageName);
+        $this->process = $this->createNewProcess($packageName, $package);
         $this->run();
         $this->parsePackage();
 
@@ -81,11 +83,12 @@ class Badging
 
     /**
      * @param $packageName
+     * @param $package
      * @return \Symfony\Component\Process\Process
      */
-    protected function createNewProcess($packageName)
+    protected function createNewProcess($packageName, $package)
     {
-        return new Process("aapt dump badging $packageName", config('googleplay.apk_path'));
+        return new Process("aapt dump badging $package", apk_directory($packageName));
     }
 
     /**
