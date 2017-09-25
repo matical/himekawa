@@ -48,9 +48,17 @@ class Download extends Scraper
             throw new PackageExistsException('File ' . $this->buildApkFilename() . ' already exists.');
         }
 
+        if (! Storage::exists($packageName)) {
+            Storage::makeDirectory($packageName);
+        }
+
         $this->process = new Process(
-            sprintf('gp-download %s > %s', $this->packageName, $this->buildApkFilename()),
-            config('googleplay.apk_path')
+            sprintf(
+                'gp-download %s > %s',
+                $this->packageName,
+                $this->buildApkFilename()
+            ),
+            $this->buildApkDirectory()
         );
 
         return $this;
@@ -73,17 +81,32 @@ class Download extends Scraper
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function output()
     {
         return $this->buildApkFilename();
     }
 
     /**
+     * Build the "target" apk file.
+     *
      * @return string
      */
     protected function buildApkFilename()
     {
         return sprintf('%s.%s.apk', $this->packageName, $this->versionCode);
+    }
+
+    /**
+     * Build the apk directory.
+     *
+     * @return string
+     */
+    protected function buildApkDirectory()
+    {
+        return config('googleplay.apk_path') . DIRECTORY_SEPARATOR . $this->packageName;
     }
 
     /**
