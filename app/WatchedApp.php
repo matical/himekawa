@@ -19,7 +19,7 @@ class WatchedApp extends Model
     /**
      * Fetch the latest App.
      *
-     * @return \Illuminate\Database\Eloquent\Model|null
+     * @return \himekawa\AvailableApp|null
      */
     public function latestApp()
     {
