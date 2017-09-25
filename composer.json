@@ -28,6 +28,9 @@
         "classmap": [
             "database"
         ],
+        "files": [
+            "yuki/helpers.php"
+        ],
         "psr-4": {
             "himekawa\\": "app/",
             "yuki\\": "yuki/"

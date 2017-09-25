@@ -48,7 +48,7 @@ class CheckForAppUpdates extends Command
      * Fetch metadata based on the watch list.
      *
      * @param $metainfo
-     * @return array|null An array indexed by the package name
+     * @return array|null An array containing all app metadata, indexed by the package name
      */
     protected function fetchAppMetadata($metainfo)
     {
@@ -58,11 +58,7 @@ class CheckForAppUpdates extends Command
             $this->info('Checking ' . $package . '...');
             $fetchMetadata = $metainfo->make();
 
-            $result[$package] = Cache::remember('apk-metainfo:' . $package, 15, function () use ($fetchMetadata, $package) {
-                return $fetchMetadata->build($package)
-                                     ->run()
-                                     ->output();
-            });
+            $result[$package] = metaCache($package, $fetchMetadata);
         }
 
         return $result;
