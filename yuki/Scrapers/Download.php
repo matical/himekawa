@@ -70,6 +70,7 @@ class Download extends Scraper
      */
     public function run($asArray = false)
     {
+        $this->process->setTimeout(150);
         $this->process->run();
 
         if (! $this->process->isSuccessful()) {
