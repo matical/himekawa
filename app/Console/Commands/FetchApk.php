@@ -5,8 +5,6 @@ namespace himekawa\Console\Commands;
 use yuki\Scrapers\Download;
 use yuki\Scrapers\Metainfo;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Cache;
 
 class FetchApk extends Command
 {
@@ -23,6 +21,16 @@ class FetchApk extends Command
      * @var string
      */
     protected $description = 'Fetches the specified APK.';
+
+    /**
+     * @var \yuki\Scrapers\Metainfo
+     */
+    protected $metadata;
+
+    /**
+     * @var \yuki\Repositories\AvailableAppsRepository
+     */
+    protected $availableApps;
 
     /**
      * Create a new command instance.
@@ -46,18 +54,15 @@ class FetchApk extends Command
         $packageName = $this->argument('apk');
 
         $this->info('Fetching metadata for ' . $packageName);
-        $metadata = metaCache($packageName, $metainfo);
+        $this->metadata = metaCache($packageName, $metainfo);
 
         $this->info('Downloading ' . $packageName);
-        $downloadedFile = $download->build($packageName, $metadata->versionCode, $metadata->sha1)
-                                   ->run()
-                                   ->output();
+        $downloadedFilename = $download->build($packageName, $this->metadata->versionCode, $this->metadata->sha1)
+                                       ->run()
+                                       ->output();
 
-        $this->downloadCompleted($downloadedFile);
-    }
+        $download->store();
 
-    protected function downloadCompleted($packageName)
-    {
-        Log::info('Downloaded ' . $packageName . '. ');
+        $this->info("Downloaded $downloadedFilename");
     }
 }
