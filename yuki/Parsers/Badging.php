@@ -88,7 +88,7 @@ class Badging
      */
     protected function createNewProcess($packageName, $package)
     {
-        return new Process("aapt dump badging $package", apk_directory($packageName));
+        return new Process("aapt dump badging $package", apkDirectory($packageName));
     }
 
     /**
