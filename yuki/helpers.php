@@ -21,6 +21,10 @@ if (! function_exists('metaCache')) {
 }
 
 if (! function_exists('apkDirectory')) {
+    /**
+     * @param null $packageName
+     * @return \Illuminate\Config\Repository|mixed|string
+     */
     function apkDirectory($packageName = null)
     {
         if (is_null($packageName)) {
@@ -32,6 +36,11 @@ if (! function_exists('apkDirectory')) {
 }
 
 if (! function_exists('buildApkFilename')) {
+    /**
+     * @param $packageName
+     * @param $versionCode
+     * @return string
+     */
     function buildApkFilename($packageName, $versionCode)
     {
         return sprintf('%s.%s.apk', $packageName, $versionCode);
