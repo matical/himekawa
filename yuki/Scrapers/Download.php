@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Log;
 use Symfony\Component\Process\Process;
 use Illuminate\Support\Facades\Storage;
 use yuki\Exceptions\PackageExistsException;
+use yuki\Repositories\AvailableAppsRepository;
 use yuki\Exceptions\FailedToVerifyHashException;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
@@ -30,6 +31,16 @@ class Download extends Scraper
      * @var string
      */
     protected $hash;
+
+    protected $availableApps;
+
+    protected $metainfo;
+
+    public function __construct(AvailableAppsRepository $availableAppsRepository, Metainfo $metainfo)
+    {
+        $this->availableApps = $availableAppsRepository;
+        $this->metainfo = $metainfo;
+    }
 
     /**
      * @param $packageName
@@ -88,6 +99,12 @@ class Download extends Scraper
     public function output()
     {
         return $this->buildApkFilename();
+    }
+
+    public function store()
+    {
+        $this->availableApps->create($this->packageName, $this->metainfo);
+        Log::info('Downloaded ' . $this->packageName);
     }
 
     /**
