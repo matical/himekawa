@@ -88,7 +88,7 @@ class Download extends Scraper
             throw new ProcessFailedException($this->process);
         }
 
-        $this->verifyFileIntegrity($this->buildApkFilename(), $this->hash);
+        $this->verifyFileIntegrity($this->packageName, $this->hash);
 
         return $this;
     }
@@ -142,7 +142,7 @@ class Download extends Scraper
      */
     protected function verifyFileIntegrity($packageName, $reportedHash)
     {
-        $packagePath = config('googleplay.apk_path') . DIRECTORY_SEPARATOR . $packageName;
+        $packagePath = apkDirectory($packageName) . DIRECTORY_SEPARATOR . $this->buildApkFilename();
         $hashOfLocalPackage = sha1_file($packagePath);
 
         if ($hashOfLocalPackage !== $reportedHash) {
