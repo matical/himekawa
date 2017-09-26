@@ -2,8 +2,8 @@
 
 namespace himekawa\Console\Commands;
 
-use Illuminate\Console\Command;
 use yuki\Parsers\Badging;
+use Illuminate\Console\Command;
 
 class ParseApk extends Command
 {
@@ -12,7 +12,7 @@ class ParseApk extends Command
      *
      * @var string
      */
-    protected $signature = 'apk:parse {appName}';
+    protected $signature = 'apk:parse {appName} {file}';
 
     /**
      * The console command description.
@@ -40,9 +40,11 @@ class ParseApk extends Command
     public function handle(Badging $badging)
     {
         $packageName = $this->argument('appName');
+        $package = $this->argument('file');
 
-        $output = $badging->package($packageName)
+        $output = $badging->package($packageName, $package)
                           ->getPackage();
-        dd($output);
+
+        dump($output);
     }
 }
