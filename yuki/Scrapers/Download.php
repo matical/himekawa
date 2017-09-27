@@ -18,28 +18,41 @@ class Download extends Scraper
     protected $process;
 
     /**
+     * Package identifier of the app to be downloaded.
+     *
      * @var string
      */
     protected $packageName;
 
     /**
+     * Version code of the app to be downloaded.
+     *
      * @var int
      */
     protected $versionCode;
 
     /**
+     * SHA1 hash of the app to be downloaded.
+     *
      * @var string
      */
     protected $hash;
 
+    /**
+     * AvailableApps Repository
+     *
+     * @var \yuki\Repositories\AvailableAppsRepository
+     */
     protected $availableApps;
 
-    protected $metainfo;
-
-    public function __construct(AvailableAppsRepository $availableAppsRepository, Metainfo $metainfo)
+    /**
+     * Download constructor.
+     *
+     * @param \yuki\Repositories\AvailableAppsRepository $availableAppsRepository
+     */
+    public function __construct(AvailableAppsRepository $availableAppsRepository)
     {
         $this->availableApps = $availableAppsRepository;
-        $this->metainfo = $metainfo;
     }
 
     /**
@@ -63,12 +76,9 @@ class Download extends Scraper
             Storage::makeDirectory($packageName);
         }
 
-        $this->process = new Process(
-            sprintf(
-                'gp-download %s > %s',
-                $this->packageName,
-                $this->buildApkFilename()
-            ),
+        $this->process = $this->buildProcess(
+            $this->packageName,
+            $this->buildApkFilename(),
             $this->buildApkDirectory()
         );
 
@@ -101,10 +111,13 @@ class Download extends Scraper
         return $this->buildApkFilename();
     }
 
+    /**
+     *
+     */
     public function store()
     {
-        $this->availableApps->create($this->packageName, $this->metainfo);
-        Log::info('Downloaded ' . $this->packageName);
+        $this->availableApps->create($this->packageName);
+        Log::info('Finished download of ' . $this->packageName);
     }
 
     /**
@@ -157,5 +170,12 @@ class Download extends Scraper
         }
 
         Log::info("Downloaded $packageName. Verified hash SHA1: $reportedHash");
+    }
+
+    protected function buildProcess($packageName, $filename, $directory)
+    {
+        $command = sprintf('gp-download %s > %s', $packageName, $filename);
+
+        return new Process($command, $directory);
     }
 }
