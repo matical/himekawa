@@ -29,11 +29,16 @@ class Versioning
     public function areUpdatesAvailable($packageName, $latestPlaystoreVersionCode)
     {
         $package = $this->availableApps->findPackage($packageName);
-        $latestLocalVersionCode = $package->latestApp()->version_code;
 
         // If there are no "available" apps for that particular package, it'll be marked as
         // available for update.
-        if (is_null($latestLocalVersionCode) || $latestPlaystoreVersionCode > $latestLocalVersionCode) {
+        if (is_null($package->latestApp())) {
+            return true;
+        }
+
+        $latestLocalVersionCode = $package->latestApp()->version_code;
+
+        if ($latestPlaystoreVersionCode > $latestLocalVersionCode) {
             return true;
         }
 
