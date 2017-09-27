@@ -12,7 +12,7 @@ if (! function_exists('metaCache')) {
      */
     function metaCache($package, Metainfo $fetchMetadata)
     {
-        return Cache::remember('apk-metainfo:' . $package, 15, function () use ($package, $fetchMetadata) {
+        return Cache::remember('apk-metainfo:' . $package, 20, function () use ($package, $fetchMetadata) {
             return $fetchMetadata->build($package)
                                  ->run()
                                  ->output();
