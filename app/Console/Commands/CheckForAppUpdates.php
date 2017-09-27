@@ -65,7 +65,16 @@ class CheckForAppUpdates extends Command
             }
         }
 
+        // If there are no apps that require updates, exit
+        if (empty($this->appsRequiringUpdates)) {
+            $this->info('No apps available for update.');
+
+            return;
+        }
+
         foreach ($this->appsRequiringUpdates as $app) {
+            $this->info("Downloading $app->packageName...");
+
             $download->build($app->packageName, $app->versionCode, $app->sha1)
                      ->run()
                      ->store();
