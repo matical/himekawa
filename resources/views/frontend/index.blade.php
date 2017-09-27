@@ -13,7 +13,8 @@
                     <md-list-expand>
                         <md-list>
                             @foreach ($app->availableApps()->get() as $availableApp)
-                                <md-list-item class="md-inset" title="{{ $app->package_name }}">
+                                <md-list-item class="md-inset">
+                                    <md-tooltip md-direction="top">{{ $availableApp->hash }} (SHA1)</md-tooltip>
                                     <span class="truncate">{{ sprintf('%s.%s.apk', $availableApp->watchedBy->package_name, $availableApp->version_code) }}</span>
                                     <span>(v{{ $availableApp->version_name }})</span>
                                     <md-layout md-align="end">
