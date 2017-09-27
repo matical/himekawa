@@ -8,6 +8,15 @@ use yuki\Scrapers\Metainfo;
 
 class AvailableAppsRepository
 {
+    protected $badging;
+    protected $metainfo;
+
+    public function __construct(Metainfo $metainfo, Badging $badging)
+    {
+        $this->metainfo = $metainfo;
+        $this->badging = $badging;
+    }
+
     /**
      * @param $package
      * @return \himekawa\WatchedApp|null
@@ -19,17 +28,16 @@ class AvailableAppsRepository
     }
 
     /**
-     * @param                         $packageName
-     * @param \yuki\Scrapers\Metainfo $metainfo
+     * @param   $packageName
      */
-    public function create($packageName, Metainfo $metainfo)
+    public function create($packageName)
     {
         $package = WatchedApp::where('package_name', $packageName)
                              ->first();
 
-        $metadata = metaCache($packageName, $metainfo);
+        $metadata = metaCache($packageName, $this->metainfo);
 
-        $badging = (new Badging())->package(
+        $badging = $this->badging->package(
             $packageName,
             buildApkFilename(
                 $packageName,
@@ -37,11 +45,14 @@ class AvailableAppsRepository
             )
         )->getPackage();
 
+        $rawBadging = $this->badging->getRawBadging();
+
         $package->availableApps()->create([
             'version_code' => $metadata->versionCode,
             'version_name' => $badging['versionName'],
             'size'         => $metadata->size,
             'hash'         => $metadata->sha1,
+            'raw_badging'  => $rawBadging,
         ]);
     }
 }
