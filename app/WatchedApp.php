@@ -13,7 +13,8 @@ class WatchedApp extends Model
      */
     public function availableApps()
     {
-        return $this->hasMany(AvailableApp::class, 'app_id');
+        return $this->hasMany(AvailableApp::class, 'app_id')
+                    ->orderByDesc('version_code');
     }
 
     /**
