@@ -15,7 +15,7 @@ class CheckForAppUpdates extends Command
      *
      * @var string
      */
-    protected $signature = 'apk:checkupdates';
+    protected $signature = 'apk:update';
 
     /**
      * The console command description.
@@ -73,7 +73,7 @@ class CheckForAppUpdates extends Command
         }
 
         foreach ($this->appsRequiringUpdates as $app) {
-            $this->info("Downloading $app->packageName...");
+            $this->info('Downloading ' . $app->packageName);
 
             $download->build($app->packageName, $app->versionCode, $app->sha1)
                      ->run()
@@ -92,7 +92,7 @@ class CheckForAppUpdates extends Command
         $watchedPackages = WatchedApp::pluck('package_name');
 
         foreach ($watchedPackages as $package) {
-            $this->info("Checking $package...");
+            $this->line("Checking $package");
             $fetchMetadata = $metainfo->make();
 
             $result[$package] = metaCache($package, $fetchMetadata);
