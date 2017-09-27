@@ -6,7 +6,7 @@ if (! function_exists('metaCache')) {
     /**
      * Retrieve a cached copy of the metadata whenever possible.
      *
-     * @param                         $package
+     * @param string                  $package
      * @param \yuki\Scrapers\Metainfo $fetchMetadata
      * @return mixed
      */
@@ -22,7 +22,7 @@ if (! function_exists('metaCache')) {
 
 if (! function_exists('apkDirectory')) {
     /**
-     * @param null $packageName
+     * @param string|null $packageName
      * @return \Illuminate\Config\Repository|mixed|string
      */
     function apkDirectory($packageName = null)
@@ -37,12 +37,24 @@ if (! function_exists('apkDirectory')) {
 
 if (! function_exists('buildApkFilename')) {
     /**
-     * @param $packageName
-     * @param $versionCode
+     * @param string $packageName
+     * @param string $versionCode
      * @return string
      */
     function buildApkFilename($packageName, $versionCode)
     {
         return sprintf('%s.%s.apk', $packageName, $versionCode);
+    }
+}
+
+if (! function_exists('apkPath')) {
+    /**
+     * @param string      $packageName
+     * @param string|null $versionCode
+     * @return string
+     */
+    function apkPath($packageName, $versionCode = null)
+    {
+        return Storage::url($packageName . '/' . buildApkFilename($packageName, $versionCode));
     }
 }
