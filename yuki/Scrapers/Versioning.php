@@ -20,20 +20,20 @@ class Versioning
     }
 
     /**
-     * Check if that particular package requires any updates.
+     * Check if a particular package requires any updates.
      *
-     * @param $packageName
-     * @param $latestVersionCode
-     * @return bool
+     * @param $packageName Package identifier
+     * @param $latestPlaystoreVersionCode Version code of the latest app available on the Play Store
+     * @return bool Whether updates are available
      */
-    public function areUpdatesAvailable($packageName, $latestVersionCode)
+    public function areUpdatesAvailable($packageName, $latestPlaystoreVersionCode)
     {
         $package = $this->availableApps->findPackage($packageName);
-        $latestApp = $package->latestApp();
+        $latestLocalVersionCode = $package->latestApp()->version_code;
 
         // If there are no "available" apps for that particular package, it'll be marked as
         // available for update.
-        if (is_null($latestApp) || $latestApp->version_code <= $latestVersionCode) {
+        if (is_null($latestLocalVersionCode) || $latestPlaystoreVersionCode > $latestLocalVersionCode) {
             return true;
         }
 
