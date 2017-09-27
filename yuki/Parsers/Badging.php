@@ -71,6 +71,14 @@ class Badging
     }
 
     /**
+     * @return string
+     */
+    public function getRawBadging()
+    {
+        return $this->dumpOutput;
+    }
+
+    /**
      * Strip out unnecessary quotes.
      *
      * @param $quotedString
