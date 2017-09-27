@@ -53,5 +53,11 @@ class WatchedAppSeeder extends Seeder
             'original_title' => 'マギアレコード 魔法少女まどかマギカ外伝',
             'package_name'   => 'com.aniplex.magireco',
         ]);
+
+        WatchedApp::create([
+            'name'           => 'Yuyuyi',
+            'original_title' => '結城友奈は勇者である 花結いのきらめき',
+            'package_name'   => 'jp.co.altplus.yuyuyui',
+        ]);
     }
 }
