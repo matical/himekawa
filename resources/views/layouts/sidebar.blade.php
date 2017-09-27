@@ -7,12 +7,7 @@
     <md-list>
         <md-list-item>
             <md-icon>android</md-icon>
-            <a href="">Available Apps</a>
-        </md-list-item>
-
-        <md-list-item>
-            <md-icon>file_upload</md-icon>
-            <a href="">Uploaded Files</a>
+            <a href="{{ route('index') }}">Available Apps</a>
         </md-list-item>
     </md-list>
 </md-sidenav>

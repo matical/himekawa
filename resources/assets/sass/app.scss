@@ -1,5 +1,6 @@
 $not-yuki: #ff9800;
 $white-ish: #e7e7e7;
+$dark: #212121;
 
 @import url("~vue-material/dist/vue-material.css");
 @import 'common';
@@ -11,4 +12,39 @@ $white-ish: #e7e7e7;
 
 span.muted {
     color: darken($white-ish, 20%) !important;
+}
+
+.truncate {
+    max-width: 60%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-right: 3px;
+}
+
+.truncate-longer {
+    @extend .truncate;
+    max-width: 90%;
+}
+
+.button-download {
+    color: $dark !important;
+    &:hover {
+        color: lighten($dark, 10%) !important;
+    }
+}
+
+.button-download-old {
+    @extend .button-download;
+    background-color: darken($not-yuki, 20%) !important;
+}
+
+.img-responsive {
+    max-width: 100%;
+    max-height: 20px;
+}
+
+.app-icon {
+    @extend .img-responsive;
+    margin-right: 8px;
 }
