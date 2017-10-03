@@ -74,48 +74,63 @@ class CheckForAppUpdates extends Command
      */
     public function handle()
     {
-        $this->appMetadata = $this->fetchAppMetadata($metainfo);
-
-        foreach ($this->appMetadata as $app) {
-            // Queue up the apps that have updates pending
-            if ($versioning->areUpdatesAvailable($app->packageName, $app->versionCode)) {
-                $this->appsRequiringUpdates[] = $app;
-            }
-        }
+        $this->appMetadata = $this->fetchAppMetadata();
+        $this->appsRequiringUpdates = $this->areUpdatesAvailable($this->appMetadata);
 
         // If there are no apps that require updates, exit
         if (empty($this->appsRequiringUpdates)) {
-            $this->info('No apps available for update.');
+            $this->info('No apps are available for update.');
 
-            return;
+            return 0;
         }
+
+        $bar = $this->output->createProgressBar(count($this->appsRequiringUpdates));
 
         foreach ($this->appsRequiringUpdates as $app) {
-            $this->info('Downloading ' . $app->packageName);
-
-            $download->build($app->packageName, $app->versionCode, $app->sha1)
-                     ->run()
-                     ->store();
+            $bar->advance();
+            $bar->setMessage('Downloading ' . $app->packageName);
+            $this->download->build($app->packageName, $app->versionCode, $app->sha1)
+                           ->run()
+                           ->store();
         }
+
+        $bar->finish();
     }
 
     /**
      * Fetch metadata based on the watch list.
      *
-     * @param \yuki\Scrapers\Metainfo $metainfo
      * @return array|null An array containing all app metadata, indexed by the package name
      */
-    protected function fetchAppMetadata(Metainfo $metainfo)
+    protected function fetchAppMetadata()
     {
         $watchedPackages = WatchedApp::pluck('package_name');
 
         foreach ($watchedPackages as $package) {
             $this->line("Checking $package");
-            $fetchMetadata = $metainfo->make();
+            $fetchMetadata = $this->metainfo->make();
 
             $result[$package] = metaCache($package, $fetchMetadata);
         }
 
         return $result;
+    }
+
+    /**
+     * Check if there are any updates available.
+     *
+     * @param $appMetadata
+     * @return array|null An array of apps that require updates
+     */
+    protected function areUpdatesAvailable($appMetadata): ?array
+    {
+        foreach ($appMetadata as $app) {
+            // Queue up the apps that have updates pending
+            if ($this->versioning->areUpdatesAvailable($app->packageName, $app->versionCode)) {
+                $appsRequiringUpdates[] = $app;
+            }
+        }
+
+        return $appsRequiringUpdates;
     }
 }
