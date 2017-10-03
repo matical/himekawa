@@ -98,7 +98,12 @@ class Download extends Scraper
             throw new ProcessFailedException($this->process);
         }
 
-        $this->verifyFileIntegrity($this->packageName, $this->hash);
+        try {
+            $this->verifyFileIntegrity($this->packageName, $this->hash);
+        } catch (FailedToVerifyHashException $exception) {
+            $this->cleanupFailedDownload($exception->package, $exception->packageFilename);
+            Log::warning($exception->packageFilename . ' has been discarded.');
+        }
 
         return $this;
     }
@@ -150,32 +155,50 @@ class Download extends Scraper
 
     /**
      * @param $packageName
-     * @param $reportedHash
-     * @throws \yuki\Exceptions\FailedToVerifyHashException
+     * @param $filename
+     * @param $directory
+     * @return \Symfony\Component\Process\Process
      */
-    protected function verifyFileIntegrity($packageName, $reportedHash)
-    {
-        $packagePath = apkDirectory($packageName) . DIRECTORY_SEPARATOR . $this->buildApkFilename();
-        $hashOfLocalPackage = sha1_file($packagePath);
-
-        if ($hashOfLocalPackage !== $reportedHash) {
-            throw new FailedToVerifyHashException(
-                "Failed to verify hash for $packageName.",
-                0,
-                null,
-                $packageName,
-                $hashOfLocalPackage,
-                $reportedHash
-            );
-        }
-
-        Log::info("Downloaded $packageName. Verified hash SHA1: $reportedHash");
-    }
-
     protected function buildProcess($packageName, $filename, $directory)
     {
         $command = sprintf('gp-download %s > %s', $packageName, $filename);
 
         return new Process($command, $directory);
+    }
+
+    /**
+     * @param string $packageName
+     * @param string $expectedHash
+     * @throws \yuki\Exceptions\FailedToVerifyHashException
+     */
+    protected function verifyFileIntegrity($packageName, $expectedHash)
+    {
+        $packagePath = apkDirectory($packageName, $this->buildApkFilename());
+        $hashOfLocalPackage = sha1_file($packagePath);
+
+        if ($hashOfLocalPackage !== $expectedHash) {
+            throw new FailedToVerifyHashException(
+                "Failed to verify hash for $packageName.",
+                0,
+                null,
+                $packageName,
+                $this->buildApkFilename(),
+                $hashOfLocalPackage,
+                $expectedHash
+            );
+        }
+
+        Log::info("Downloaded $packageName. Verified hash SHA1: $expectedHash");
+    }
+
+    /**
+     * @param $package
+     * @param $apkFilename
+     */
+    protected function cleanupFailedDownload($package, $apkFilename)
+    {
+        if (Storage::delete($package, $apkFilename)) {
+            Log::info("Deleted faulty download: $apkFilename");
+        }
     }
 }
