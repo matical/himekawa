@@ -37,24 +37,42 @@ class CheckForAppUpdates extends Command
     protected $appsRequiringUpdates = [];
 
     /**
+     * @var \yuki\Scrapers\Metainfo
+     */
+    protected $metainfo;
+
+    /**
+     * @var \yuki\Scrapers\Versioning
+     */
+    protected $versioning;
+
+    /**
+     * @var \yuki\Scrapers\Download
+     */
+    protected $download;
+
+    /**
      * Create a new command instance.
      *
-     * @return void
+     * @param \yuki\Scrapers\Metainfo   $metainfo
+     * @param \yuki\Scrapers\Versioning $versioning
+     * @param \yuki\Scrapers\Download   $download
      */
-    public function __construct()
+    public function __construct(Metainfo $metainfo, Versioning $versioning, Download $download)
     {
         parent::__construct();
+
+        $this->metainfo = $metainfo;
+        $this->versioning = $versioning;
+        $this->download = $download;
     }
 
     /**
      * Execute the console command.
      *
-     * @param \yuki\Scrapers\Metainfo   $metainfo
-     * @param \yuki\Scrapers\Versioning $versioning
-     * @param \yuki\Scrapers\Download   $download
      * @return mixed
      */
-    public function handle(Metainfo $metainfo, Versioning $versioning, Download $download)
+    public function handle()
     {
         $this->appMetadata = $this->fetchAppMetadata($metainfo);
 
