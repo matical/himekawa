@@ -15,6 +15,7 @@
         "fideloper/proxy": "~3.3",
         "kitetail/zttp": "^0.2.0",
         "laravel/framework": "5.5.*",
+        "laravel/horizon": "^1.0",
         "laravel/tinker": "~1.0",
         "predis/predis": "^1.1"
     },
