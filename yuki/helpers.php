@@ -23,15 +23,22 @@ if (! function_exists('metaCache')) {
 if (! function_exists('apkDirectory')) {
     /**
      * @param string|null $packageName
-     * @return \Illuminate\Config\Repository|mixed|string
+     * @param int|null    $versionCode
+     * @return string
      */
-    function apkDirectory($packageName = null)
+    function apkDirectory($packageName = null, int $versionCode = null)
     {
+        $apkPath = config('googleplay.apk_path');
+
         if (is_null($packageName)) {
-            return config('googleplay.apk_path');
+            return $apkPath;
         }
 
-        return config('googleplay.apk_path') . DIRECTORY_SEPARATOR . $packageName;
+        if ($packageName && is_null($versionCode)) {
+            return $apkPath . DIRECTORY_SEPARATOR . $packageName;
+        }
+
+        return $apkPath . DIRECTORY_SEPARATOR . sprintf('%s.%s.apk', $packageName, $versionCode);
     }
 }
 
