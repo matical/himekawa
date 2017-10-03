@@ -6,7 +6,7 @@
         <md-list>
             @foreach ($apps as $app)
                 <md-list-item md-expand-multiple>
-                    <span class="truncate-longer"><img src="/images/{{ $app->package_name }}.png" class="app-icon">{{ $app->name }} ({{ $app->original_title }})</span>
+                    <span class="truncate-longer"><img src="{{ asset('images/' . $app->package_name . '.png') }}" class="app-icon">{{ $app->name }} ({{ $app->original_title }})</span>
                     <md-layout md-align="end">
                         <span>Latest Version: {{ $app->latestApp()->version_name ?? 'N/A' }} </span>
                     </md-layout>
@@ -14,7 +14,7 @@
                         <md-list>
                             @foreach ($app->availableApps()->get() as $availableApp)
                                 <md-list-item class="md-inset">
-                                    <md-tooltip md-direction="top">{{ $availableApp->hash }} (SHA1)</md-tooltip>
+                                    <md-tooltip md-direction="top">SHA1: {{ $availableApp->hash }}</md-tooltip>
                                     <span class="truncate">{{ sprintf('%s.%s.apk', $availableApp->watchedBy->package_name, $availableApp->version_code) }}</span>
                                     <span>(v{{ $availableApp->version_name }})</span>
                                     <md-layout md-align="end">
@@ -28,4 +28,7 @@
             @endforeach
         </md-list>
     </md-whiteframe>
+    <md-layout md-align="end">
+        <p>The scraper runs every 30 minutes.</p>
+    </md-layout>
 @endsection

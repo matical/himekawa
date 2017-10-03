@@ -24,6 +24,6 @@ a {
 
 .md-tooltip {
     height: auto;
-    font-size: 14px;
-    background-color: #333333;
+    font-size: 13px;
+    background-color: lighten($dark, 15%);
 }
