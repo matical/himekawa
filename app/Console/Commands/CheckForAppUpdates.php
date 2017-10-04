@@ -2,11 +2,12 @@
 
 namespace himekawa\Console\Commands;
 
-use himekawa\WatchedApp;
+use yuki\Update;
 use yuki\Scrapers\Download;
 use yuki\Scrapers\Metainfo;
 use yuki\Scrapers\Versioning;
 use Illuminate\Console\Command;
+use yuki\Repositories\AvailableAppsRepository;
 
 class CheckForAppUpdates extends Command
 {
@@ -52,19 +53,38 @@ class CheckForAppUpdates extends Command
     protected $download;
 
     /**
+     * @var \yuki\Repositories\AvailableAppsRepository
+     */
+    protected $availableApps;
+
+    /**
+     * @var \yuki\Update
+     */
+    protected $update;
+
+    /**
      * Create a new command instance.
      *
-     * @param \yuki\Scrapers\Metainfo   $metainfo
-     * @param \yuki\Scrapers\Versioning $versioning
-     * @param \yuki\Scrapers\Download   $download
+     * @param \yuki\Scrapers\Metainfo                    $metainfo
+     * @param \yuki\Scrapers\Versioning                  $versioning
+     * @param \yuki\Scrapers\Download                    $download
+     * @param \yuki\Update                               $update
+     * @param \yuki\Repositories\AvailableAppsRepository $availableApps
      */
-    public function __construct(Metainfo $metainfo, Versioning $versioning, Download $download)
-    {
+    public function __construct(
+        Metainfo $metainfo,
+        Versioning $versioning,
+        Download $download,
+        Update $update,
+        AvailableAppsRepository $availableApps
+    ) {
         parent::__construct();
 
         $this->metainfo = $metainfo;
         $this->versioning = $versioning;
         $this->download = $download;
+        $this->update = $update;
+        $this->availableApps = $availableApps;
     }
 
     /**
@@ -74,63 +94,22 @@ class CheckForAppUpdates extends Command
      */
     public function handle()
     {
-        $this->appMetadata = $this->fetchAppMetadata();
-        $this->appsRequiringUpdates = $this->areUpdatesAvailable($this->appMetadata);
+        $this->info('Check for updates...');
+        $this->appMetadata = $this->update->allApkMetadata();
+        $this->appsRequiringUpdates = $this->update->checkForUpdates($this->appMetadata);
 
         // If there are no apps that require updates, exit
         if (empty($this->appsRequiringUpdates)) {
-            $this->info('No apps are available for update.');
+            $this->info('No apps require updates.');
 
-            return 0;
+            return;
         }
 
-        $bar = $this->output->createProgressBar(count($this->appsRequiringUpdates));
-
         foreach ($this->appsRequiringUpdates as $app) {
-            $bar->advance();
-            $bar->setMessage('Downloading ' . $app->packageName);
+            $this->info('Downloading ' . $app->packageName);
             $this->download->build($app->packageName, $app->versionCode, $app->sha1)
                            ->run()
                            ->store();
         }
-
-        $bar->finish();
-    }
-
-    /**
-     * Fetch metadata based on the watch list.
-     *
-     * @return array|null An array containing all app metadata, indexed by the package name
-     */
-    protected function fetchAppMetadata()
-    {
-        $watchedPackages = WatchedApp::pluck('package_name');
-
-        foreach ($watchedPackages as $package) {
-            $this->line("Checking $package");
-            $fetchMetadata = $this->metainfo->make();
-
-            $result[$package] = metaCache($package, $fetchMetadata);
-        }
-
-        return $result;
-    }
-
-    /**
-     * Check if there are any updates available.
-     *
-     * @param $appMetadata
-     * @return array|null An array of apps that require updates
-     */
-    protected function areUpdatesAvailable($appMetadata): ?array
-    {
-        foreach ($appMetadata as $app) {
-            // Queue up the apps that have updates pending
-            if ($this->versioning->areUpdatesAvailable($app->packageName, $app->versionCode)) {
-                $appsRequiringUpdates[] = $app;
-            }
-        }
-
-        return $appsRequiringUpdates;
     }
 }

@@ -4,13 +4,33 @@ namespace yuki\Repositories;
 
 use himekawa\WatchedApp;
 use yuki\Parsers\Badging;
+use himekawa\AvailableApp;
 use yuki\Scrapers\Metainfo;
+use Illuminate\Support\Facades\Storage;
 
 class AvailableAppsRepository
 {
+    /**
+     * @var \yuki\Parsers\Badging
+     */
     protected $badging;
+
+    /**
+     * @var \yuki\Scrapers\Metainfo
+     */
     protected $metainfo;
 
+    /**
+     * @var \yuki\Scrapers\Versioning
+     */
+    protected $versioning;
+
+    /**
+     * AvailableAppsRepository constructor.
+     *
+     * @param \yuki\Scrapers\Metainfo $metainfo
+     * @param \yuki\Parsers\Badging   $badging
+     */
     public function __construct(Metainfo $metainfo, Badging $badging)
     {
         $this->metainfo = $metainfo;
@@ -18,7 +38,7 @@ class AvailableAppsRepository
     }
 
     /**
-     * @param $package
+     * @param string $package
      * @return \himekawa\WatchedApp|null
      */
     public function findPackage($package)
@@ -28,7 +48,7 @@ class AvailableAppsRepository
     }
 
     /**
-     * @param   $packageName
+     * @param string $packageName
      */
     public function create($packageName)
     {
@@ -54,5 +74,56 @@ class AvailableAppsRepository
             'hash'         => $metadata->sha1,
             'raw_badging'  => $rawBadging,
         ]);
+    }
+
+    /**
+     * @param string               $toKeep
+     * @param \himekawa\WatchedApp $package
+     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Support\Collection
+     */
+    public function getOldApps($toKeep, WatchedApp $package)
+    {
+        // Thanks mysql
+        return $package->availableApps()
+                       ->skip($toKeep)
+                       ->take(PHP_INT_MAX)
+                       ->get();
+    }
+
+    /**
+     * @param                      $toKeep
+     * @param \himekawa\WatchedApp $package
+     * @return \Illuminate\Support\Collection
+     */
+    public function getOldAppsById($toKeep, WatchedApp $package)
+    {
+        return $package->availableApps()
+                       ->skip($toKeep)
+                       ->take(PHP_INT_MAX)
+                       ->pluck('id');
+    }
+
+    /**
+     * @param array $id
+     * @return int
+     */
+    public function deleteEntries($id)
+    {
+        return AvailableApp::destroy($id);
+    }
+
+    /**
+     * @param $watchedApps
+     * @param $package
+     */
+    public function deleteFiles($watchedApps, $package)
+    {
+        $filesToDelete = $watchedApps->map(function ($item, $key) use ($package) {
+            return buildApkFilename($package, $item->version_code);
+        });
+
+        foreach ($filesToDelete as $file) {
+            Storage::delete($package . DIRECTORY_SEPARATOR . $file);
+        }
     }
 }
