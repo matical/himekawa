@@ -9,6 +9,7 @@ use yuki\Exceptions\PackageExistsException;
 use yuki\Repositories\AvailableAppsRepository;
 use yuki\Exceptions\FailedToVerifyHashException;
 use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\Exception\ProcessTimedOutException;
 
 class Download extends Scraper
 {
@@ -101,8 +102,11 @@ class Download extends Scraper
         try {
             $this->verifyFileIntegrity($this->packageName, $this->hash);
         } catch (FailedToVerifyHashException $exception) {
-            $this->cleanupFailedDownload($exception->package, $exception->packageFilename);
+            $this->cleanupFailedDownload($this->packageName, $this->buildApkFilename());
             Log::warning($exception->packageFilename . ' has been discarded.');
+        } catch (ProcessTimedOutException $exception) {
+            $this->cleanupFailedDownload($this->packageName, $this->buildApkFilename());
+            Log::warning('Failed to download ' . $this->buildApkFilename() . '. Process timed out.');
         }
 
         return $this;
