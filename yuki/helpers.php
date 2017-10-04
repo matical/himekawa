@@ -38,7 +38,7 @@ if (! function_exists('apkDirectory')) {
             return $apkPath . DIRECTORY_SEPARATOR . $packageName;
         }
 
-        return $apkPath . DIRECTORY_SEPARATOR . sprintf('%s.%s.apk', $packageName, $versionCode);
+        return $apkPath . DIRECTORY_SEPARATOR . $packageName . DIRECTORY_SEPARATOR . sprintf('%s.%s.apk', $packageName, $versionCode);
     }
 }
 
