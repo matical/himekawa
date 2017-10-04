@@ -146,7 +146,7 @@ class Download extends Scraper
      */
     protected function buildApkDirectory()
     {
-        return config('googleplay.apk_path') . DIRECTORY_SEPARATOR . $this->packageName;
+        return apkDirectory($this->packageName);
     }
 
     /**
