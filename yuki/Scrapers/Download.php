@@ -173,7 +173,7 @@ class Download extends Scraper
      */
     protected function verifyFileIntegrity($packageName, $expectedHash)
     {
-        $packagePath = apkDirectory($packageName, $this->buildApkFilename());
+        $packagePath = apkDirectory($packageName, $this->versionCode);
         $hashOfLocalPackage = sha1_file($packagePath);
 
         if ($hashOfLocalPackage !== $expectedHash) {
