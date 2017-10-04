@@ -11,18 +11,17 @@
                         <span>Latest Version: {{ $app->latestApp()->version_name ?? 'N/A' }} </span>
                     </md-layout>
                     <md-list-expand>
-                        <md-list>
-                            @foreach ($app->availableApps()->get() as $availableApp)
-                                <md-list-item class="md-inset">
-                                    <md-tooltip md-direction="top">SHA1: {{ $availableApp->hash }}</md-tooltip>
-                                    <span class="truncate">{{ sprintf('%s.%s.apk', $availableApp->watchedBy->package_name, $availableApp->version_code) }}</span>
-                                    <span>(v{{ $availableApp->version_name }})</span>
-                                    <md-layout md-align="end">
-                                        <md-button class="md-raised md-accent {{ $loop->first ? 'button-download' : 'button-download-old' }}" href="{{ apkPath($availableApp->watchedBy->package_name, $availableApp->version_code) }}">Download</md-button>
-                                    </md-layout>
-                                </md-list-item>
-                            @endforeach
-                        </md-list>
+                        @foreach ($app->availableApps()->get() as $availableApp)
+                            <md-list-item class="md-inset">
+                                <md-tooltip md-direction="top">SHA1: {{ $availableApp->hash }} <br/> Last updated: {{ $app->created_at }}</span>
+                                </md-tooltip>
+                                <span class="truncate">{{ sprintf('%s.%s.apk', $availableApp->watchedBy->package_name, $availableApp->version_code) }}</span>
+                                <span>(v{{ $availableApp->version_name }})</span>
+                                <md-layout md-align="end">
+                                    <md-button class="md-raised md-accent {{ $loop->first ? 'button-download' : 'button-download-old' }}" href="{{ apkPath($availableApp->watchedBy->package_name, $availableApp->version_code) }}">Download</md-button>
+                                </md-layout>
+                            </md-list-item>
+                        @endforeach
                     </md-list-expand>
                 </md-list-item>
             @endforeach

@@ -6,8 +6,10 @@
     </md-toolbar>
     <md-list>
         <md-list-item>
-            <md-icon>android</md-icon>
             <a href="{{ route('index') }}">Available Apps</a>
+        </md-list-item>
+        <md-list-item>
+            <a href="{{ route('index.faq') }}">FAQ</a>
         </md-list-item>
     </md-list>
 </md-sidenav>
