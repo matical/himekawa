@@ -10,6 +10,11 @@ class FailedToVerifyHashException extends Exception implements ExceptionInterfac
     /**
      * @var string
      */
+    public $package;
+
+    /**
+     * @var string
+     */
     public $packageFilename;
 
     /**
@@ -26,12 +31,14 @@ class FailedToVerifyHashException extends Exception implements ExceptionInterfac
      * @param string          $message
      * @param int             $code
      * @param \Throwable|null $previous
+     * @param string          $package
      * @param string          $packageFilename
      * @param string          $hashOfLocalPackage
      * @param string          $reportedHash
      */
-    public function __construct($message = '', $code = 0, \Throwable $previous = null, $packageFilename, $hashOfLocalPackage, $reportedHash)
+    public function __construct($message = '', $code = 0, \Throwable $previous = null, $package, $packageFilename, $hashOfLocalPackage, $reportedHash)
     {
+        $this->package = $package;
         $this->packageFilename = $packageFilename;
         $this->hashOfLocalPackage = $hashOfLocalPackage;
         $this->reportedHash = $reportedHash;
