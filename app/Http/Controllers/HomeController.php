@@ -2,27 +2,14 @@
 
 namespace himekawa\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public function faq()
     {
-        $this->middleware('auth');
+        return view('frontend.faq');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function about()
     {
-        return view('home');
     }
 }
