@@ -26,7 +26,7 @@ class Versioning
      * @param $latestPlaystoreVersionCode Version code of the latest app available on the Play Store
      * @return bool Whether updates are available
      */
-    public function areUpdatesAvailable($packageName, $latestPlaystoreVersionCode)
+    public function areUpdatesAvailableFor($packageName, $latestPlaystoreVersionCode)
     {
         $package = $this->availableApps->findPackage($packageName);
 
