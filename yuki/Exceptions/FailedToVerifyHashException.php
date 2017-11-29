@@ -36,7 +36,7 @@ class FailedToVerifyHashException extends Exception implements ExceptionInterfac
      * @param string          $hashOfLocalPackage
      * @param string          $reportedHash
      */
-    public function __construct($message = '', $code = 0, \Throwable $previous = null, $package, $packageFilename, $hashOfLocalPackage, $reportedHash)
+    public function __construct($message, $code, \Throwable $previous = null, $package, $packageFilename, $hashOfLocalPackage, $reportedHash)
     {
         $this->package = $package;
         $this->packageFilename = $packageFilename;

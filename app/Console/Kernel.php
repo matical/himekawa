@@ -24,7 +24,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-         $schedule->command('apk:update')
+        $schedule->command('apk:update')
                   ->everyThirtyMinutes();
 
         $schedule->command('apk:prune-old')

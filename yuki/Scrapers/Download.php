@@ -40,7 +40,7 @@ class Download extends Scraper
     protected $hash;
 
     /**
-     * AvailableApps Repository
+     * AvailableApps Repository.
      *
      * @var \yuki\Repositories\AvailableAppsRepository
      */
@@ -120,9 +120,6 @@ class Download extends Scraper
         return $this->buildApkFilename();
     }
 
-    /**
-     *
-     */
     public function store()
     {
         $this->availableApps->create($this->packageName);
