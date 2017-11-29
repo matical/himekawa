@@ -2,9 +2,6 @@
 
 namespace himekawa\Http\Controllers;
 
-use himekawa\WatchedApp;
-use himekawa\AvailableApp;
-use Illuminate\Http\Request;
 use yuki\Repositories\WatchedAppsRepository;
 
 class AvailableAppController extends Controller

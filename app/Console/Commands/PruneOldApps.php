@@ -3,7 +3,6 @@
 namespace himekawa\Console\Commands;
 
 use yuki\Update;
-use himekawa\WatchedApp;
 use Illuminate\Console\Command;
 use yuki\Repositories\AvailableAppsRepository;
 
@@ -27,7 +26,6 @@ class PruneOldApps extends Command
      * @var \yuki\Repositories\AvailableAppsRepository
      */
     protected $availableApps;
-
 
     /**
      * @var int

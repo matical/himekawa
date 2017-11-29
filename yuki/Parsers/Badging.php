@@ -54,7 +54,7 @@ class Badging
             ] = explode('=', $slice);
             $stripped = $this->stripQuotes($value);
 
-            $this->package[$key] = is_numeric($stripped) ? (int)$stripped : $stripped;
+            $this->package[$key] = is_numeric($stripped) ? (int) $stripped : $stripped;
         }
 
         return $this;
