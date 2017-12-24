@@ -95,8 +95,6 @@ class CheckForAppUpdates extends Command
      */
     public function handle()
     {
-        $this->checkIfCommandsExist();
-
         $this->info('Check for updates...');
         $this->appMetadata = $this->update->allApkMetadata();
         $this->appsRequiringUpdates = $this->update->checkForUpdates($this->appMetadata);
