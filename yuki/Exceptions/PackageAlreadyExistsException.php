@@ -28,7 +28,7 @@ class PackageAlreadyExistsException extends Exception implements ExceptionInterf
      * @param string          $package
      * @param int             $versionCode
      */
-    public function __construct(string $message = '', int $code = 0, Throwable $previous = null, $package, $versionCode)
+    public function __construct(string $message, int $code, Throwable $previous = null, $package, $versionCode)
     {
         $this->package = $package;
         $this->versionCode = $versionCode;
