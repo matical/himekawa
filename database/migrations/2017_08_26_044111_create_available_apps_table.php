@@ -24,10 +24,13 @@ class CreateAvailableAppsTable extends Migration
             $table->text('raw_badging')
                   ->nullable();
 
+            $table->timestamps();
+
             $table->foreign('app_id')
                   ->references('id')
                   ->on('watched_apps');
-            $table->timestamps();
+
+            $table->index('created_at');
         });
     }
 
