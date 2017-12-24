@@ -4,7 +4,7 @@ namespace himekawa\Console\Commands;
 
 use yuki\Scrapers\Download;
 use yuki\Scrapers\Metainfo;
-use Illuminate\Console\Command;
+use yuki\Command\AbstractCommand as Command;
 
 class FetchApk extends Command
 {
@@ -28,21 +28,6 @@ class FetchApk extends Command
     protected $metadata;
 
     /**
-     * @var \yuki\Repositories\AvailableAppsRepository
-     */
-    protected $availableApps;
-
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Execute the console command.
      *
      * @param \yuki\Scrapers\Download $download
@@ -54,7 +39,7 @@ class FetchApk extends Command
      */
     public function handle(Download $download, Metainfo $metainfo)
     {
-        $packageName = $this->argument('apk');
+        $packageName = $this->getPackageName($this->argument('apk'));
 
         $this->info('Fetching metadata for ' . $packageName);
         $this->metadata = metaCache($packageName, $metainfo);

@@ -3,7 +3,7 @@
 namespace himekawa\Console\Commands;
 
 use yuki\Scrapers\Metainfo;
-use Illuminate\Console\Command;
+use yuki\Command\AbstractCommand as Command;
 
 class FetchMetainfo extends Command
 {
@@ -12,7 +12,7 @@ class FetchMetainfo extends Command
      *
      * @var string
      */
-    protected $signature = 'apk:metainfo {appName?}';
+    protected $signature = 'apk:metainfo {apk}';
 
     /**
      * The console command description.
@@ -22,16 +22,6 @@ class FetchMetainfo extends Command
     protected $description = 'Check for any available app updates.';
 
     /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Execute the console command.
      *
      * @param \yuki\Scrapers\Metainfo $metainfo
@@ -39,9 +29,9 @@ class FetchMetainfo extends Command
      */
     public function handle(Metainfo $metainfo)
     {
-        $output = $metainfo->build($this->argument('appName'))
-                           ->run()
-                           ->output();
+        $packageName = $this->getPackageName($this->argument('apk'));
+
+        $output = metaCache($packageName, $metainfo);
         dump($output);
     }
 }
