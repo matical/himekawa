@@ -60,7 +60,7 @@ class Download extends AbstractScraper
      * @param $packageName
      * @param $versionCode
      * @param $hash
-     * 
+     *
      * @return $this
      *
      * @throws \yuki\Exceptions\PackageAlreadyExistsException
