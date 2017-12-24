@@ -95,12 +95,11 @@ class CheckForAppUpdates extends Command
      */
     public function handle()
     {
-        $this->info('Checking for updates...');
+        $this->line('Checking for updates...');
         $this->appMetadata = $this->update->allApkMetadata();
         $this->appsRequiringUpdates = $this->update->checkForUpdates($this->appMetadata);
 
-        // If there are no apps that require updates, exit
-        if (empty($this->appsRequiringUpdates)) {
+        if (! $this->appsRequiringUpdates) {
             $this->info('No apps require updates.');
 
             return;
