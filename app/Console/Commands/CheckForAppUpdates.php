@@ -94,9 +94,6 @@ class CheckForAppUpdates extends Command
      * Execute the console command.
      *
      * @return mixed
-     *
-     * @throws \yuki\Exceptions\PackageAlreadyExistsException
-     * @throws \yuki\Exceptions\MissingCommandsException
      */
     public function handle()
     {
@@ -122,23 +119,6 @@ class CheckForAppUpdates extends Command
                                ->store();
             } catch (PackageAlreadyExistsException $exception) {
                 $this->warn("APK already exists for $exception->package.");
-            }
-        }
-    }
-
-    /**
-     * @throws \yuki\Exceptions\MissingCommandsException
-     */
-    protected function checkIfCommandsExist()
-    {
-        $commands = ['aapt', 'gp-download'];
-
-        foreach ($commands as $command) {
-            $process = new Process($command);
-            $exitCode = $process->run();
-
-            if ($exitCode !== 0) {
-                throw new MissingCommandsException("$command cannot be found in your path. Make sure you have it installed.");
             }
         }
     }
