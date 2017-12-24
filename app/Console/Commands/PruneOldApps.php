@@ -25,7 +25,7 @@ class PruneOldApps extends Command
     /**
      * @var \yuki\Repositories\AvailableAppsRepository
      */
-    protected $availableApps;
+    protected $apps;
 
     /**
      * @var int
@@ -53,7 +53,7 @@ class PruneOldApps extends Command
         parent::__construct();
 
         $this->update = $update;
-        $this->availableApps = $availableAppsRepository;
+        $this->apps = $availableAppsRepository;
         $this->maxAppsAllowed = config('himekawa.max_apps');
     }
 
@@ -67,13 +67,13 @@ class PruneOldApps extends Command
         $allPackages = $this->update->allApkMetadata();
 
         foreach ($allPackages as $package) {
-            $watchedApp = $this->availableApps->findPackage($package->packageName);
+            $watchedApp = $this->apps->findPackage($package->packageName);
 
-            $oldApps = $this->availableApps->getOldApps($this->maxAppsAllowed, $watchedApp);
-            $this->availableApps->deleteFiles($oldApps, $package->packageName);
+            $oldApps = $this->apps->getOldApps($this->maxAppsAllowed, $watchedApp);
+            $this->apps->deleteFiles($oldApps, $package->packageName);
 
-            $oldAppsById = $this->availableApps->getOldAppsById($this->maxAppsAllowed, $watchedApp);
-            $appsDeleted = $this->availableApps->deleteEntries($oldAppsById->toArray());
+            $oldAppsById = $this->apps->getOldAppsById($this->maxAppsAllowed, $watchedApp);
+            $appsDeleted = $this->apps->deleteEntries($oldAppsById->toArray());
 
             $this->info('Deleted ' . $appsDeleted . ' apps for ' . $package->packageName);
         }
