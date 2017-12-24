@@ -1,0 +1,39 @@
+language: php
+sudo: false
+
+php:
+    - '7.1'
+
+addons:
+    mariadb: '10.2'
+
+cache:
+    yarn: true
+    directories:
+        - node_modules
+        - vendor
+
+before_install:
+    - nvm install node
+    - composer require php-coveralls/php-coveralls
+
+before_script:
+    - mysql -e 'CREATE DATABASE travis_testing'
+    - cp .env.travis .env
+    - php artisan key:generate
+    - php artisan jwt:secret -f
+    - php artisan migrate --seed
+
+install:
+    - composer install --no-interaction
+    - yarn
+
+script:
+    - yarn run prod
+    - php ./vendor/bin/phpunit --coverage-clover coverage.xml
+
+after_success:
+  - travis_retry php vendor/bin/php-coveralls -v
+
+notifications:
+    email: false
