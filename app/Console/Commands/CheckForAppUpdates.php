@@ -7,6 +7,8 @@ use yuki\Scrapers\Download;
 use yuki\Scrapers\Metainfo;
 use yuki\Scrapers\Versioning;
 use Illuminate\Console\Command;
+use Symfony\Component\Process\Process;
+use yuki\Exceptions\MissingCommandsException;
 use yuki\Repositories\AvailableAppsRepository;
 
 class CheckForAppUpdates extends Command
@@ -91,9 +93,14 @@ class CheckForAppUpdates extends Command
      * Execute the console command.
      *
      * @return mixed
+     *
+     * @throws \yuki\Exceptions\PackageExistsException
+     * @throws \yuki\Exceptions\MissingCommandsException
      */
     public function handle()
     {
+        $this->checkIfCommandsExist();
+
         $this->info('Check for updates...');
         $this->appMetadata = $this->update->allApkMetadata();
         $this->appsRequiringUpdates = $this->update->checkForUpdates($this->appMetadata);
@@ -110,6 +117,23 @@ class CheckForAppUpdates extends Command
             $this->download->build($app->packageName, $app->versionCode, $app->sha1)
                            ->run()
                            ->store();
+        }
+    }
+
+    /**
+     * @throws \yuki\Exceptions\MissingCommandsException
+     */
+    protected function checkIfCommandsExist()
+    {
+        $commands = ['aapt', 'gp-download'];
+
+        foreach ($commands as $command) {
+            $process = new Process($command);
+            $exitCode = $process->run();
+
+            if ($exitCode !== 0) {
+                throw new MissingCommandsException("$command cannot be found in your path. Make sure you have it installed.");
+            }
         }
     }
 }
