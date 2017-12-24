@@ -94,7 +94,7 @@ class CheckForAppUpdates extends Command
      *
      * @return mixed
      *
-     * @throws \yuki\Exceptions\PackageExistsException
+     * @throws \yuki\Exceptions\PackageAlreadyExistsException
      * @throws \yuki\Exceptions\MissingCommandsException
      */
     public function handle()

@@ -5,9 +5,9 @@ namespace yuki\Scrapers;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\Process\Process;
 use Illuminate\Support\Facades\Storage;
-use yuki\Exceptions\PackageExistsException;
 use yuki\Repositories\AvailableAppsRepository;
 use yuki\Exceptions\FailedToVerifyHashException;
+use yuki\Exceptions\PackageAlreadyExistsException;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Exception\ProcessTimedOutException;
 
@@ -60,8 +60,10 @@ class Download extends AbstractScraper
      * @param $packageName
      * @param $versionCode
      * @param $hash
+     * 
      * @return $this
-     * @throws \yuki\Exceptions\PackageExistsException
+     *
+     * @throws \yuki\Exceptions\PackageAlreadyExistsException
      */
     public function build($packageName, $versionCode, $hash)
     {
@@ -70,7 +72,7 @@ class Download extends AbstractScraper
         $this->hash = $hash;
 
         if ($this->checkIfFileExists()) {
-            throw new PackageExistsException('File ' . $this->buildApkFilename() . ' already exists.');
+            throw new PackageAlreadyExistsException('File ' . $this->buildApkFilename() . ' already exists.');
         }
 
         if (! Storage::exists($packageName)) {
