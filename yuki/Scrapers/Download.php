@@ -72,7 +72,13 @@ class Download extends AbstractScraper
         $this->hash = $hash;
 
         if ($this->checkIfFileExists()) {
-            throw new PackageAlreadyExistsException('File ' . $this->buildApkFilename() . ' already exists.');
+            throw new PackageAlreadyExistsException(
+                'File ' . $this->buildApkFilename() . ' already exists.',
+                0,
+                null,
+                $this->packageName,
+                $this->versionCode
+            );
         }
 
         if (! Storage::exists($packageName)) {
