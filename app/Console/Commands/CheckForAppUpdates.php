@@ -10,6 +10,7 @@ use Illuminate\Console\Command;
 use Symfony\Component\Process\Process;
 use yuki\Exceptions\MissingCommandsException;
 use yuki\Repositories\AvailableAppsRepository;
+use yuki\Exceptions\PackageAlreadyExistsException;
 
 class CheckForAppUpdates extends Command
 {
@@ -114,9 +115,14 @@ class CheckForAppUpdates extends Command
 
         foreach ($this->appsRequiringUpdates as $app) {
             $this->info('Downloading ' . $app->packageName);
-            $this->download->build($app->packageName, $app->versionCode, $app->sha1)
-                           ->run()
-                           ->store();
+
+            try {
+                $this->download->build($app->packageName, $app->versionCode, $app->sha1)
+                               ->run()
+                               ->store();
+            } catch (PackageAlreadyExistsException $exception) {
+                $this->warn("APK already exists for $exception->package.");
+            }
         }
     }
 
