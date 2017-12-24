@@ -2,6 +2,8 @@
 
 namespace yuki\Exceptions;
 
-class PackageExistsException extends \Exception implements ExceptionInterface
+use Exception;
+
+class PackageExistsException extends Exception implements ExceptionInterface
 {
 }
