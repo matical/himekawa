@@ -25,6 +25,7 @@ $rules = [
     'phpdoc_indent' => true,
     'phpdoc_scalar' => true,
     'phpdoc_single_line_var_spacing' => true,
+    'phpdoc_summary' => true,
 ];
 
 $excludes = [
