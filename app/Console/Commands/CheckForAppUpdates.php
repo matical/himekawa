@@ -7,8 +7,6 @@ use yuki\Scrapers\Download;
 use yuki\Scrapers\Metainfo;
 use yuki\Scrapers\Versioning;
 use Illuminate\Console\Command;
-use Symfony\Component\Process\Process;
-use yuki\Exceptions\MissingCommandsException;
 use yuki\Repositories\AvailableAppsRepository;
 use yuki\Exceptions\PackageAlreadyExistsException;
 
