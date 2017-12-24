@@ -17,6 +17,11 @@ class Kernel extends ConsoleKernel
     ];
 
     /**
+     * @var array
+     */
+    protected $settings = [];
+
+    /**
      * Define the application's command schedule.
      *
      * @param \Illuminate\Console\Scheduling\Schedule $schedule
@@ -24,8 +29,13 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $this->loadSchedulerSettings();
+
         $schedule->command('apk:update')
-                  ->everyThirtyMinutes();
+                 ->weekdays()
+                 ->everyThirtyMinutes()
+                 ->timezone($this->settings['timezone'])
+                 ->between($this->settings['start_time'], $this->settings['end_time']);
 
         $schedule->command('apk:prune-old')
                  ->daily();
@@ -41,5 +51,17 @@ class Kernel extends ConsoleKernel
         $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
+    }
+
+    /**
+     * Load scheduler config.
+     */
+    protected function loadSchedulerSettings()
+    {
+        $this->settings = [
+            'timezone'   => config('himekawa.scheduler.timezone'),
+            'start_time' => config('himekawa.scheduler.start_time'),
+            'end_time'   => config('himekawa.scheduler.end_time'),
+        ];
     }
 }
