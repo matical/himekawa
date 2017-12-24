@@ -11,7 +11,7 @@ use yuki\Exceptions\FailedToVerifyHashException;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Exception\ProcessTimedOutException;
 
-class Download extends Scraper
+class Download extends AbstractScraper
 {
     /**
      * @var \Symfony\Component\Process\Process
