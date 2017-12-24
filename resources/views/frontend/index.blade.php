@@ -28,6 +28,6 @@
         </md-list>
     </md-whiteframe>
     <md-layout md-align="end">
-        <p>The scraper runs every 30 minutes.</p>
+        <p>The scraper runs every 30 minutes, only weekdays from {{ config('himekawa.scheduler.start_time') }} to {{ config('himekawa.scheduler.end_time') }} JST.</p>
     </md-layout>
 @endsection
