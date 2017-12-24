@@ -47,7 +47,10 @@ class FetchApk extends Command
      *
      * @param \yuki\Scrapers\Download $download
      * @param \yuki\Scrapers\Metainfo $metainfo
+     *
      * @return mixed
+     * 
+     * @throws \yuki\Exceptions\PackageAlreadyExistsException
      */
     public function handle(Download $download, Metainfo $metainfo)
     {
