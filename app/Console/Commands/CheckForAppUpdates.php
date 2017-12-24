@@ -100,13 +100,21 @@ class CheckForAppUpdates extends Command
         $this->appsRequiringUpdates = $this->update->checkForUpdates($this->appMetadata);
 
         if (! $this->appsRequiringUpdates) {
-            $this->info('No apps require updates.');
+            $this->info("There's no apps that require updates.");
 
             return;
         }
 
+        $this->downloadRequiredUpdates();
+    }
+
+    /**
+     * Download required updates.
+     */
+    protected function downloadRequiredUpdates()
+    {
         foreach ($this->appsRequiringUpdates as $app) {
-            $this->info('Downloading ' . $app->packageName);
+            $this->line("Downloading $app->packageName");
 
             try {
                 $this->download->build($app->packageName, $app->versionCode, $app->sha1)
