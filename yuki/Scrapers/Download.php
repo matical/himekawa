@@ -130,8 +130,8 @@ class Download extends AbstractScraper
 
     public function store()
     {
-        $this->availableApps->create($this->packageName);
-        Log::info('Finished download of ' . $this->packageName);
+        $availableApp = $this->availableApps->create($this->packageName);
+        Log::info("Finished download of {$this->packageName} (r{$availableApp->version_code}-v{$availableApp->version_name})");
     }
 
     /**

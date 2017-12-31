@@ -49,6 +49,7 @@ class AvailableAppsRepository
 
     /**
      * @param string $packageName
+     * @return \himekawa\AvailableApp
      */
     public function create($packageName)
     {
@@ -67,7 +68,7 @@ class AvailableAppsRepository
 
         $rawBadging = $this->badging->getRawBadging();
 
-        $package->availableApps()->create([
+        return $package->availableApps()->create([
             'version_code' => $metadata->versionCode,
             'version_name' => $badging['versionName'],
             'size'         => $metadata->size,
