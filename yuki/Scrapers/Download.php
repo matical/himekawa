@@ -72,6 +72,8 @@ class Download extends AbstractScraper
         $this->hash = $hash;
 
         if ($this->checkIfFileExists()) {
+            $this->verifyFileIntegrity($this->packageName, $this->hash);
+
             throw new PackageAlreadyExistsException(
                 'File ' . $this->buildApkFilename() . ' already exists.',
                 0,
@@ -81,6 +83,7 @@ class Download extends AbstractScraper
             );
         }
 
+        // Checks if a folder with the respective package name exists already
         if (! Storage::exists($packageName)) {
             Storage::makeDirectory($packageName);
         }
@@ -159,7 +162,9 @@ class Download extends AbstractScraper
      */
     protected function checkIfFileExists()
     {
-        return Storage::exists($this->buildApkFilename());
+        return Storage::exists(
+            sprintf('%s/%s', $this->packageName, $this->buildApkFilename())
+        );
     }
 
     /**
@@ -197,7 +202,7 @@ class Download extends AbstractScraper
             );
         }
 
-        Log::info("Downloaded $packageName. Verified hash SHA1: $expectedHash");
+        Log::info("Verified hash for $packageName (SHA1: $expectedHash)");
     }
 
     /**
@@ -206,7 +211,7 @@ class Download extends AbstractScraper
      */
     protected function cleanupFailedDownload($package, $apkFilename)
     {
-        if (Storage::delete($package, $apkFilename)) {
+        if (Storage::delete("$package/$apkFilename")) {
             Log::info("Deleted faulty download: $apkFilename");
         }
     }

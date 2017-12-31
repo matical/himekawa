@@ -96,14 +96,21 @@ class CheckForAppUpdates extends Command
     public function handle()
     {
         $this->line('Checking for updates...');
+        info('Running APK scheduler');
+
         $this->appMetadata = $this->update->allApkMetadata();
         $this->appsRequiringUpdates = $this->update->checkForUpdates($this->appMetadata);
 
         if (! $this->appsRequiringUpdates) {
             $this->info("There's no apps that require updates.");
+            info('No apps require updates');
 
             return;
         }
+
+        info('Updates found.', [
+            'apps' => (array) $this->appsRequiringUpdates,
+        ]);
 
         $this->downloadRequiredUpdates();
     }
@@ -114,14 +121,14 @@ class CheckForAppUpdates extends Command
     protected function downloadRequiredUpdates()
     {
         foreach ($this->appsRequiringUpdates as $app) {
-            $this->line("Downloading $app->packageName");
+            $this->line("Downloading {$app->packageName}");
 
             try {
                 $this->download->build($app->packageName, $app->versionCode, $app->sha1)
                                ->run()
                                ->store();
             } catch (PackageAlreadyExistsException $exception) {
-                $this->warn("APK already exists for $exception->package.");
+                $this->warn("APK already exists for {$exception->package}.");
             }
         }
     }
