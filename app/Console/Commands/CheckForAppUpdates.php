@@ -3,10 +3,12 @@
 namespace himekawa\Console\Commands;
 
 use yuki\Update;
+use himekawa\User;
 use yuki\Scrapers\Download;
 use yuki\Scrapers\Metainfo;
 use yuki\Scrapers\Versioning;
 use Illuminate\Console\Command;
+use himekawa\Notifications\ApkDownloaded;
 use yuki\Repositories\AvailableAppsRepository;
 use yuki\Exceptions\PackageAlreadyExistsException;
 
@@ -37,6 +39,11 @@ class CheckForAppUpdates extends Command
      * @var array
      */
     protected $appsRequiringUpdates = [];
+
+    /**
+     * @var array
+     */
+    protected $appsUpdated = [];
 
     /**
      * @var \yuki\Scrapers\Metainfo
@@ -113,6 +120,10 @@ class CheckForAppUpdates extends Command
         ]);
 
         $this->downloadRequiredUpdates();
+
+        if ($this->appsUpdated) {
+            User::find(1)->notifyNow(new ApkDownloaded($this->appsUpdated));
+        }
     }
 
     /**
@@ -124,9 +135,11 @@ class CheckForAppUpdates extends Command
             $this->line("Downloading {$app->packageName}");
 
             try {
-                $this->download->build($app->packageName, $app->versionCode, $app->sha1)
-                               ->run()
-                               ->store();
+                $availableApp = $this->download->build($app->packageName, $app->versionCode, $app->sha1)
+                                               ->run()
+                                               ->store();
+
+                $this->appsUpdated[] = $availableApp;
             } catch (PackageAlreadyExistsException $exception) {
                 $this->warn("APK already exists for {$exception->package}.");
             }
