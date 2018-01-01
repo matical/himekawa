@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "05481105c8abf7dca9cebe9c20487846",
+    "content-hash": "cd4575f7b0880e725d862417f6b71bad",
     "packages": [
         {
             "name": "barryvdh/laravel-debugbar",
@@ -1190,33 +1190,42 @@
             "time": "2015-04-20T18:58:01+00:00"
         },
         {
-            "name": "kitetail/zttp",
-            "version": "v0.2.0",
+            "name": "laravel-notification-channels/telegram",
+            "version": "0.0.3",
             "source": {
                 "type": "git",
-                "url": "https://github.com/kitetail/zttp.git",
-                "reference": "fb8f379c5d34d56399c5038226a1db845220ff8b"
+                "url": "https://github.com/laravel-notification-channels/telegram.git",
+                "reference": "88ab5bc432118bbfd2ed7194c1ddf1017acc7929"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kitetail/zttp/zipball/fb8f379c5d34d56399c5038226a1db845220ff8b",
-                "reference": "fb8f379c5d34d56399c5038226a1db845220ff8b",
+                "url": "https://api.github.com/repos/laravel-notification-channels/telegram/zipball/88ab5bc432118bbfd2ed7194c1ddf1017acc7929",
+                "reference": "88ab5bc432118bbfd2ed7194c1ddf1017acc7929",
                 "shasum": ""
             },
             "require": {
-                "guzzlehttp/guzzle": "^6.0",
-                "php": ">=7.0",
-                "tightenco/collect": "^5.4"
+                "guzzlehttp/guzzle": "^6.2",
+                "illuminate/notifications": "5.3.* || 5.4.* || 5.5.*",
+                "illuminate/support": "5.1.* || 5.2.* || 5.3.* || 5.4.* || 5.5.*",
+                "php": ">=5.6.4"
             },
             "require-dev": {
-                "laravel/lumen-framework": "^5.4",
-                "phpunit/phpunit": "^6.0"
+                "mockery/mockery": "^0.9.5",
+                "orchestra/testbench": "3.4.x-dev",
+                "phpunit/phpunit": "5.*"
             },
             "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "NotificationChannels\\Telegram\\TelegramServiceProvider"
+                    ]
+                }
+            },
             "autoload": {
-                "files": [
-                    "src/Zttp.php"
-                ]
+                "psr-4": {
+                    "NotificationChannels\\Telegram\\": "src"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -1224,16 +1233,22 @@
             ],
             "authors": [
                 {
-                    "name": "Adam Wathan",
-                    "email": "adam.wathan@gmail.com"
+                    "name": "Syed Irfaq R.",
+                    "email": "syed@lukonet.com",
+                    "homepage": "https://lukonet.com",
+                    "role": "Developer"
                 }
             ],
-            "description": "A developer-experience focused HTTP client, optimized for most common use cases.",
+            "description": "Telegram Notifications Driver",
+            "homepage": "https://github.com/laravel-notification-channels/telegram",
             "keywords": [
-                "Guzzle",
-                "http"
+                "laravel",
+                "notification",
+                "telegram",
+                "telegram notification",
+                "telegram notifications channel"
             ],
-            "time": "2017-07-20T14:16:37+00:00"
+            "time": "2017-08-16T18:55:05+00:00"
         },
         {
             "name": "laravel/framework",
