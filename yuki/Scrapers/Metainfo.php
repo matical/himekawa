@@ -10,7 +10,7 @@ class Metainfo extends AbstractScraper
 
     public function make()
     {
-        return new static;
+        return new static();
     }
 
     public function build($appName)

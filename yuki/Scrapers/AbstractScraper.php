@@ -6,6 +6,9 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 
 abstract class AbstractScraper
 {
+    /**
+     * @var \Symfony\Component\Process\Process
+     */
     protected $process;
 
     protected $jsonOutput;
