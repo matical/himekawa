@@ -33,7 +33,7 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('apk:update')
                  ->weekdays()
-                 ->everyThirtyMinutes()
+                 ->everyFifteenMinutes()
                  ->timezone($this->settings['timezone'])
                  ->between($this->settings['start_time'], $this->settings['end_time']);
 
