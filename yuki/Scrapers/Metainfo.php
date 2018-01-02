@@ -15,7 +15,8 @@ class Metainfo extends AbstractScraper
 
     public function build($appName)
     {
-        $this->process = new Process("gp-download-meta $appName");
+        $command = sprintf('%s %s', config('himekawa.commands.gp-download-meta'), $appName);
+        $this->process = new Process($command);
 
         return $this;
     }

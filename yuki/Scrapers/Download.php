@@ -176,7 +176,7 @@ class Download extends AbstractScraper
      */
     protected function buildProcess($packageName, $filename, $directory)
     {
-        $command = sprintf('gp-download %s > %s', $packageName, $filename);
+        $command = sprintf('%s %s > %s', config('himekawa.commands.gp-download'), $packageName, $filename);
 
         return new Process($command, $directory);
     }
