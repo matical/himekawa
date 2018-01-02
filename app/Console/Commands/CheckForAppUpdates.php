@@ -105,7 +105,10 @@ class CheckForAppUpdates extends Command
         $this->line('Checking for updates...');
         info('Running APK scheduler');
 
-        $this->appMetadata = $this->update->allApkMetadata();
+        retry(2, function () {
+            $this->appMetadata = $this->update->allApkMetadata();
+        }, 500);
+
         $this->appsRequiringUpdates = $this->update->checkForUpdates($this->appMetadata);
 
         if (! $this->appsRequiringUpdates) {
