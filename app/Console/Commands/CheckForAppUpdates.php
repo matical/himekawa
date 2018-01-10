@@ -118,9 +118,7 @@ class CheckForAppUpdates extends Command
             return;
         }
 
-        info('Updates found.', [
-            'apps' => (array) $this->appsRequiringUpdates,
-        ]);
+        info('Updates found.', $this->appsRequiringUpdates);
 
         $this->downloadRequiredUpdates();
 
