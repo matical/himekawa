@@ -6,14 +6,14 @@
         <md-list>
             @foreach ($apps as $app)
                 <md-list-item md-expand-multiple>
-                    <span class="truncate-longer"><img src="{{ asset('images/' . $app->package_name . '.png') }}" class="app-icon">{{ $app->name }} ({{ $app->original_title }})</span>
+                    <span class="truncate-longer"><img src="{{ asset('images/' . $app->package_name . '.png') }}" class="app-icon">{{ $app->name }} <span class="md-hide-small">({{ $app->original_title }})</span></span>
                     <md-layout md-align="end">
-                        <span>Latest Version: {{ $app->latestApp()->version_name ?? 'N/A' }} </span>
+                        <span>v{{ $app->latestApp()->version_name ?? 'N/A' }} </span>
                     </md-layout>
                     <md-list-expand>
                         @foreach ($app->availableApps()->get() as $availableApp)
                             <md-list-item class="md-inset">
-                                <md-tooltip md-direction="top">SHA1: {{ $availableApp->hash }} <br/> Last updated: {{ $app->created_at }}</span>
+                                <md-tooltip md-direction="top">SHA1: {{ $availableApp->hash }} <br/> Last updated: {{ $app->created_at }}
                                 </md-tooltip>
                                 <span class="truncate">{{ sprintf('%s.%s.apk', $availableApp->watchedBy->package_name, $availableApp->version_code) }}</span>
                                 <span>(v{{ $availableApp->version_name }})</span>
