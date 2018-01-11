@@ -14,8 +14,7 @@ require('./bootstrap');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.use(VueMaterial)
-Vue.component('example', require('./components/Example.vue'));
+Vue.use(VueMaterial);
 
 Vue.material.registerTheme({
     dark: {
