@@ -11,5 +11,8 @@
         <md-list-item>
             <a href="{{ route('index.faq') }}">FAQ</a>
         </md-list-item>
+        <md-list-item>
+            <a href="{{ route('links.index') }}">Magic Links</a>
+        </md-list-item>
     </md-list>
 </md-sidenav>
