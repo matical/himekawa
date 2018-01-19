@@ -8,6 +8,6 @@
     <h2>APK Lifetime</h2>
     <p>The system will keep up to 5 APKs per game.</p>
 
-    <h2>If something breaks</h2>
-    <p>kannazuki/matic @ Rizon | <a href="mailto:mao@amatsuka.me">Email</a></p>
+    <h2>Feedback/If something breaks</h2>
+    <p>kannazuki/matic @ Rizon | <a href="mailto:mao@amatsuka.me">Mail</a></p>
 @endsection
