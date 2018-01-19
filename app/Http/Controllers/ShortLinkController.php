@@ -2,7 +2,6 @@
 
 namespace himekawa\Http\Controllers;
 
-use Illuminate\Http\Request;
 use yuki\Repositories\WatchedAppsRepository;
 
 class ShortLinkController extends Controller
