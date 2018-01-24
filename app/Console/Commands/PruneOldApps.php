@@ -64,6 +64,7 @@ class PruneOldApps extends Command
      */
     public function handle()
     {
+        info('Checking for old apps to prune.');
         $allPackages = $this->update->allApkMetadata();
 
         foreach ($allPackages as $package) {
@@ -75,7 +76,8 @@ class PruneOldApps extends Command
             $oldAppsById = $this->apps->getOldAppsById($this->maxAppsAllowed, $watchedApp);
             $appsDeleted = $this->apps->deleteEntries($oldAppsById->toArray());
 
-            $this->info('Deleted ' . $appsDeleted . ' apps for ' . $package->packageName);
+            $this->info("Deleted $appsDeleted apps for {$package->packageName}");
+            info("Deleted $appsDeleted apps for  {$package->packageName}");
         }
     }
 }
