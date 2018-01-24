@@ -74,6 +74,11 @@ class PruneOldApps extends Command
             $this->apps->deleteFiles($oldApps, $package->packageName);
 
             $oldAppsById = $this->apps->getOldAppsById($this->maxAppsAllowed, $watchedApp);
+
+            if (count($oldAppsById) < 1) {
+                continue;
+            }
+
             $appsDeleted = $this->apps->deleteEntries($oldAppsById->toArray());
 
             $this->info("Deleted $appsDeleted apps for {$package->packageName}");
