@@ -13,7 +13,7 @@
                     <md-list-expand>
                         @foreach ($app->availableApps()->get() as $availableApp)
                             <md-list-item class="md-inset">
-                                <md-tooltip md-direction="top">SHA1: {{ $availableApp->hash }} <br/> Downloaded on: {{ $availableApp->updated_at->format('l jS, F h:i:s A') }} JST ({{ $availableApp->updated_at->diffForHumans() }})
+                                <md-tooltip md-direction="top">SHA1: {{ $availableApp->hash }} <br/> Downloaded on: {{ $availableApp->updated_at }} JST ({{ $availableApp->updated_at->diffForHumans() }})
                                 </md-tooltip>
                                 <span class="truncate">{{ sprintf('%s.%s.apk', $availableApp->watchedBy->package_name, $availableApp->version_code) }}</span>
                                 <span>(v{{ $availableApp->version_name }})</span>
