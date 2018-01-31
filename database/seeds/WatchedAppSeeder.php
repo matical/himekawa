@@ -60,5 +60,12 @@ class WatchedAppSeeder extends Seeder
             'original_title' => '結城友奈は勇者である 花結いのきらめき',
             'package_name'   => 'jp.co.altplus.yuyuyui',
         ]);
+
+        WatchedApp::create([
+            'name'           => 'Azur Lane',
+            'slug'           => 'azur',
+            'original_title' => 'アズールレーン',
+            'package_name'   => 'com.YoStarJP.AzurLane',
+        ]);
     }
 }
