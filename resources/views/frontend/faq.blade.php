@@ -11,6 +11,6 @@
     <h2>Telegram Bot Updates</h2>
     <p>Join <a href="https://t.me/joinchat/AAAAAEwtuc6mq_TfZAzviA">this</a> telegram channel if you want to receive updates everytime an app here is updated.</p>
 
-    <h2>Feedback/If something breaks</h2>
+    <h2>Feedback/If something breaks/Want an APK added?</h2>
     <p>kannazuki/matic @ Rizon | <a href="mailto:mao@amatsuka.me">Mail</a></p>
 @endsection
