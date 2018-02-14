@@ -2,7 +2,7 @@
 
 return [
     'commands'  => [
-        'gp-download' => env('COMMANDS_GPDOWNLOAD', 'npx gp-download'),
+        'gp-download'      => env('COMMANDS_GPDOWNLOAD', 'npx gp-download'),
         'gp-download-meta' => env('COMMANDS_GPDOWNLOADMETA', 'npx gp-download-meta'),
     ],
     'max_apps'  => env('MAX_APPS', 5),
