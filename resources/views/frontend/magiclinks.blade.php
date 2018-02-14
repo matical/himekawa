@@ -2,7 +2,7 @@
 @section('title', 'Links')
 
 @section('content')
-    <h1>Magic Links</h1>
+    <h2>Magic Links</h2>
     <p>Links here will always redirect you to the latest app available. For nerds on mobile. </p>
     <ul>
         @foreach ($apps as $availableApp)
