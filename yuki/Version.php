@@ -16,7 +16,7 @@ class Version
     public function hash()
     {
         return Cache::remember('version:current-hash', 60, function () {
-            return shell_exec('git rev-parse --short HEAD');
+            return trim(shell_exec('git rev-parse --short HEAD'));
         });
     }
 
