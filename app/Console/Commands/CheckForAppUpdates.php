@@ -8,6 +8,7 @@ use yuki\Scrapers\Download;
 use yuki\Scrapers\Metainfo;
 use yuki\Scrapers\Versioning;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Cache;
 use himekawa\Notifications\ApkDownloaded;
 use yuki\Repositories\AvailableAppsRepository;
 use yuki\Exceptions\PackageAlreadyExistsException;
@@ -105,6 +106,7 @@ class CheckForAppUpdates extends Command
     {
         $this->line('Checking for updates...');
         info('Running APK scheduler');
+        $this->markScheduler();
 
         retry(2, function () {
             $this->appMetadata = $this->update->allApkMetadata();
@@ -146,5 +148,10 @@ class CheckForAppUpdates extends Command
                 $this->warn("APK already exists for {$exception->package}.");
             }
         }
+    }
+
+    protected function markScheduler()
+    {
+        Cache::forever('scheduler:last-run', now()->timestamp);
     }
 }
