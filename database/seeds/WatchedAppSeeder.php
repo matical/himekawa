@@ -88,5 +88,12 @@ class WatchedAppSeeder extends Seeder
             'original_title' => 'Tokyo 7th シスターズ - アイドル育成＆本格音ゲー',
             'package_name'   => 'jp.ne.donuts.t7s',
         ]);
+
+        WatchedApp::create([
+            'name'           => 'Princess Connect Re:Dive',
+            'slug'           => 'priconne',
+            'original_title' => 'プリンセスコネクト！Re:Dive',
+            'package_name'   => 'jp.co.cygames.princessconnectredive',
+        ]);
     }
 }
