@@ -67,5 +67,26 @@ class WatchedAppSeeder extends Seeder
             'original_title' => 'アズールレーン',
             'package_name'   => 'com.YoStarJP.AzurLane',
         ]);
+
+        WatchedApp::create([
+            'name'           => 'Kemono Friends Pavilion',
+            'slug'           => 'kemono',
+            'original_title' => 'けものフレンズぱびりおん',
+            'package_name'   => 'com.bushiroad.kemofure',
+        ]);
+
+        WatchedApp::create([
+            'name'           => 'Kirara Fantasia',
+            'slug'           => 'fantasia',
+            'original_title' => 'きららファンタジア',
+            'package_name'   => 'com.aniplex.kirarafantasia',
+        ]);
+
+        WatchedApp::create([
+            'name'           => 'Tokyo 7th Sisters',
+            'slug'           => 't7s',
+            'original_title' => 'Tokyo 7th シスターズ - アイドル育成＆本格音ゲー',
+            'package_name'   => 'jp.ne.donuts.t7s',
+        ]);
     }
 }
