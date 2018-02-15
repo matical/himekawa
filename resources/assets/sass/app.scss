@@ -10,8 +10,8 @@ $dark: #212121;
     font-weight: 300;
 }
 
-span.muted {
-    color: darken($white-ish, 20%) !important;
+.muted {
+    color: darken($white-ish, 20%);
 }
 
 .truncate {
@@ -51,4 +51,8 @@ span.muted {
 
 h2 {
     font-weight: 300;
+}
+
+.recently-updated {
+    color: darken($not-yuki, 5%);
 }
