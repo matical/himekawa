@@ -9,8 +9,10 @@
                     <span class="truncate-longer"><img src="{{ asset('images/' . $apk->package_name . '.png') }}" class="app-icon">{{ $apk->name }}
                         <span class="md-hide-small">[{{ $apk->original_title }}]</span></span>
                     <md-layout md-align="end">
+                        @if ($apk->latestApp())
                         <span class="md-hide-small muted {{ $apk->latestApp()->updated_at->diffInHours() < 24 ? 'recently-updated' : '' }}">{{ $apk->latestApp()->updated_at->diffForHumans() }}&nbsp;</span>
                         <span class="md-hide-small">~</span>
+                        @endif
                         <span>&nbsp;v{{ $apk->latestApp()->version_name ?? 'N/A' }}</span>
                     </md-layout>
                     <md-list-expand>
