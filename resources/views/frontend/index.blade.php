@@ -35,7 +35,7 @@
     </md-whiteframe>
     <md-layout>
         <p>Scheduler last run:
-            <a href="{{ route('index.faq') }}">{{ timestamp_format(cache('scheduler:last-run'))->diffForHumans() }}</a>
+            <a href="{{ route('index.faq') }}">{{ cache('scheduler:last-run') ? timestamp_format(cache('scheduler:last-run'))->diffForHumans() : 'Has not yet run' }}</a>
             <br/>
             #{{ git()->hash() }} (r{{ git()->revision() }})</p>
     </md-layout>
