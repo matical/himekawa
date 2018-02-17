@@ -24,7 +24,10 @@
                                 <span class="truncate">{{ sprintf('%s.%s.apk', $availableApp->watchedBy->package_name, $availableApp->version_code) }}</span>
                                 <span>(v{{ $availableApp->version_name }})</span>
                                 <md-layout md-align="end">
-                                    <md-button class="md-raised md-accent {{ $loop->first ? 'button-download' : 'button-download-old' }}" href="{{ apkPath($availableApp->watchedBy->package_name, $availableApp->version_code) }}">Download</md-button>
+                                    <md-button class="md-raised md-accent {{ $loop->first ? 'button-download' : 'button-download-old' }}" href="{{ apkPath($availableApp->watchedBy->package_name, $availableApp->version_code) }}">
+                                        <md-layout class="md-hide-medium-and-up"><md-icon>file_download</md-icon></md-layout>
+                                        <md-layout class="md-hide-small">Download</md-layout>
+                                    </md-button>
                                 </md-layout>
                             </md-list-item>
                         @endforeach
