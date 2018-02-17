@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Links')
+@section('title', 'Short Links')
 
 @section('content')
     <h2>Magic Links</h2>

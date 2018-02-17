@@ -20,7 +20,7 @@ class ShortLinkController extends Controller
     {
         $apps = $this->watchedApps->allApps();
 
-        return view('frontend.magiclinks', [
+        return view('frontend.shortlinks', [
             'apps' => $apps,
         ]);
     }
