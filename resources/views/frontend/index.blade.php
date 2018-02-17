@@ -10,8 +10,8 @@
                         <span class="md-hide-small">[{{ $apk->original_title }}]</span></span>
                     <md-layout md-align="end">
                         @if ($apk->latestApp())
-                        <span class="md-hide-small muted {{ $apk->latestApp()->updated_at->diffInHours() < 24 ? 'recently-updated' : '' }}">{{ $apk->latestApp()->updated_at->diffForHumans() }}&nbsp;</span>
-                        <span class="md-hide-small">~</span>
+                            <span class="md-hide-small muted {{ $apk->latestApp()->updated_at->diffInHours() < 24 ? 'recently-updated' : '' }}">{{ $apk->latestApp()->updated_at->diffForHumans() }}&nbsp;</span>
+                            <span class="md-hide-small">~</span>
                         @endif
                         <span>&nbsp;v{{ $apk->latestApp()->version_name ?? 'N/A' }}</span>
                     </md-layout>
@@ -34,6 +34,9 @@
         </md-list>
     </md-whiteframe>
     <md-layout>
-        <p>Scheduler last run: <span class="muted">{{ timestamp_format(cache('scheduler:last-run'))->diffForHumans() }}</span><br/>#{{ git()->hash() }} (r{{ git()->revision() }})</p>
+        <p>Scheduler last run:
+            <a href="{{ route('index.faq') }}">{{ timestamp_format(cache('scheduler:last-run'))->diffForHumans() }}</a>
+            <br/>
+            #{{ git()->hash() }} (r{{ git()->revision() }})</p>
     </md-layout>
 @endsection
