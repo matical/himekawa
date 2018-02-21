@@ -28,8 +28,8 @@ class Kernel extends HttpKernel
      */
     protected $middlewareGroups = [
         'web' => [
-            \himekawa\Http\Middleware\EncryptCookies::class,
-            \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+//            \himekawa\Http\Middleware\EncryptCookies::class,
+//            \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
 //            \Illuminate\Session\Middleware\StartSession::class,
 //             \Illuminate\Session\Middleware\AuthenticateSession::class,
 //            \Illuminate\View\Middleware\ShareErrorsFromSession::class,

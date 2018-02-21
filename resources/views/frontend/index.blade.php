@@ -9,11 +9,11 @@
                     <span class="truncate-longer"><img src="{{ asset('images/' . $apk->package_name . '.png') }}" class="app-icon">{{ $apk->name }}
                         <span class="md-hide-small">[{{ $apk->original_title }}]</span></span>
                     <md-layout md-align="end">
-                        @if ($apk->latestApp())
-                            <span class="md-hide-small muted {{ $apk->latestApp()->updated_at->diffInHours() < 24 ? 'recently-updated' : '' }}">{{ $apk->latestApp()->updated_at->diffForHumans() }}&nbsp;</span>
+                        @if ($latestApp = $apk->latestApp())
+                            <span class="md-hide-small muted {{ $latestApp->updated_at->diffInHours() < 24 ? 'recently-updated' : '' }}">{{ $latestApp->updated_at->diffForHumans() }}&nbsp;</span>
                             <span class="md-hide-small">~</span>
+                            <span>&nbsp;v{{ $latestApp->version_name ?? 'N/A' }}</span>
                         @endif
-                        <span>&nbsp;v{{ $apk->latestApp()->version_name ?? 'N/A' }}</span>
                     </md-layout>
                     <md-list-expand>
                         @foreach ($apk->availableApps()->get() as $availableApp)
@@ -27,7 +27,9 @@
                                 </div>
                                 <md-layout md-align="end">
                                     <md-button class="md-raised md-accent {{ $loop->first ? 'button-download' : 'button-download-old' }}" href="{{ apkPath($availableApp->watchedBy->package_name, $availableApp->version_code) }}">
-                                        <md-layout class="md-hide-medium-and-up"><md-icon class="download">file_download</md-icon></md-layout>
+                                        <md-layout class="md-hide-medium-and-up">
+                                            <md-icon class="download">file_download</md-icon>
+                                        </md-layout>
                                         <md-layout class="md-hide-small">Download</md-layout>
                                     </md-button>
                                 </md-layout>

@@ -16,6 +16,8 @@ class AvailableAppController extends Controller
     {
         $apps = $watchedApps->allApps();
 
-        return view('frontend.index')->withApps($apps);
+        return view('frontend.index', [
+            'apps' => $apps,
+        ]);
     }
 }
