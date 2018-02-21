@@ -21,11 +21,13 @@
                                 <md-tooltip md-direction="top">SHA1: {{ $availableApp->hash }}
                                     <br/> Downloaded on: {{ $availableApp->updated_at }} JST ({{ $availableApp->updated_at->diffForHumans() }})
                                 </md-tooltip>
-                                <span class="truncate">{{ sprintf('%s.%s.apk', $availableApp->watchedBy->package_name, $availableApp->version_code) }}</span>
-                                <span>(v{{ $availableApp->version_name }})</span>
+                                <div class="{{ $loop->first ? '' : 'muted' }}">
+                                    <span class="truncate">{{ sprintf('%s.%s.apk', $availableApp->watchedBy->package_name, $availableApp->version_code) }}</span>
+                                    <span>(v{{ $availableApp->version_name }})</span>
+                                </div>
                                 <md-layout md-align="end">
                                     <md-button class="md-raised md-accent {{ $loop->first ? 'button-download' : 'button-download-old' }}" href="{{ apkPath($availableApp->watchedBy->package_name, $availableApp->version_code) }}">
-                                        <md-layout class="md-hide-medium-and-up"><md-icon>file_download</md-icon></md-layout>
+                                        <md-layout class="md-hide-medium-and-up"><md-icon class="download">file_download</md-icon></md-layout>
                                         <md-layout class="md-hide-small">Download</md-layout>
                                     </md-button>
                                 </md-layout>

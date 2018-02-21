@@ -1,6 +1,7 @@
 $not-yuki: #ff9800;
 $white-ish: #e7e7e7;
 $dark: #212121;
+$darker: darken($dark, 5%);
 
 @import url("~vue-material/dist/vue-material.css");
 @import 'common';
@@ -28,9 +29,9 @@ $dark: #212121;
 }
 
 .button-download {
-    color: $dark !important;
+    color: $darker !important;
     &:hover {
-        color: lighten($dark, 10%) !important;
+        color: lighten($darker, 10%) !important;
     }
 }
 
