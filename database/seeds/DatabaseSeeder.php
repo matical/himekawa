@@ -20,6 +20,6 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->call(WatchedAppSeeder::class);
-        $this->call(AvailableAppSeeder::class);
+//        $this->call(AvailableAppSeeder::class);
     }
 }
