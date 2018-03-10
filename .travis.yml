@@ -4,6 +4,8 @@ sudo: false
 php:
     - '7.1'
 
+services:
+  - redis-server
 addons:
     mariadb: '10.2'
 
