@@ -23,7 +23,7 @@ before_script:
     - mysql -e 'CREATE DATABASE travis_testing'
     - cp .env.travis .env
     - php artisan key:generate
-    - php artisan migrate --seed
+    - php artisan migrate:fresh --seed
 
 install:
     - composer install --no-interaction
