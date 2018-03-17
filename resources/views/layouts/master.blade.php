@@ -19,8 +19,8 @@
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-<div id="app">
-    <div v-cloak class="container">
+<div id="app" v-cloak>
+    <div class="container">
         @include('layouts.sidebar')
         @include('layouts.header')
         <div class="main-content">
