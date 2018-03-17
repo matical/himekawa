@@ -12,7 +12,7 @@
     <title>ひめかわ :: @yield('title')</title>
 
     <link rel="icon" type="image/png" href="/favicon.png">
-    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,400italic">
     <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
 
     <!-- Styles -->
@@ -20,7 +20,7 @@
 </head>
 <body>
 <div id="app">
-    <div class="container">
+    <div v-cloak class="container">
         @include('layouts.sidebar')
         @include('layouts.header')
         <div class="main-content">
