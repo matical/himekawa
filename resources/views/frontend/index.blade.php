@@ -6,20 +6,30 @@
         <md-list>
             @foreach ($apps as $apk)
                 <md-list-item md-expand-multiple>
-                    <span class="truncate-longer"><img src="{{ asset('images/' . $apk->package_name . '.png') }}" class="app-icon">{{ $apk->name }}
-                        <span class="md-hide-small">[{{ $apk->original_title }}]</span></span>
+                    <span class="truncate-longer">
+                        <img src="{{ asset('images/' . $apk->package_name . '.png') }}" class="app-icon"/>
+                        {{ $apk->name }}
+                        <span class="md-hide-small">[{{ $apk->original_title }}]</span>
+                    </span>
                     <md-layout md-align="end">
                         @if ($latestApp = $apk->latestApp())
-                            <span class="md-hide-small muted {{ $latestApp->updated_at->diffInHours() < 24 ? 'recently-updated' : '' }}">{{ $latestApp->updated_at->diffForHumans() }}&nbsp;</span>
-                            <span class="md-hide-small">~</span>
-                            <span>&nbsp;v{{ $latestApp->version_name ?? 'N/A' }}</span>
+                            @if ($latestApp->created_at->diffInDays() < 2)
+                                <span class="md-hide-small muted recently-updated">{{ $latestApp->created_at->diffForHumans() }}&nbsp;</span>
+                                <span class="md-hide-small">::</span>
+                                <span>&nbsp;v{{ $latestApp->version_name ?? 'N/A' }}</span>
+                                <md-icon class="md-hide-medium-and-up recently-updated">new_releases</md-icon>
+                            @else
+                                <span class="md-hide-small muted">{{ $latestApp->created_at->diffForHumans() }}&nbsp;</span>
+                                <span class="md-hide-small">::</span>
+                                <span>&nbsp;v{{ $latestApp->version_name ?? 'N/A' }}</span>
+                            @endif
                         @endif
                     </md-layout>
                     <md-list-expand>
                         @foreach ($apk->availableApps()->get() as $availableApp)
                             <md-list-item class="md-inset">
                                 <md-tooltip md-direction="top">SHA1: {{ $availableApp->hash }}
-                                    <br/> Downloaded on: {{ $availableApp->updated_at }} JST ({{ $availableApp->updated_at->diffForHumans() }})
+                                    <br/> Downloaded on: {{ $availableApp->created_at }} JST ({{ $availableApp->created_at->diffForHumans() }})
                                 </md-tooltip>
                                 <span class="truncate {{ $loop->first ? '' : 'muted' }}">{{ sprintf('%s.%s.apk', $availableApp->watchedBy->package_name, $availableApp->version_code) }}</span>
                                 <span class="{{ $loop->first ? '' : 'muted' }}">(v{{ $availableApp->version_name }})</span>
