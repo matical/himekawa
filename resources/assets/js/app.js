@@ -19,8 +19,8 @@ Vue.use(VueMaterial);
 Vue.material.registerTheme({
     dark: {
         primary: {
-            color: 'orange',
-            hue: 500,
+            color: 'grey',
+            hue: 800,
             textColor: 'white'
         },
         accent: 'orange',

@@ -57,3 +57,7 @@ h2 {
 .recently-updated {
     color: darken($not-yuki, 5%);
 }
+
+.md-theme-dark a:not(.md-button) {
+    font-weight: 500;
+}
