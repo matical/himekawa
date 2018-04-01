@@ -12,7 +12,7 @@ class GenerateHelpers extends Command
      *
      * @var string
      */
-    protected $signature = 'generate:helpers';
+    protected $signature = 'generate:helpers {--composer}';
 
     /**
      * The console command description.
@@ -38,8 +38,15 @@ class GenerateHelpers extends Command
      */
     public function handle()
     {
+        if (! app()->isLocal()) {
+            return;
+        }
+
+        if (! $this->option('composer')) {
+            Artisan::call('ide-helper:models', ['--no-interaction' => true, '--nowrite' => true]);
+        }
+
         Artisan::call('ide-helper:generate', ['--no-interaction' => true]);
         Artisan::call('ide-helper:meta', ['--no-interaction' => true]);
-        Artisan::call('ide-helper:models', ['--no-interaction' => true, '--nowrite' => true]);
     }
 }
