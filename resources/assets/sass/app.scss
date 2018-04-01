@@ -55,7 +55,7 @@ h2 {
 }
 
 .recently-updated {
-    color: darken($not-yuki, 5%);
+    color: darken($not-yuki, 5%) !important;
 }
 
 .md-theme-dark a:not(.md-button) {

@@ -12,7 +12,7 @@ a {
     }
 }
 
-.md-icon {
+.md-icon:not(.recently-updated) {
     color: $white-ish !important;
     &.download {
         color: $darker !important;
