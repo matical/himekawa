@@ -12,7 +12,7 @@ abstract class Scraper
     protected $process;
 
     /**
-     * JSON result returned from google-play-cli
+     * JSON result returned from google-play-cli.
      *
      * @var \StdClass
      */
