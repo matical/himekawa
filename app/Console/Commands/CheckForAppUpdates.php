@@ -106,7 +106,7 @@ class CheckForAppUpdates extends Command
     {
         $this->line('Checking for updates...');
         info('Running APK scheduler');
-        $this->markScheduler();
+        $this->markSchedulerLastRun();
 
         retry(2, function () {
             $this->appMetadata = $this->update->allApkMetadata();
@@ -152,7 +152,7 @@ class CheckForAppUpdates extends Command
         }
     }
 
-    protected function markScheduler()
+    protected function markSchedulerLastRun()
     {
         Cache::forever('scheduler:last-run', now()->timestamp);
     }
