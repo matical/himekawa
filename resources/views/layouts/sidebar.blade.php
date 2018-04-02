@@ -1,8 +1,7 @@
 <md-sidenav class="md-left main-sidebar md-fixed" md-swipeable ref="leftSidenav">
     <md-toolbar class="md-large">
         <div class="md-toolbar-container">
-            {{--<h3 class="md-title">{{ config('app.name', 'ひめかわ') }}</h3>--}}
-            <h3 class="md-title">ksmz isn't mine</h3>
+            <h3 class="md-title">{{ config('app.name', 'ひめかわ') }}</h3>
         </div>
     </md-toolbar>
     <md-list>
