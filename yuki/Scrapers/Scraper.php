@@ -2,7 +2,6 @@
 
 namespace yuki\Scrapers;
 
-use stdClass;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
 abstract class Scraper
