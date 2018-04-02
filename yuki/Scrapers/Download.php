@@ -114,10 +114,10 @@ class Download extends Scraper
             $this->verifyFileIntegrity($this->packageName, $this->hash);
         } catch (FailedToVerifyHashException $exception) {
             $this->cleanupFailedDownload($this->packageName, $this->buildApkFilename());
-            Log::warning($exception->packageFilename . ' has been discarded.');
+            Log::warning("{$exception->packageFilename} has been discarded.");
         } catch (ProcessTimedOutException $exception) {
             $this->cleanupFailedDownload($this->packageName, $this->buildApkFilename());
-            Log::warning('Failed to download ' . $this->buildApkFilename() . '. Process timed out.');
+            Log::warning("Failed to download {$this->buildApkFilename()}. Process timed out.");
         }
 
         return $this;
