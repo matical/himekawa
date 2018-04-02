@@ -99,10 +99,9 @@ class Download extends Scraper
     }
 
     /**
-     * @param bool $asArray
      * @return $this
      */
-    public function run($asArray = false)
+    public function run()
     {
         $this->process->setTimeout(150);
         $this->process->run();
@@ -132,6 +131,9 @@ class Download extends Scraper
         return $this->buildApkFilename();
     }
 
+    /**
+     * @return \himekawa\AvailableApp
+     */
     public function store()
     {
         return tap($this->availableApps->create($this->packageName), function ($availableApp) {

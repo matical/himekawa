@@ -2,6 +2,7 @@
 
 namespace yuki\Scrapers;
 
+use stdClass;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
 abstract class Scraper
@@ -19,10 +20,14 @@ abstract class Scraper
     protected $jsonOutput;
 
     /**
-     * @param bool $asArray
+     * @var bool
+     */
+    protected $outputAsArray = false;
+
+    /**
      * @return $this
      */
-    public function run($asArray = false)
+    public function run()
     {
         $this->process->run();
 
@@ -30,16 +35,35 @@ abstract class Scraper
             throw new ProcessFailedException($this->process);
         }
 
-        $this->jsonOutput = json_decode($this->process->getOutput(), $asArray);
+        $this->decodeResult($this->process->getOutput());
 
         return $this;
     }
 
     /**
-     * @return \StdClass
+     * @return mixed
      */
     public function output()
     {
         return $this->jsonOutput;
+    }
+
+    /**
+     * @param bool $shouldBeArray
+     * @return $this
+     */
+    public function asArray(bool $shouldBeArray)
+    {
+        $this->outputAsArray = $shouldBeArray;
+
+        return $this;
+    }
+
+    /**
+     * @param string $output
+     */
+    protected function decodeResult(string $output): void
+    {
+        $this->jsonOutput = json_decode($output, $this->outputAsArray);
     }
 }
