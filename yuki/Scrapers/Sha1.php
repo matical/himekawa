@@ -4,7 +4,7 @@ namespace yuki\Scrapers;
 
 use Symfony\Component\Process\Process;
 
-class Sha1 extends AbstractScraper
+class Sha1 extends Scraper
 {
     protected $process;
 

@@ -4,7 +4,7 @@ namespace yuki\Scrapers;
 
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
-abstract class AbstractScraper
+abstract class Scraper
 {
     /**
      * @var \Symfony\Component\Process\Process

@@ -4,7 +4,7 @@ namespace yuki\Scrapers;
 
 use Symfony\Component\Process\Process;
 
-class Metainfo extends AbstractScraper
+class Metainfo extends Scraper
 {
     protected $process;
 

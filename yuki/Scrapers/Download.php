@@ -11,7 +11,7 @@ use yuki\Exceptions\PackageAlreadyExistsException;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Exception\ProcessTimedOutException;
 
-class Download extends AbstractScraper
+class Download extends Scraper
 {
     /**
      * @var \Symfony\Component\Process\Process
