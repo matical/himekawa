@@ -4,7 +4,7 @@ namespace himekawa\Console\Commands;
 
 use yuki\Scrapers\Download;
 use yuki\Scrapers\Metainfo;
-use yuki\Command\AbstractCommand as Command;
+use yuki\Command\BaseCommand as Command;
 
 class FetchApk extends Command
 {

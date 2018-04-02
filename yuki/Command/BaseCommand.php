@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 use yuki\Repositories\WatchedAppsRepository;
 use yuki\Repositories\AvailableAppsRepository;
 
-abstract class AbstractCommand extends Command
+abstract class BaseCommand extends Command
 {
     /**
      * @var \yuki\Repositories\WatchedAppsRepository
