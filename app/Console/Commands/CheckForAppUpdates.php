@@ -106,7 +106,7 @@ class CheckForAppUpdates extends Command
 
         $this->downloadRequiredUpdates();
 
-        if ($this->appsUpdated) {
+        if ($this->appsUpdated && config('himekawa.notifications')) {
             User::find(1)->notifyNow(new ApkDownloaded($this->appsUpdated));
         }
     }
