@@ -11,8 +11,17 @@ abstract class Scraper
      */
     protected $process;
 
+    /**
+     * JSON result returned from google-play-cli
+     *
+     * @var \StdClass
+     */
     protected $jsonOutput;
 
+    /**
+     * @param bool $asArray
+     * @return $this
+     */
     public function run($asArray = false)
     {
         $this->process->run();
@@ -26,6 +35,9 @@ abstract class Scraper
         return $this;
     }
 
+    /**
+     * @return \StdClass
+     */
     public function output()
     {
         return $this->jsonOutput;

@@ -64,6 +64,7 @@ class Download extends Scraper
      * @return $this
      *
      * @throws \yuki\Exceptions\PackageAlreadyExistsException
+     * @throws \yuki\Exceptions\FailedToVerifyHashException
      */
     public function build($packageName, $versionCode, $hash)
     {
