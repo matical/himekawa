@@ -47,16 +47,6 @@ class CheckForAppUpdates extends Command
     protected $appsUpdated = [];
 
     /**
-     * @var \yuki\Scrapers\Metainfo
-     */
-    protected $metainfo;
-
-    /**
-     * @var \yuki\Scrapers\Versioning
-     */
-    protected $versioning;
-
-    /**
      * @var \yuki\Scrapers\Download
      */
     protected $download;
@@ -74,23 +64,14 @@ class CheckForAppUpdates extends Command
     /**
      * Create a new command instance.
      *
-     * @param \yuki\Scrapers\Metainfo                    $metainfo
-     * @param \yuki\Scrapers\Versioning                  $versioning
      * @param \yuki\Scrapers\Download                    $download
      * @param \yuki\Update                               $update
      * @param \yuki\Repositories\AvailableAppsRepository $availableApps
      */
-    public function __construct(
-        Metainfo $metainfo,
-        Versioning $versioning,
-        Download $download,
-        Update $update,
-        AvailableAppsRepository $availableApps
-    ) {
+    public function __construct(Download $download, Update $update, AvailableAppsRepository $availableApps)
+    {
         parent::__construct();
 
-        $this->metainfo = $metainfo;
-        $this->versioning = $versioning;
         $this->download = $download;
         $this->update = $update;
         $this->availableApps = $availableApps;
