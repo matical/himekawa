@@ -5,8 +5,6 @@ namespace himekawa\Console\Commands;
 use yuki\Update;
 use himekawa\User;
 use yuki\Scrapers\Download;
-use yuki\Scrapers\Metainfo;
-use yuki\Scrapers\Versioning;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
 use himekawa\Notifications\ApkDownloaded;
