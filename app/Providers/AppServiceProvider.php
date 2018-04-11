@@ -2,6 +2,7 @@
 
 namespace himekawa\Providers;
 
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
@@ -25,5 +26,12 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         //
+    }
+
+    protected function registerBladeDirectives()
+    {
+        Blade::directive('rand', function (array $randomValues) {
+            return "<?php echo e(array_random({$randomValues})) ?>";
+        });
     }
 }
