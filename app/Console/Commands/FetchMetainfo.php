@@ -24,10 +24,9 @@ class FetchMetainfo extends Command
     /**
      * Execute the console command.
      *
-     * @param \yuki\Scrapers\Metainfo $metainfo
      * @return mixed
      */
-    public function handle(Metainfo $metainfo)
+    public function handle()
     {
         $packageName = $this->getPackageName($this->argument('apk'));
 

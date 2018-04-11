@@ -31,14 +31,13 @@ class FetchApk extends Command
      * Execute the console command.
      *
      * @param \yuki\Scrapers\Download $download
-     * @param \yuki\Scrapers\Metainfo $metainfo
      *
      * @return mixed
      *
      * @throws \yuki\Exceptions\PackageAlreadyExistsException
      * @throws \yuki\Exceptions\FailedToVerifyHashException
      */
-    public function handle(Download $download, Metainfo $metainfo)
+    public function handle(Download $download)
     {
         $packageName = $this->getPackageName($this->argument('apk'));
 
