@@ -1,27 +1,20 @@
 <?php
 
+use yuki\Repositories\MetainfoRepository;
 use yuki\Version;
 use Cake\Chronos\Chronos;
 use yuki\Scrapers\Metainfo;
 
-if (! function_exists('metaCache')) {
+if (! function_exists('metacache')) {
     /**
      * Retrieve a cached copy of the metadata whenever possible.
      *
-     * @param string                  $package
-     * @param \yuki\Scrapers\Metainfo $fetchMetadata
+     * @param string $package
      * @return mixed
      */
-    function metaCache($package, Metainfo $fetchMetadata)
+    function metacache($package)
     {
-        return Cache::remember('apk-metainfo:' . $package, config('googleplay.metainfo_cache_ttl'), function () use (
-            $package,
-            $fetchMetadata
-        ) {
-            return $fetchMetadata->build($package)
-                                 ->run()
-                                 ->output();
-        });
+        return app(MetainfoRepository::class)->getPackageInfo($package);
     }
 }
 

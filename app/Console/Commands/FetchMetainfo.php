@@ -31,7 +31,7 @@ class FetchMetainfo extends Command
     {
         $packageName = $this->getPackageName($this->argument('apk'));
 
-        $output = metaCache($packageName, $metainfo);
+        $output = metacache($packageName);
         dump($output);
     }
 }

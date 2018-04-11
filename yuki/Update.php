@@ -40,9 +40,7 @@ class Update
         $watchedPackages = WatchedApp::pluck('package_name');
 
         foreach ($watchedPackages as $package) {
-            $fetchMetadata = $this->metainfo->make();
-
-            $result[$package] = metaCache($package, $fetchMetadata);
+            $result[$package] = metacache($package);
         }
 
         return $result;

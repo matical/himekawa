@@ -43,7 +43,7 @@ class FetchApk extends Command
         $packageName = $this->getPackageName($this->argument('apk'));
 
         $this->info('Fetching metadata for ' . $packageName);
-        $this->metadata = metaCache($packageName, $metainfo);
+        $this->metadata = metacache($packageName);
 
         $this->info('Downloading ' . $packageName);
         $downloadedFilename = $download->build($packageName, $this->metadata->versionCode, $this->metadata->sha1)

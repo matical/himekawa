@@ -56,7 +56,7 @@ class AvailableAppsRepository
         $package = WatchedApp::where('package_name', $packageName)
                              ->first();
 
-        $metadata = metaCache($packageName, $this->metainfo);
+        $metadata = metacache($packageName);
 
         $badging = $this->badging->package(
             $packageName,
