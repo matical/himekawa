@@ -5,7 +5,7 @@
                 <md-icon>menu</md-icon>
             </md-button>
 {{--            <div class="md-title">@yield('title', 'himekawa')</div>--}}
-            <div class="md-title">vote for the kong, thank you.</div>
+            <div class="md-title">@rand(['輿水幸子に投票してね', 'vote for the kong, thank you.'])</div>
         </md-toolbar>
     </md-whiteframe>
 </div>

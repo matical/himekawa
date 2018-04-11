@@ -6,6 +6,7 @@ $darker: darken($dark, 5%);
 @import url("~vue-material/dist/vue-material.css");
 @import 'common';
 @import 'moverrides';
+@import 'debugbar';
 
 .header {
     font-weight: 300;
@@ -50,8 +51,14 @@ $darker: darken($dark, 5%);
     margin-right: 8px;
 }
 
-h2 {
-    font-weight: 300;
+.container__faq {
+    .heavy {
+        font-weight: 500;
+    }
+
+    p {
+        color: darken($white-ish, 10%);
+    }
 }
 
 .recently-updated {
