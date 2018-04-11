@@ -23,6 +23,16 @@ class Badging
     protected $dumpOutput;
 
     /**
+     * @var \yuki\Parsers\Parser
+     */
+    protected $parser;
+
+    public function __construct(Parser $parser)
+    {
+        $this->parser = $parser;
+    }
+
+    /**
      * @param $packageName
      * @param $package
      * @return $this
@@ -31,31 +41,7 @@ class Badging
     {
         $this->process = $this->createNewProcess($packageName, $package);
         $this->run();
-        $this->parsePackage();
-
-        return $this;
-    }
-
-    /**
-     * @return $this
-     */
-    public function parsePackage()
-    {
-        $splittedLines = explode("\n", $this->dumpOutput);
-        // Fetch first line
-        $delimited = explode(' ', $splittedLines[0]);
-        // Get rid of 'package:'
-        $sliced = array_slice($delimited, 1);
-
-        foreach ($sliced as $slice) {
-            [
-                $key,
-                $value,
-            ] = explode('=', $slice);
-            $stripped = $this->stripQuotes($value);
-
-            $this->package[$key] = is_numeric($stripped) ? (int) $stripped : $stripped;
-        }
+        $this->package = $this->parser->parse($this->dumpOutput);
 
         return $this;
     }
@@ -76,17 +62,6 @@ class Badging
     public function getRawBadging()
     {
         return $this->dumpOutput;
-    }
-
-    /**
-     * Strip out unnecessary quotes.
-     *
-     * @param $quotedString
-     * @return mixed
-     */
-    protected function stripQuotes($quotedString)
-    {
-        return str_replace('\'', '', $quotedString);
     }
 
     /**
