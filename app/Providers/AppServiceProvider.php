@@ -16,6 +16,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
+
+        $this->registerBladeDirectives();
     }
 
     /**
@@ -30,7 +32,7 @@ class AppServiceProvider extends ServiceProvider
 
     protected function registerBladeDirectives()
     {
-        Blade::directive('rand', function (array $randomValues) {
+        Blade::directive('rand', function ($randomValues) {
             return "<?php echo e(array_random({$randomValues})) ?>";
         });
     }
