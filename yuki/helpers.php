@@ -1,9 +1,8 @@
 <?php
 
-use yuki\Repositories\MetainfoRepository;
 use yuki\Version;
 use Cake\Chronos\Chronos;
-use yuki\Scrapers\Metainfo;
+use yuki\Repositories\MetainfoRepository;
 
 if (! function_exists('metacache')) {
     /**
