@@ -158,6 +158,7 @@ return [
         // himekawa\Providers\BroadcastServiceProvider::class,
         himekawa\Providers\EventServiceProvider::class,
         himekawa\Providers\RouteServiceProvider::class,
+        himekawa\Providers\HimeServiceProvider::class,
 
     ],
 
