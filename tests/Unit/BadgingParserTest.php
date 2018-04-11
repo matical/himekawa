@@ -3,9 +3,9 @@
 namespace Tests\Unit;
 
 use Tests\TestCase;
+use yuki\Parsers\Parser;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use yuki\Parsers\Parser;
 
 class BadgingParserTest extends TestCase
 {
@@ -143,10 +143,10 @@ EOF;
     public function testParser()
     {
         $expected = [
-            "name"                     => "jp.co.bandainamcoent.BNEI0242",
-            "versionCode"              => 128,
-            "versionName"              => "3.8.4",
-            "platformBuildVersionName" => "8.0.0",
+            'name'                     => 'jp.co.bandainamcoent.BNEI0242',
+            'versionCode'              => 128,
+            'versionName'              => '3.8.4',
+            'platformBuildVersionName' => '8.0.0',
         ];
 
         $parser = new Parser();
