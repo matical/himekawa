@@ -1,6 +1,7 @@
 <?php
 
 use yuki\Version;
+use yuki\Facades\Apk;
 use Cake\Chronos\Chronos;
 use yuki\Repositories\MetainfoRepository;
 
@@ -25,17 +26,7 @@ if (! function_exists('apkDirectory')) {
      */
     function apkDirectory($packageName = null, int $versionCode = null)
     {
-        $apkPath = config('googleplay.apk_base_path');
-
-        if (is_null($packageName)) {
-            return $apkPath;
-        }
-
-        if ($packageName && is_null($versionCode)) {
-            return $apkPath . DIRECTORY_SEPARATOR . $packageName;
-        }
-
-        return $apkPath . DIRECTORY_SEPARATOR . $packageName . DIRECTORY_SEPARATOR . sprintf('%s.%s.apk', $packageName, $versionCode);
+        return Apk::resolveApkDirectory($packageName, $versionCode);
     }
 }
 
@@ -47,7 +38,7 @@ if (! function_exists('buildApkFilename')) {
      */
     function buildApkFilename($packageName, $versionCode)
     {
-        return sprintf('%s.%s.apk', $packageName, $versionCode);
+        return Apk::resolveApkFilename($packageName, $versionCode);
     }
 }
 
@@ -59,7 +50,7 @@ if (! function_exists('apkPath')) {
      */
     function apkPath($packageName, $versionCode = null)
     {
-        return Storage::url($packageName . '/' . buildApkFilename($packageName, $versionCode));
+        return Apk::resolveApkUrl($packageName, $versionCode);
     }
 }
 

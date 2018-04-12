@@ -2,6 +2,7 @@
 
 namespace himekawa\Providers;
 
+use yuki\Foundation\Apk;
 use Illuminate\Support\ServiceProvider;
 
 class HimeServiceProvider extends ServiceProvider
@@ -23,5 +24,8 @@ class HimeServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->bind('apk', function () {
+            return new Apk();
+        });
     }
 }

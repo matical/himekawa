@@ -72,7 +72,7 @@ class Download extends Scraper
         $this->versionCode = $versionCode;
         $this->hash = $hash;
 
-        if ($this->checkIfFileExists()) {
+        if ($this->fileAlreadyExists()) {
             $this->verifyFileIntegrity($this->packageName, $this->hash);
 
             throw new PackageAlreadyExistsException(
@@ -164,7 +164,7 @@ class Download extends Scraper
     /**
      * @return bool
      */
-    protected function checkIfFileExists()
+    protected function fileAlreadyExists()
     {
         return Storage::exists(
             sprintf('%s/%s', $this->packageName, $this->buildApkFilename())
