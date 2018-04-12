@@ -47,7 +47,7 @@ class Parser
     }
 
     /**
-     * Get rid of "package:"
+     * Get rid of "package:".
      *
      * @param array $delimited
      * @return array
