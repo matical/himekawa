@@ -2,6 +2,9 @@
 @section('title', 'Available Apps')
 
 @section('content')
+    <blockquote>
+        <h3>Scheduler/Scraper will be down for a bit as the GPlay API is changed (again)</h3>
+    </blockquote>
     <md-whiteframe md-elevation="4">
         <md-list>
             @foreach ($apps as $apk)
