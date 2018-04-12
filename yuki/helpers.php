@@ -25,7 +25,7 @@ if (! function_exists('apkDirectory')) {
      */
     function apkDirectory($packageName = null, int $versionCode = null)
     {
-        $apkPath = config('googleplay.apk_path');
+        $apkPath = config('googleplay.apk_base_path');
 
         if (is_null($packageName)) {
             return $apkPath;
