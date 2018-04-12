@@ -10,9 +10,9 @@ class Parser
      */
     public function parse($dump)
     {
-        $splittedLines = $this->splitLines($dump);
-        $delimited = $this->delimit($splittedLines);
-        $sliced = $this->fetchFirstLine($delimited);
+        $tokens = $this->splitTokens($dump);
+        $firstLine = $this->fetchFirstLine($tokens);
+        $sliced = $this->popPackage($firstLine);
 
         $packages = [];
 
@@ -30,25 +30,29 @@ class Parser
      * @param $dump
      * @return array
      */
-    protected function splitLines($dump): array
+    protected function splitTokens($dump): array
     {
         return explode("\n", $dump);
     }
 
     /**
+     * The first line contains everything we need.
+     *
      * @param array $splittedLines
      * @return array
      */
-    protected function delimit(array $splittedLines): array
+    protected function fetchFirstLine(array $splittedLines): array
     {
         return explode(' ', $splittedLines[0]);
     }
 
     /**
+     * Get rid of "package:"
+     *
      * @param array $delimited
      * @return array
      */
-    protected function fetchFirstLine(array $delimited): array
+    protected function popPackage(array $delimited): array
     {
         return array_slice($delimited, 1);
     }
