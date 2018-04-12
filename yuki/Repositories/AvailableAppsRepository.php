@@ -3,7 +3,7 @@
 namespace yuki\Repositories;
 
 use himekawa\WatchedApp;
-use yuki\Parsers\Badging;
+use yuki\Badging\Badging;
 use himekawa\AvailableApp;
 use yuki\Scrapers\Metainfo;
 use Illuminate\Support\Facades\Storage;
@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Storage;
 class AvailableAppsRepository
 {
     /**
-     * @var \yuki\Parsers\Badging
+     * @var \yuki\Badging\Badging
      */
     protected $badging;
 
@@ -29,7 +29,7 @@ class AvailableAppsRepository
      * AvailableAppsRepository constructor.
      *
      * @param \yuki\Scrapers\Metainfo $metainfo
-     * @param \yuki\Parsers\Badging   $badging
+     * @param \yuki\Badging\Badging   $badging
      */
     public function __construct(Metainfo $metainfo, Badging $badging)
     {

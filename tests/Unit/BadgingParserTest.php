@@ -3,7 +3,7 @@
 namespace Tests\Unit;
 
 use Tests\TestCase;
-use yuki\Parsers\Parser;
+use yuki\Badging\Parser;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -136,8 +136,6 @@ native-code: 'armeabi-v7a' 'x86'
 EOF;
 
     /**
-     * A basic test example.
-     *
      * @return void
      */
     public function testParser()

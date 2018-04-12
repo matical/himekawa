@@ -1,6 +1,6 @@
 <?php
 
-namespace yuki\Parsers;
+namespace yuki\Badging;
 
 class Parser
 {

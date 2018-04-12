@@ -2,7 +2,7 @@
 
 namespace himekawa\Console\Commands;
 
-use yuki\Parsers\Badging;
+use yuki\Badging\Badging;
 use Illuminate\Console\Command;
 
 class ParseApk extends Command
@@ -34,7 +34,7 @@ class ParseApk extends Command
     /**
      * Execute the console command.
      *
-     * @param \yuki\Parsers\Badging $badging
+     * @param \yuki\Badging\Badging $badging
      * @return mixed
      */
     public function handle(Badging $badging)

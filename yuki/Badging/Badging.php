@@ -1,6 +1,6 @@
 <?php
 
-namespace yuki\Parsers;
+namespace yuki\Badging;
 
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
@@ -23,7 +23,7 @@ class Badging
     protected $dumpOutput;
 
     /**
-     * @var \yuki\Parsers\Parser
+     * @var \yuki\Badging\Parser
      */
     protected $parser;
 
