@@ -3,7 +3,8 @@
 
 @section('content')
     <blockquote>
-        <h3>Scheduler/Scraper will be down for a bit as the GPlay API is changed (again)</h3>
+        <h3>A monkey patch has been made. Should be working, for now.</h3>
+        <h3 style="text-decoration: line-through">Scheduler/Scraper will be down for a bit as the GPlay API is changed (again)</h3>
     </blockquote>
     <md-whiteframe md-elevation="4">
         <md-list>
