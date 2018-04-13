@@ -1,13 +1,17 @@
 <?php
 
+use yuki\Announce\Announcement;
 
-/*
-|--------------------------------------------------------------------------
-| Console Routes
-|--------------------------------------------------------------------------
-|
-| This file is where you may define all of your Closure based console
-| commands. Each Closure is bound to a command instance allowing a
-| simple approach to interacting with each command's IO methods.
-|
-*/
+Artisan::command('announce', function (Announcement $announcement) {
+    $announcement->broadcast($this->ask('Announcement'));
+    $this->info('Announcement added.');
+})->describe('Creates an announcement');
+
+Artisan::command('announce:clear', function (Announcement $announcement) {
+    $announcement->clear();
+    $this->info('Announcements cleared.');
+})->describe('Clear all announcements');
+
+Artisan::command('announce:list', function (Announcement $announcement) {
+    $this->table(['Announcement'], [$announcement->get()->toArray()]);
+})->describe('List announcements');

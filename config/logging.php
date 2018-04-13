@@ -31,7 +31,7 @@ return [
     'channels' => [
         'stack'    => [
             'driver'   => 'stack',
-            'channels' => ['single'],
+            'channels' => ['single', 'slack'],
         ],
         'single'   => [
             'driver' => 'single',
@@ -47,9 +47,9 @@ return [
         'slack'    => [
             'driver'   => 'slack',
             'url'      => env('LOG_SLACK_WEBHOOK_URL'),
-            'username' => 'Laravel Log',
-            'emoji'    => ':boom:',
-            'level'    => 'critical',
+            'username' => 'ひめかわ',
+            'emoji'    => ':cd:',
+            'level'    => 'error',
         ],
         'syslog'   => [
             'driver' => 'syslog',

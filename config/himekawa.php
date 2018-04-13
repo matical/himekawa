@@ -1,6 +1,10 @@
 <?php
 
 return [
+    'announcement'  => [
+        'ttl' => env('ANNOUNCEMENT_TTL', 60 * 24 * 3), // Minutes
+        'key' => env('ANNOUNCEMENT_KEY', 'announcement'), // Minutes
+    ],
     'notifications' => env('NOTIFICATIONS_ENABLED', false),
     'commands'      => [
         'gp-download'      => env('COMMANDS_GPDOWNLOAD', 'npx gp-download'),

@@ -3,6 +3,7 @@
 use yuki\Version;
 use yuki\Facades\Apk;
 use Cake\Chronos\Chronos;
+use yuki\Announce\Announcement;
 use yuki\Repositories\MetainfoRepository;
 
 if (! function_exists('metacache')) {
@@ -72,5 +73,15 @@ if (! function_exists('timestamp_format')) {
     function timestamp_format($timestamp)
     {
         return Chronos::createFromTimestamp($timestamp);
+    }
+}
+
+if (! function_exists('announcement')) {
+    /**
+     * @return \yuki\Announce\Announcement
+     */
+    function announcement()
+    {
+        return app(Announcement::class);
     }
 }
