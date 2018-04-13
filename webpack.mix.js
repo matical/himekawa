@@ -19,7 +19,7 @@ mix.js('resources/assets/js/app.js', 'public/js')
 mix.disableNotifications();
 
 if (mix.inProduction()) {
-    mix.version();
+    mix.version(['public/images']);
 }
 
 if (! mix.inProduction()) {
