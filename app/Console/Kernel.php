@@ -32,14 +32,7 @@ class Kernel extends ConsoleKernel
         $this->loadSchedulerSettings();
 
         $schedule->command('apk:update')
-                 ->weekdays()
                  ->everyFifteenMinutes()
-                 ->timezone($this->settings['timezone'])
-                 ->between($this->settings['start_time'], $this->settings['end_time']);
-
-        $schedule->command('apk:update')
-                 ->weekends()
-                 ->hourly()
                  ->timezone($this->settings['timezone'])
                  ->between($this->settings['start_time'], $this->settings['end_time']);
 
