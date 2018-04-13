@@ -25,7 +25,11 @@ class HimeServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind('apk', function () {
-            return new Apk();
+            $config = [
+                'apk_path' => config('googleplay.apk_base_path'),
+            ];
+
+            return new Apk($config);
         });
     }
 }

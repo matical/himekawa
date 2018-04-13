@@ -7,6 +7,19 @@ use Illuminate\Support\Facades\Storage;
 class Apk
 {
     /**
+     * @var array
+     */
+    protected $config;
+
+    /**
+     * @param array $config
+     */
+    public function __construct(array $config)
+    {
+        $this->config = $config;
+    }
+
+    /**
      * Build the "target" apk file.
      *
      * @param string $packageName
@@ -27,7 +40,7 @@ class Apk
      */
     public function resolveApkDirectory(?string $packageName = null, ?int $versionCode = null): string
     {
-        $apkPath = config('googleplay.apk_base_path');
+        $apkPath = $this->config['apk_path'];
 
         if (is_null($packageName)) {
             return $apkPath;
