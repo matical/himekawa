@@ -6,6 +6,9 @@
         <h2 class="heavy">Frequency</h2>
         <p>The scraper runs every 15 minutes, from {{ config('himekawa.scheduler.start_time') }} to {{ config('himekawa.scheduler.end_time') }} JST.</p>
 
+        <h2 class="heavy">Checks and Updates</h2>
+        <p>Checks: last scheduler run. Updates: last time a new APK was added.</p>
+
         <h2 class="heavy">Hashes</h2>
         <p>Every hash (SHA1) displayed on each file is retrieved from GPlay (included in the payload metadata). The scraper will automatically verifies each downloaded file; if there is a hash mismatch, the file is automatically discarded. (that means if it doesn't verify something is borked -- let me know thanks) </p>
 
