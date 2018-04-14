@@ -2,12 +2,12 @@
 
 namespace Tests\Unit;
 
+use Tests\TestCase;
+use yuki\Foundation\Apk;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use yuki\Foundation\Apk;
 
 class ApkTest extends TestCase
 {
