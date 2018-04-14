@@ -13,5 +13,13 @@ Artisan::command('announce:clear', function (Announcement $announcement) {
 })->describe('Clear all announcements');
 
 Artisan::command('announce:list', function (Announcement $announcement) {
-    $this->table(['Announcement'], [$announcement->get()->toArray()]);
+    $secondsTo = Redis::ttl(config('cache.prefix') . ':' . config('himekawa.announcement.key'));
+    $expiry = now()->addSeconds($secondsTo)->diffForHumans();
+
+    $this->line("Announcement(s) will expire in <info>$expiry</info>.");
+    $this->line('');
+
+    foreach ($announcement->get() as $announce) {
+        $this->line("> <info>$announce</info>");
+    }
 })->describe('List announcements');
