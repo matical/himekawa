@@ -14,6 +14,7 @@ Artisan::command('announce:clear', function (Announcement $announcement) {
 
 Artisan::command('announce:list', function (Announcement $announcement) {
     $secondsTo = Redis::ttl(config('cache.prefix') . ':' . config('himekawa.announcement.key'));
+    // Redis ttl returns -2 for non-existent keys.
     if ($secondsTo === -2) {
         $this->info('No announcements active.');
 
