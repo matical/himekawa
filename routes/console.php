@@ -14,6 +14,12 @@ Artisan::command('announce:clear', function (Announcement $announcement) {
 
 Artisan::command('announce:list', function (Announcement $announcement) {
     $secondsTo = Redis::ttl(config('cache.prefix') . ':' . config('himekawa.announcement.key'));
+    if ($secondsTo === -2) {
+        $this->info('No announcements active.');
+
+        return;
+    }
+
     $expiry = now()->addSeconds($secondsTo)->diffForHumans();
 
     $this->line("Announcement(s) will expire in <info>$expiry</info>.");
