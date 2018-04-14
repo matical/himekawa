@@ -3,10 +3,8 @@
 namespace himekawa\Listeners\Scheduler;
 
 use himekawa\User;
-use Illuminate\Queue\InteractsWithQueue;
 use himekawa\Notifications\ApkDownloaded;
 use himekawa\Events\Scheduler\AppsUpdated;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class NotifyByTelegram
 {

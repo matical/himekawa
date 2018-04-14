@@ -3,11 +3,8 @@
 namespace himekawa\Console\Commands;
 
 use yuki\Update;
-use himekawa\User;
 use yuki\Scrapers\Download;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Cache;
-use himekawa\Notifications\ApkDownloaded;
 use himekawa\Events\Scheduler\AppsUpdated;
 use yuki\Repositories\AvailableAppsRepository;
 use yuki\Exceptions\PackageAlreadyExistsException;
