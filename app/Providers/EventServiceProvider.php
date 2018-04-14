@@ -13,8 +13,9 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'himekawa\Events\Event' => [
-            'himekawa\Listeners\EventListener',
+        'himekawa\Events\Scheduler\AppsUpdated' => [
+            'himekawa\Listeners\Scheduler\MarkSchedulerLastSuccessfulRun',
+            'himekawa\Listeners\Scheduler\NotifyByTelegram',
         ],
     ];
 

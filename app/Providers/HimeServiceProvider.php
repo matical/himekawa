@@ -3,6 +3,7 @@
 namespace himekawa\Providers;
 
 use yuki\Foundation\Apk;
+use yuki\Scheduler\LastRun;
 use Illuminate\Support\ServiceProvider;
 
 class HimeServiceProvider extends ServiceProvider
@@ -25,11 +26,16 @@ class HimeServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind('apk', function () {
-            $config = [
+            return new Apk([
                 'apk_path' => config('googleplay.apk_base_path'),
-            ];
+            ]);
+        });
 
-            return new Apk($config);
+        $this->app->bind('lastRun', function () {
+            return new LastRun([
+                'last-check-key'    => config('himekawa.cache.last-run'),
+                'last-update-key'   => config('himekawa.cache.last-update'),
+            ]);
         });
     }
 }

@@ -8,6 +8,7 @@ use yuki\Scrapers\Download;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
 use himekawa\Notifications\ApkDownloaded;
+use himekawa\Events\Scheduler\AppsUpdated;
 use yuki\Repositories\AvailableAppsRepository;
 use yuki\Exceptions\PackageAlreadyExistsException;
 
@@ -85,15 +86,15 @@ class CheckForAppUpdates extends Command
     {
         $this->line('Checking for updates...');
         info('Running APK scheduler');
-        $this->markSchedulerLastRun();
 
         retry(2, function () {
             $this->appMetadata = $this->update->allApkMetadata();
         }, 500);
 
         $this->appsRequiringUpdates = $this->update->checkForUpdates($this->appMetadata);
+        $this->markSchedulerLastCheck();
 
-        if (! $this->appsRequiringUpdates) {
+        if (empty($this->appsRequiringUpdates)) {
             $this->info("There's no apps that require updates.");
             info('No apps require updates');
 
@@ -102,37 +103,45 @@ class CheckForAppUpdates extends Command
 
         info('Updates found.', $this->appsRequiringUpdates);
 
-        $this->downloadRequiredUpdates();
-
-        if ($this->appsUpdated && config('himekawa.notifications')) {
-            User::find(1)->notifyNow(new ApkDownloaded($this->appsUpdated));
-        }
+        $this->appsUpdated = $this->downloadRequiredUpdates($this->appsRequiringUpdates);
     }
 
     /**
      * Download required updates.
      *
+     * @param $appsRequiringUpdates
+     * @return array
+     *
      * @throws \yuki\Exceptions\FailedToVerifyHashException
      */
-    protected function downloadRequiredUpdates()
+    protected function downloadRequiredUpdates(array $appsRequiringUpdates): array
     {
-        foreach ($this->appsRequiringUpdates as $app) {
-            $this->line("Downloading {$app->packageName}");
+        $appsUpdated = [];
+
+        foreach ($appsRequiringUpdates as $app) {
+            $this->line("Downloading <info>{$app->packageName}</info>");
 
             try {
                 $availableApp = $this->download->build($app->packageName, $app->versionCode, $app->sha1)
                                                ->run()
                                                ->store();
 
-                $this->appsUpdated[] = $availableApp;
+                $appsUpdated[] = $availableApp;
             } catch (PackageAlreadyExistsException $exception) {
                 $this->warn("APK already exists for {$exception->package}.");
             }
         }
+
+        event(new AppsUpdated($appsUpdated));
+
+        return $appsUpdated;
     }
 
-    protected function markSchedulerLastRun()
+    /**
+     * @return void
+     */
+    protected function markSchedulerLastCheck()
     {
-        Cache::forever('scheduler:last-run', now()->timestamp);
+        lastRun()->markLastCheck();
     }
 }

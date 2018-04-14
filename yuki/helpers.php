@@ -85,3 +85,13 @@ if (! function_exists('announcement')) {
         return app(Announcement::class);
     }
 }
+
+if (! function_exists('lastRun')) {
+    /**
+     * @return \yuki\Scheduler\LastRun
+     */
+    function lastRun()
+    {
+        return app('lastRun');
+    }
+}

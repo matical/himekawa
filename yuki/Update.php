@@ -37,6 +37,8 @@ class Update
      */
     public function allApkMetadata(): ?array
     {
+        $result = [];
+
         $watchedPackages = WatchedApp::pluck('package_name');
 
         foreach ($watchedPackages as $package) {

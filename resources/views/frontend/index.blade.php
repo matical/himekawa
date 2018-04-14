@@ -50,9 +50,12 @@
     </md-whiteframe>
     <md-layout>
         <p>
-            Scheduler last run:
-            <a href="{{ route('index.faq') }}">{{ cache('scheduler:last-run') ? timestamp_format(cache('scheduler:last-run'))->diffForHumans() : 'Has not yet run' }}</a>
-            <br/>
+            Last check:
+            <a href="{{ route('index.faq') }}">{{ lastRun()->lastCheck() ? lastRun()->lastCheck()->diffForHumans() : 'N/A' }}</a>
+            <br>
+            Last update:
+            <a href="{{ route('index.faq') }}">{{ lastRun()->lastUpdate() ? lastRun()->lastUpdate()->diffForHumans() : 'N/A' }}</a>
+            <br>
             #{{ git()->hash() }} (r{{ git()->revision() }})
             <br/>
             <a href="{{ route('index.faq') }}">&gt;&gt; FAQ</a>
