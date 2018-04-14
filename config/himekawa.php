@@ -6,6 +6,10 @@ return [
         'key' => env('ANNOUNCEMENT_KEY', 'announcement'), // Minutes
     ],
     'notifications' => env('NOTIFICATIONS_ENABLED', false),
+    'cache'         => [
+        'last-check'    => 'scheduler:last-check',
+        'last-update'   => 'scheduler:last-update',
+    ],
     'commands'      => [
         'gp-download'      => env('COMMANDS_GPDOWNLOAD', 'npx gp-download'),
         'gp-download-meta' => env('COMMANDS_GPDOWNLOADMETA', 'npx gp-download-meta'),
