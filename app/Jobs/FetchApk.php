@@ -2,10 +2,10 @@
 
 namespace himekawa\Jobs;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Foundation\Bus\Dispatchable;
-use yuki\Repositories\MetainfoRepository;
 use yuki\Scrapers\Download;
+use Illuminate\Bus\Queueable;
+use yuki\Repositories\MetainfoRepository;
+use Illuminate\Foundation\Bus\Dispatchable;
 
 class FetchApk
 {
