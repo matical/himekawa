@@ -27,7 +27,7 @@
                         @endif
                     </md-layout>
                     <md-list-expand>
-                        @foreach ($apk->availableApps()->get() as $availableApp)
+                        @foreach ($apk->availableApps as $availableApp)
                             <md-list-item class="md-inset">
                                 <md-tooltip md-direction="top">SHA1: {{ $availableApp->hash }}
                                     <br/> Downloaded on: {{ $availableApp->created_at }} JST ({{ $availableApp->created_at->diffForHumans() }})

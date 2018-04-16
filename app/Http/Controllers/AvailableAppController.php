@@ -14,7 +14,7 @@ class AvailableAppController extends Controller
      */
     public function index(WatchedAppsRepository $watchedApps)
     {
-        $apps = $watchedApps->allApps();
+        $apps = $watchedApps->allAppsWithApks();
 
         return view('frontend.index', [
             'apps' => $apps,

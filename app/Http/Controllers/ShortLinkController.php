@@ -18,7 +18,7 @@ class ShortLinkController extends Controller
 
     public function index()
     {
-        $apps = $this->watchedApps->allApps();
+        $apps = $this->watchedApps->allAppsWithApks();
 
         return view('frontend.shortlinks', [
             'apps' => $apps,
