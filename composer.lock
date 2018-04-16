@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "81010984659f95c4ba3dee57baa0eb1a",
+    "content-hash": "660098799693462c27e9950b408e7f87",
     "packages": [
         {
             "name": "cakephp/chronos",
@@ -1543,16 +1543,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "1.26.2",
+            "version": "1.26.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "c0ae2011b47f00a51dc84b18399894953097bca3"
+                "reference": "b63c0d809256a434ea74e6b41ca5f5f9d16220e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/c0ae2011b47f00a51dc84b18399894953097bca3",
-                "reference": "c0ae2011b47f00a51dc84b18399894953097bca3",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/b63c0d809256a434ea74e6b41ca5f5f9d16220e6",
+                "reference": "b63c0d809256a434ea74e6b41ca5f5f9d16220e6",
                 "shasum": ""
             },
             "require": {
@@ -1587,7 +1587,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2018-04-16T14:06:36+00:00"
+            "time": "2018-04-16T14:54:26+00:00"
         },
         {
             "name": "nikic/php-parser",
