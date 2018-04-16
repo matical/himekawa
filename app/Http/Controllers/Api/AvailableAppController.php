@@ -6,7 +6,7 @@ use yuki\Repositories\WatchedAppsRepository;
 use himekawa\Http\Resources\WatchedAppResource;
 use himekawa\Http\Controllers\Api\BaseApiController as Controller;
 
-class AvailableAppsController extends Controller
+class AvailableAppController extends Controller
 {
     /**
      * @var \yuki\Repositories\WatchedAppsRepository

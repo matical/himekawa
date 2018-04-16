@@ -1,8 +1,8 @@
 <?php
 
-Route::get('apps/list', 'Api\AvailableAppsController@list');
+Route::get('apps/list', 'Api\AvailableAppController@list');
 
-Route::resource('apps', 'Api\AvailableAppsController')->only([
+Route::resource('apps', 'Api\AvailableAppController')->only([
     'index',
     'show',
 ]);
