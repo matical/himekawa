@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class AvailableApp extends Model
 {
+    /**
+     * @var array
+     */
     protected $fillable = [
         'version_code',
         'version_name',
@@ -23,6 +26,11 @@ class AvailableApp extends Model
         return $this->belongsTo(WatchedApp::class, 'app_id');
     }
 
+    /**
+     * Generate the url to download the APK.
+     *
+     * @return string
+     */
     public function url()
     {
         return Apk::resolveApkUrl($this->watchedBy->package_name, $this->version_code);
