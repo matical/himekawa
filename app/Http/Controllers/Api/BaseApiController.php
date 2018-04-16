@@ -2,7 +2,6 @@
 
 namespace himekawa\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
 use himekawa\Http\Controllers\Controller;
 
 class BaseApiController extends Controller
