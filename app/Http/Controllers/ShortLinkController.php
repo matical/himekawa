@@ -32,7 +32,7 @@ class ShortLinkController extends Controller
     public function show($shortCode)
     {
         $watched = $this->watchedApps->findBySlug($shortCode);
-        $link = apkPath($watched->package_name, $watched->latestApp()->version_code);
+        $link = $watched->latestApp()->url();
 
         return redirect($link);
     }
