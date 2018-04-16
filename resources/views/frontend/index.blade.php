@@ -1,5 +1,6 @@
 @extends('layouts.master')
 @section('title', 'Available Apps')
+@section('meta-description', 'APKs for weeb games.')
 
 @section('content')
     <md-whiteframe md-elevation="4">

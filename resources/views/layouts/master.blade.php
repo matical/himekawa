@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#ff9800">
 
-    <meta name="description" content="@yield('meta-description', 'ほ？')">
+    <meta name="description" content="@yield('meta-description', 'ksmz is mine.')">
 
     <title>ひめかわ :: @yield('title')</title>
 
