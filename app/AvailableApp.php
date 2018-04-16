@@ -2,6 +2,7 @@
 
 namespace himekawa;
 
+use yuki\Facades\Apk;
 use Illuminate\Database\Eloquent\Model;
 
 class AvailableApp extends Model
@@ -20,5 +21,10 @@ class AvailableApp extends Model
     public function watchedBy()
     {
         return $this->belongsTo(WatchedApp::class, 'app_id');
+    }
+
+    public function url()
+    {
+        return Apk::resolveApkUrl($this->watchedBy->package_name, $this->version_code);
     }
 }
