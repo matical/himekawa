@@ -9,19 +9,19 @@
                 <md-list-item md-expand-multiple>
                     <span class="truncate-longer">
                         <img src="{{ $apk->image }}" class="app-icon"/>
-                        {{ $apk->name }}
-                        <span class="md-hide-small">[{{ $apk->original_title }}]</span>
+                        <span>{{ $apk->name }}</span>
+                        <span class="md-hide-small muted">[{{ $apk->original_title }}]</span>
                     </span>
                     <md-layout md-align="end">
                         @if ($latestApp = $apk->availableApps->first())
                             @if ($latestApp->created_at->diffInDays() < 2)
                                 <span class="md-hide-medium-and-up"><md-icon class="recently-updated">new_releases</md-icon></span>
-                                <span class="md-hide-small muted recently-updated">{{ $latestApp->created_at->diffForHumans() }}&nbsp;</span>
-                                <span class="md-hide-small">::</span>
+                                <span class="md-hide-small recently-updated">{{ $latestApp->created_at->diffForHumans() }}&nbsp;</span>
+                                <span class="md-hide-small muted">-</span>
                                 <span>&nbsp;v{{ $latestApp->version_name ?? 'N/A' }}</span>
                             @else
                                 <span class="md-hide-small muted">{{ $latestApp->created_at->diffForHumans() }}&nbsp;</span>
-                                <span class="md-hide-small">::</span>
+                                <span class="md-hide-small muted">-</span>
                                 <span>&nbsp;v{{ $latestApp->version_name ?? 'N/A' }}</span>
                             @endif
                         @endif
@@ -32,7 +32,7 @@
                                 <md-tooltip md-direction="top">SHA1: {{ $availableApp->hash }}
                                     <br/> Downloaded on: {{ $availableApp->created_at }} JST ({{ $availableApp->created_at->diffForHumans() }})
                                 </md-tooltip>
-                                <span class="truncate {{ $loop->first ? '' : 'muted' }}">{{ sprintf('%s.%s.apk', $apk->package_name, $availableApp->version_code) }}</span>
+                                <span class="truncate {{ $loop->first ? '' : 'muted' }}">{{ buildApkFilename($apk->package_name, $availableApp->version_code) }}</span>
                                 <span class="{{ $loop->first ? '' : 'muted' }}">(v{{ $availableApp->version_name }})</span>
                                 <md-layout md-align="end">
                                     <md-button class="md-raised md-accent {{ $loop->first ? 'button-download' : 'button-download-old' }}" href="{{ apkPath($apk->package_name, $availableApp->version_code) }}">
