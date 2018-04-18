@@ -32,10 +32,10 @@
                                 <md-tooltip md-direction="top">SHA1: {{ $availableApp->hash }}
                                     <br/> Downloaded on: {{ $availableApp->created_at }} JST ({{ $availableApp->created_at->diffForHumans() }})
                                 </md-tooltip>
-                                <span class="truncate {{ $loop->first ? '' : 'muted' }}">{{ sprintf('%s.%s.apk', $availableApp->watchedBy->package_name, $availableApp->version_code) }}</span>
+                                <span class="truncate {{ $loop->first ? '' : 'muted' }}">{{ sprintf('%s.%s.apk', $apk->package_name, $availableApp->version_code) }}</span>
                                 <span class="{{ $loop->first ? '' : 'muted' }}">(v{{ $availableApp->version_name }})</span>
                                 <md-layout md-align="end">
-                                    <md-button class="md-raised md-accent {{ $loop->first ? 'button-download' : 'button-download-old' }}" href="{{ $availableApp->url() }}">
+                                    <md-button class="md-raised md-accent {{ $loop->first ? 'button-download' : 'button-download-old' }}" href="{{ apkPath($apk->package_name, $availableApp->version_code) }}">
                                         <md-layout class="md-hide-medium-and-up">
                                             <md-icon class="download">file_download</md-icon>
                                         </md-layout>
