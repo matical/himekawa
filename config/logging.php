@@ -1,5 +1,7 @@
 <?php
 
+use Monolog\Handler\StreamHandler;
+
 return [
 
     /*
@@ -12,7 +14,7 @@ return [
     | one of the channels defined in the "channels" configuration array.
     |
     */
-    'default'  => env('LOG_CHANNEL', 'stack'),
+    'default' => env('LOG_CHANNEL', 'stack'),
 
     /*
     |--------------------------------------------------------------------------
@@ -50,6 +52,13 @@ return [
             'username' => 'ひめかわ',
             'emoji'    => ':cd:',
             'level'    => 'error',
+        ],
+        'stderr'   => [
+            'driver'  => 'monolog',
+            'handler' => StreamHandler::class,
+            'with'    => [
+                'stream' => 'php://stderr',
+            ],
         ],
         'syslog'   => [
             'driver' => 'syslog',
