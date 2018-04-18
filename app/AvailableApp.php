@@ -23,7 +23,8 @@ class AvailableApp extends Model
      */
     public function watchedBy()
     {
-        return $this->belongsTo(WatchedApp::class, 'app_id');
+        return $this->belongsTo(WatchedApp::class, 'app_id')
+                    ->withDefault();
     }
 
     /**
