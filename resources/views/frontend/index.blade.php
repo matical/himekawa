@@ -13,7 +13,7 @@
                         <span class="md-hide-small">[{{ $apk->original_title }}]</span>
                     </span>
                     <md-layout md-align="end">
-                        @if ($latestApp = $apk->latestApp())
+                        @if ($latestApp = $apk->availableApps->first())
                             @if ($latestApp->created_at->diffInDays() < 2)
                                 <span class="md-hide-medium-and-up"><md-icon class="recently-updated">new_releases</md-icon></span>
                                 <span class="md-hide-small muted recently-updated">{{ $latestApp->created_at->diffForHumans() }}&nbsp;</span>
