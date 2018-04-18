@@ -8,7 +8,7 @@
             @foreach ($apps as $apk)
                 <md-list-item md-expand-multiple>
                     <span class="truncate-longer">
-                        <img src="{{ mix("images/{$apk->package_name}.png") }}" class="app-icon"/>
+                        <img src="{{ $apk->image }}" class="app-icon"/>
                         {{ $apk->name }}
                         <span class="md-hide-small">[{{ $apk->original_title }}]</span>
                     </span>

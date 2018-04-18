@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class WatchedApp extends Model
 {
+    protected $appends = [
+        'image',
+    ];
+
     /**
      * Apps available.
      *
@@ -27,5 +31,14 @@ class WatchedApp extends Model
         return $this->availableApps()
                     ->orderByDesc('version_code')
                     ->first();
+    }
+
+    /**
+     * @return \Illuminate\Support\HtmlString|string
+     * @throws \Exception
+     */
+    public function getImageAttribute()
+    {
+        return mix("images/{$this->package_name}.png") ?? '';
     }
 }
