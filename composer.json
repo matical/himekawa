@@ -27,7 +27,8 @@
     },
     "autoload": {
         "classmap": [
-            "database"
+            "database/seeds",
+            "database/factories"
         ],
         "files": [
             "yuki/helpers.php"
