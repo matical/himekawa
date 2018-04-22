@@ -2,7 +2,7 @@
 
 ## Dependencies
 * PHP 7.1
-* Laravel 5.5 [Requirements](https://laravel.com/docs/5.5#installation)
+* Laravel 5.6 [Requirements](https://laravel.com/docs/5.6#installation)
 * Redis
 * [`google-play-cli`](https://github.com/dweinstein/node-google-play-cli)
 * `aapt` (Available standalone, check your package manager)
