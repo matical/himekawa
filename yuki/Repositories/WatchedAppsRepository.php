@@ -46,8 +46,10 @@ class WatchedAppsRepository
      */
     public function findBySlug($slug)
     {
-        return WatchedApp::where('slug', $slug)
-                         ->first();
+        return $this->cached("watched-apps:$slug", function () use ($slug) {
+            return WatchedApp::where('slug', $slug)
+                             ->first();
+        });
     }
 
     /**

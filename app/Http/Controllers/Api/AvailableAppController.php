@@ -13,6 +13,11 @@ class AvailableAppController extends Controller
      */
     protected $watchedApps;
 
+    /**
+     * AvailableAppController constructor.
+     *
+     * @param \yuki\Repositories\WatchedAppsRepository $watchedApps
+     */
     public function __construct(WatchedAppsRepository $watchedApps)
     {
         $this->watchedApps = $watchedApps;
@@ -28,6 +33,9 @@ class AvailableAppController extends Controller
         return WatchedAppResource::collection($this->watchedApps->allAppsWithApks());
     }
 
+    /**
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
     public function list()
     {
         return WatchedAppResource::collection($this->watchedApps->allApps());
@@ -41,6 +49,6 @@ class AvailableAppController extends Controller
      */
     public function show($id)
     {
-        return new WatchedAppResource($this->watchedApps->find($id));
+        return new WatchedAppResource($this->watchedApps->findBySlug($id));
     }
 }
