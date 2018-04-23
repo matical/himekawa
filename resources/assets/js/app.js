@@ -1,4 +1,3 @@
-
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -16,23 +15,19 @@ require('./bootstrap');
 
 Vue.use(VueMaterial);
 
-Vue.material.registerTheme({
-    dark: {
-        primary: {
-            color: 'grey',
-            hue: 800,
-            textColor: 'white'
-        },
-        accent: 'orange',
-        background: {
-            color: 'grey',
-            hue: 900,
-            textColor: 'white'
-        }
+Vue.material.registerTheme('default', {
+    primary: {
+        color: 'grey',
+        hue: 800,
+        textColor: 'white'
     },
+    accent: 'orange',
+    background: {
+        color: 'grey',
+        hue: 900,
+        textColor: 'white'
+    }
 });
-
-Vue.material.setCurrentTheme('dark');
 
 const app = new Vue({
     el: '#app',
