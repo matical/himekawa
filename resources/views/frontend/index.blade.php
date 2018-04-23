@@ -8,7 +8,9 @@
             @foreach ($apps as $apk)
                 <md-list-item md-expand-multiple>
                     <span class="truncate-longer">
-                        <img src="{{ $apk->image }}" class="app-icon"/>
+                        <md-avatar>
+                            <img src="{{ $apk->image }}"/>
+                        </md-avatar>
                         <span>{{ $apk->name }}</span>
                         <span class="md-hide-small muted">[{{ $apk->original_title }}]</span>
                     </span>
@@ -21,7 +23,7 @@
                                 <span>&nbsp;v{{ $latestApp->version_name ?? 'N/A' }}</span>
                             @else
                                 <span class="md-hide-small muted">{{ $latestApp->created_at->diffForHumans() }}&nbsp;</span>
-                                <span class="md-hide-small muted">-</span>
+                                <span class="md-hide-small">-</span>
                                 <span>&nbsp;v{{ $latestApp->version_name ?? 'N/A' }}</span>
                             @endif
                         @endif
@@ -30,10 +32,12 @@
                         @foreach ($apk->availableApps as $availableApp)
                             <md-list-item class="md-inset">
                                 <md-tooltip md-direction="top">SHA1: {{ $availableApp->hash }}
-                                    <br/> Downloaded on: {{ $availableApp->created_at }} JST ({{ $availableApp->created_at->diffForHumans() }})
+                                    <br> Downloaded on: {{ $availableApp->created_at }} JST ({{ $availableApp->created_at->diffForHumans() }})
                                 </md-tooltip>
+                                <md-whiteframe md-elevation="2">
+                                    <span class="tags {{ $loop->first ? 'latest' : 'muted' }}">v{{ $availableApp->version_name }}</span>
+                                </md-whiteframe>
                                 <span class="truncate {{ $loop->first ? '' : 'muted' }}">{{ buildApkFilename($apk->package_name, $availableApp->version_code) }}</span>
-                                <span class="{{ $loop->first ? '' : 'muted' }}">(v{{ $availableApp->version_name }})</span>
                                 <md-layout md-align="end">
                                     <md-button class="md-raised md-accent {{ $loop->first ? 'button-download' : 'button-download-old' }}" href="{{ apkPath($apk->package_name, $availableApp->version_code) }}">
                                         <md-layout class="md-hide-medium-and-up">
@@ -51,14 +55,11 @@
     </md-whiteframe>
     <md-layout>
         <p>
-            Last check:
-            <a href="{{ route('index.faq') }}">{{ lastRun()->lastCheck() ? lastRun()->lastCheck()->diffForHumans() : 'N/A' }}</a>
+            Last check: <a href="{{ route('index.faq') }}">{{ lastRun()->lastCheck() ? lastRun()->lastCheck()->diffForHumans() : 'N/A' }}</a>,
+            Last update: <a href="{{ route('index.faq') }}">{{ lastRun()->lastUpdate() ? lastRun()->lastUpdate()->diffForHumans() : 'N/A' }}</a>
             <br>
-            Last update:
-            <a href="{{ route('index.faq') }}">{{ lastRun()->lastUpdate() ? lastRun()->lastUpdate()->diffForHumans() : 'N/A' }}</a>
+            hime#{{ git()->hash() }} (r{{ git()->revision() }})
             <br>
-            #{{ git()->hash() }} (r{{ git()->revision() }})
-            <br/>
             <a href="{{ route('index.faq') }}">&gt;&gt; FAQ</a>
         </p>
     </md-layout>

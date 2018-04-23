@@ -46,11 +46,6 @@ $darker: darken($dark, 5%);
     max-height: 20px;
 }
 
-.app-icon {
-    @extend .img-responsive;
-    margin-right: 8px;
-}
-
 .container__faq {
     .heavy {
         font-weight: 500;
@@ -78,4 +73,16 @@ blockquote {
     margin: 20px 0;
     padding-left: 0.8rem;
     border-left: 4px solid $not-yuki;
+}
+
+.tags {
+    padding: 3px 3px;
+    border-radius: 1px;
+    background-color: rgb(125, 119, 123);
+    margin-right: 8px;
+    border-color: transparent;
+
+    &.latest {
+        background-color: darken($not-yuki, 5%);
+    }
 }
