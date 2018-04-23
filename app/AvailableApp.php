@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class AvailableApp extends Model
 {
+    protected $appends = [
+        'url',
+    ];
+
     /**
      * @var array
      */
@@ -33,6 +37,11 @@ class AvailableApp extends Model
      * @return string
      */
     public function url()
+    {
+        return Apk::resolveApkUrl($this->watchedBy->package_name, $this->version_code);
+    }
+
+    public function getUrlAttribute()
     {
         return Apk::resolveApkUrl($this->watchedBy->package_name, $this->version_code);
     }

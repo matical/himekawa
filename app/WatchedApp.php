@@ -2,6 +2,7 @@
 
 namespace himekawa;
 
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 
 class WatchedApp extends Model
@@ -35,10 +36,13 @@ class WatchedApp extends Model
 
     /**
      * @return \Illuminate\Support\HtmlString|string
-     * @throws \Exception
      */
     public function getImageAttribute()
     {
-        return mix("images/{$this->package_name}.png") ?? '';
+        try {
+            return (string) mix("images/{$this->package_name}.png");
+        } catch (Exception $e) {
+            return '';
+        }
     }
 }

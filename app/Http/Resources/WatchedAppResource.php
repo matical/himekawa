@@ -18,6 +18,7 @@ class WatchedAppResource extends JsonResource
             'name'         => $this->name,
             'slug'         => $this->slug,
             'package_name' => $this->package_name,
+            'image'        => url($this->image),
             'apps'         => AvailableAppResource::collection($this->whenLoaded('availableApps')),
         ];
     }
