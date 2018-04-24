@@ -8,6 +8,9 @@
 
     <meta name="description" content="@yield('meta-description', 'ksmz is mine.')">
 
+    <meta property="og:title" content="@yield('title')">
+    <meta property="og:description" content="@yield('meta-description')">
+
     <title>ひめかわ :: @yield('title')</title>
 
     <link rel="icon" type="image/png" href="/favicon.png">
