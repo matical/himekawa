@@ -34,9 +34,7 @@
                                 <md-tooltip md-direction="top">SHA1: {{ $availableApp->hash }}
                                     <br> Downloaded on: {{ $availableApp->created_at }} JST ({{ $availableApp->created_at->diffForHumans() }})
                                 </md-tooltip>
-                                <md-whiteframe md-elevation="2">
-                                    <span class="tags {{ $loop->first ? 'latest' : 'muted' }}">v{{ $availableApp->version_name }}</span>
-                                </md-whiteframe>
+                                <span class="tags {{ $loop->first ? 'latest' : 'muted' }}">v{{ $availableApp->version_name }}</span>
                                 <span class="truncate {{ $loop->first ? '' : 'muted' }}">{{ buildApkFilename($apk->package_name, $availableApp->version_code) }}</span>
                                 <md-layout md-align="end">
                                     <md-button class="md-raised md-accent {{ $loop->first ? 'button-download' : 'button-download-old' }}" href="{{ apkPath($apk->package_name, $availableApp->version_code) }}">
@@ -55,8 +53,10 @@
     </md-whiteframe>
     <md-layout>
         <p>
-            Last check: <a href="{{ route('index.faq') }}">{{ lastRun()->lastCheck() ? lastRun()->lastCheck()->diffForHumans() : 'N/A' }}</a>,
-            Last update: <a href="{{ route('index.faq') }}">{{ lastRun()->lastUpdate() ? lastRun()->lastUpdate()->diffForHumans() : 'N/A' }}</a>
+            Last check:
+            <a href="{{ route('index.faq') }}">{{ lastRun()->lastCheck() ? lastRun()->lastCheck()->diffForHumans() : 'N/A' }}</a>,
+            Last update:
+            <a href="{{ route('index.faq') }}">{{ lastRun()->lastUpdate() ? lastRun()->lastUpdate()->diffForHumans() : 'N/A' }}</a>
             <br>
             hime#{{ git()->hash() }} (r{{ git()->revision() }})
             <br>
