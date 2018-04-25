@@ -2,9 +2,7 @@
 
 namespace yuki\Repositories;
 
-use Closure;
 use himekawa\WatchedApp;
-use Illuminate\Support\Facades\Cache;
 
 class WatchedAppsRepository
 {
