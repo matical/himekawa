@@ -22,6 +22,6 @@
         <p>As long as it's a weeb (JP region-locked) game, just drop me a message and I'll add it.</p>
 
         <h2 class="heavy">Contact/Feedback/If something breaks</h2>
-        <p>kannazuki/matic@rizon ~ あまつか#7851 ~ <a href="mailto:mao@amatsuka.me">Email</a></p>
+        <p>kannazuki/matic@rizon | Discord: あまつか#7851</p>
     </div>
 @endsection
