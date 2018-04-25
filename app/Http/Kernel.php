@@ -55,6 +55,7 @@ class Kernel extends HttpKernel
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'bindings'   => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'cache'      => \Illuminate\Http\Middleware\SetCacheHeaders::class,
+        'weak.cache' => \himekawa\Http\Middleware\WeakEtagCache::class,
         'can'        => \Illuminate\Auth\Middleware\Authorize::class,
         'guest'      => \himekawa\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle'   => \Illuminate\Routing\Middleware\ThrottleRequests::class,
