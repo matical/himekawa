@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Storage;
 
 class AvailableAppsRepository
 {
+    use CachesAccess;
+
     /**
      * @var \yuki\Badging\Badging
      */
