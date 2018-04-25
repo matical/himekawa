@@ -4,6 +4,8 @@ namespace himekawa\Providers;
 
 use yuki\Foundation\Apk;
 use yuki\Scheduler\LastRun;
+use Spatie\Feed\Helpers\Path;
+use Spatie\Feed\Http\FeedController;
 use Illuminate\Support\ServiceProvider;
 
 class HimeServiceProvider extends ServiceProvider
@@ -33,9 +35,29 @@ class HimeServiceProvider extends ServiceProvider
 
         $this->app->bind('lastRun', function () {
             return new LastRun([
-                'last-check-key'    => config('himekawa.cache.last-run'),
-                'last-update-key'   => config('himekawa.cache.last-update'),
+                'last-check-key'  => config('himekawa.cache.last-run'),
+                'last-update-key' => config('himekawa.cache.last-update'),
             ]);
+        });
+
+        $this->registerFeedRoutes();
+    }
+
+    /**
+     * Identical to the one declared in FeedServiceProvider, but with cache:etag defined.
+     */
+    protected function registerFeedRoutes()
+    {
+        $router = app('router');
+
+        $router->macro('rssFeeds', function ($baseUrl = '') use ($router) {
+            foreach (config('feed.feeds') as $name => $configuration) {
+                $url = Path::merge($baseUrl, $configuration['url']);
+
+                $router->get($url, '\\' . FeedController::class)
+                       ->name("feeds.{$name}")
+                       ->middleware('cache:etag');
+            }
         });
     }
 }

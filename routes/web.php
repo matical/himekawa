@@ -11,3 +11,5 @@ Route::prefix('l')->group(function () {
          ->name('links.index');
     Route::get('{shortCode}', 'ShortLinkController@show');
 });
+
+Route::rssFeeds();

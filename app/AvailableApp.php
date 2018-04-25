@@ -3,10 +3,16 @@
 namespace himekawa;
 
 use yuki\Facades\Apk;
+use Spatie\Feed\Feedable;
+use Spatie\Feed\FeedItem;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Model;
 
-class AvailableApp extends Model
+class AvailableApp extends Model implements Feedable
 {
+    /**
+     * @var array
+     */
     protected $appends = [
         'url',
     ];
@@ -41,8 +47,61 @@ class AvailableApp extends Model
         return Apk::resolveApkUrl($this->watchedBy->package_name, $this->version_code);
     }
 
+    /**
+     * @return string
+     */
     public function getUrlAttribute()
     {
         return Apk::resolveApkUrl($this->watchedBy->package_name, $this->version_code);
+    }
+
+    /**
+     * @return string
+     */
+    public function getFilenameAttribute()
+    {
+        return Apk::resolveApkFilename($this->watchedBy->package_name, $this->version_code);
+    }
+
+    /**
+     * @return array|\Spatie\Feed\FeedItem
+     */
+    public function toFeedItem()
+    {
+        $summary = sprintf(
+            '<p>SHA1: %s | Size: %s | <a href="%s">Download</a> </p>',
+            $this->hash,
+            humanReadableSize($this->size),
+            $this->url
+        );
+
+        return FeedItem::create()
+                       ->id($this->url)
+                       ->title("{$this->watchedBy->name} [{$this->watchedBy->original_title}] v{$this->version_name}")
+                       ->summary($summary)
+                       ->updated($this->created_at)
+                       ->link($this->url)
+                       ->author('himekawa');
+    }
+
+    /**
+     * @return mixed
+     */
+    public static function getFeedItems()
+    {
+        return Cache::remember('available-apps:all-watched', config('googleplay.metainfo_cache_ttl'), function () {
+            return AvailableApp::with('watchedBy')
+                               ->limit(20)
+                               ->get([
+                                   'id',
+                                   'app_id',
+                                   'version_code',
+                                   'version_name',
+                                   'size',
+                                   'hash',
+                                   'created_at',
+                                   'updated_at',
+                               ]);
+        });
     }
 }

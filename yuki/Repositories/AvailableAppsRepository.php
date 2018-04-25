@@ -50,6 +50,17 @@ class AvailableAppsRepository
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function cachedAllWithWatched()
+    {
+        return $this->cached('available-apps:all-watched', function () {
+            return AvailableApp::with('watchedBy')
+                               ->get();
+        });
+    }
+
+    /**
      * @param string $packageName
      * @return \himekawa\AvailableApp
      */
