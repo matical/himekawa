@@ -56,7 +56,7 @@ class HimeServiceProvider extends ServiceProvider
 
                 $router->get($url, '\\' . FeedController::class)
                        ->name("feeds.{$name}")
-                       ->middleware('cache:etag');
+                       ->middleware('cache:max_age=180;s_maxage=60;etag;public');
             }
         });
     }
