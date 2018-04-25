@@ -22,26 +22,15 @@ class WeakEtagCache
             return $response;
         }
 
-        $etag = $this->craftWeakEtag($response->getContent());
+        $etag = md5($response->getContent());
 
         $response->setPublic();
-        $response->headers->set('etag', $etag);
+        $response->setEtag($etag, true);
         $response->headers->addCacheControlDirective('must-revalidate');
         $response->headers->addCacheControlDirective('proxy-revalidate');
 
         $response->isNotModified($request);
 
         return $response;
-    }
-
-    /**
-     * Craft a weak etag.
-     *
-     * @param $content
-     * @return string
-     */
-    protected function craftWeakEtag(string $content): string
-    {
-        return 'W/"' . md5($content) . '"';
     }
 }
