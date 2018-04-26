@@ -2,10 +2,8 @@
 
 namespace himekawa\Listeners\Scheduler;
 
-use himekawa\Events\Scheduler\AppsUpdated;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Cache;
+use himekawa\Events\Scheduler\AppsUpdated;
 
 class FlushAppCache
 {
