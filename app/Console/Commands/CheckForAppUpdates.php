@@ -121,11 +121,9 @@ class CheckForAppUpdates extends Command
             $bar->setMessage("Downloading {$app->packageName}");
 
             try {
-                $availableApp = $this->download->build($app->packageName, $app->versionCode, $app->sha1)
-                                               ->run()
-                                               ->store();
-
-                $appsUpdated[] = $availableApp;
+                $appsUpdated[] = $this->download->build($app->packageName, $app->versionCode, $app->sha1)
+                                                ->run()
+                                                ->store();
             } catch (PackageAlreadyExistsException $exception) {
                 $bar->setMessage("APK already exists for {$exception->package}.");
             }
