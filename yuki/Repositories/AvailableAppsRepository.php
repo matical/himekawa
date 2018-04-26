@@ -54,7 +54,7 @@ class AvailableAppsRepository
      */
     public function cachedAllWithWatched()
     {
-        return $this->cached('available-apps:all-watched', function () {
+        return $this->taggedCached('apps', 'available-apps:all-watched', function () {
             return AvailableApp::with('watchedBy')
                                ->get();
         });

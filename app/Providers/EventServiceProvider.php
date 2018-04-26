@@ -14,6 +14,7 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         'himekawa\Events\Scheduler\AppsUpdated' => [
+            'himekawa\Listeners\Scheduler\FlushAppCache',
             'himekawa\Listeners\Scheduler\MarkSchedulerLastSuccessfulRun',
             'himekawa\Listeners\Scheduler\NotifyByTelegram',
         ],

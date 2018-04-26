@@ -13,7 +13,7 @@ class WatchedAppsRepository
      */
     public function allApps()
     {
-        return $this->cached('watched-apps:all', function () {
+        return $this->taggedCached('apps', 'watched-apps:all', function () {
             return WatchedApp::all();
         });
     }
@@ -23,7 +23,7 @@ class WatchedAppsRepository
      */
     public function allAppsWithApks()
     {
-        return $this->cached('watched-apps:all-available', function () {
+        return $this->taggedCached('apps', 'watched-apps:all-available', function () {
             return WatchedApp::with('availableApps')
                              ->get();
         });
@@ -35,7 +35,7 @@ class WatchedAppsRepository
      */
     public function find($id)
     {
-        return $this->cached("watched-apps:$id", function () use ($id) {
+        return $this->taggedCached('apps', "watched-apps:$id", function () use ($id) {
             return WatchedApp::findOrFail($id);
         });
     }
@@ -46,7 +46,7 @@ class WatchedAppsRepository
      */
     public function findBySlug($slug)
     {
-        return $this->cached("watched-apps:$slug", function () use ($slug) {
+        return $this->taggedCached('apps', "watched-apps:$slug", function () use ($slug) {
             return WatchedApp::where('slug', $slug)
                              ->first();
         });
