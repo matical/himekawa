@@ -1,40 +1,33 @@
 language: php
 sudo: false
-
 php:
-    - '7.1'
-
+- '7.1'
 services:
-  - redis-server
+- redis-server
 addons:
-    mariadb: '10.2'
-
+  mariadb: '10.2'
 cache:
-    yarn: true
-    directories:
-        - node_modules
-        - vendor
-
+  yarn: true
+  directories:
+  - node_modules
+  - vendor
 before_install:
-    - nvm install node
-    - composer require php-coveralls/php-coveralls
-
+- nvm install v9.11.1
+- composer require php-coveralls/php-coveralls
 before_script:
-    - mysql -e 'CREATE DATABASE travis_testing'
-    - cp .env.travis .env
-    - php artisan key:generate
-    - php artisan migrate:fresh --seed
-
+- mysql -e 'CREATE DATABASE travis_testing'
+- cp .env.travis .env
+- php artisan key:generate
+- php artisan migrate:fresh --seed
 install:
-    - composer install --no-interaction
-    - yarn
-
+- composer install --no-interaction
+- yarn
 script:
-    - yarn run prod
-    - php ./vendor/bin/phpunit --coverage-clover coverage.xml
-
+- yarn run prod
+- php ./vendor/bin/phpunit --coverage-clover coverage.xml
 after_success:
-  - travis_retry php vendor/bin/php-coveralls -v
-
+- travis_retry php vendor/bin/php-coveralls -v
 notifications:
-    email: false
+  email: false
+  slack:
+    secure: pT8Y+clkmIM7/YP7uVWz5Gej3K9bwBEY/50z9fqBmpDp1Ks4ju8FVbpvELJPLCHaHCL/YNqQSZRAp4e8YMKl/SBIYNAbfa7S1mEf7+kqv4WLHZF/ZtYgpNyyoEnqC1rxE6wQy8qxtyb4p4TvJnVOrJNYpClf5kYA9p6bPZy3rnsHn7vjcGkuBCPLHJLg+MPJnZ0tyh/8ONKx6KFd6aVRmJnVuoekZL98b7OkLc0rlo2YbSf1qn8sz6AQpVCCSm0gx+8L/fJLeeZIg8+3SaIHqAZIkdlFIPNJE4RAH0J8ZG+qWcxXHH+p6PeXObmNkoCsiLgOXoL8+WPdkdvxcu3WUmd+nXoHsr7Oi44ut8vjbaSUCUK/P7+m+P7p21R+yu5bmna1NNf+IQobgrwGGo7RRLD6c0UWTRjS3I5j9HFTFWh0C6LdBOTFVX3eSZFz1+YxqY/fdrb/h6AlveQJfsM/cCgv/k7ZXqzk9UpuyMY3VTdGbkyFB+qIdftfn4pilIVUp5VuwS93LUt6F/LDbrAut1uyIrcVZmhmDQXDRRonDaw+CfD9mVOYrwxWx22V9OOr/gNVuKKaHXa/v9b5sS7RHl6XBruPtDCn6nuf/V0Vs38ROWpLtPxr3T93qZ5PW0yVZ67nijUmpst0H7BBtLcrYjBC06GJfJ0CFTgGiP4C01A=
