@@ -8,16 +8,22 @@ use Illuminate\Support\Facades\Cache;
 class LastRun
 {
     /**
-     * @var array
+     * @var string
      */
-    protected $config;
+    protected $lastCheckKey;
+
+    /**
+     * @var string
+     */
+    protected $lastUpdateKey;
 
     /**
      * @param array $config
      */
     public function __construct(array $config)
     {
-        $this->config = $config;
+        $this->lastCheckKey = $config['last-check-key'];
+        $this->lastUpdateKey = $config['last-update-key'];
     }
 
     /**
@@ -33,7 +39,7 @@ class LastRun
      */
     public function markLastCheck()
     {
-        $this->mark($this->config['last-check-key']);
+        $this->mark($this->lastCheckKey);
     }
 
     /**
@@ -41,7 +47,7 @@ class LastRun
      */
     public function markLastUpdate()
     {
-        $this->mark($this->config['last-update-key']);
+        $this->mark($this->lastUpdateKey);
     }
 
     /**
@@ -49,7 +55,7 @@ class LastRun
      */
     public function lastCheck()
     {
-        if ($lastRun = Cache::get($this->config['last-check-key'])) {
+        if ($lastRun = Cache::get($this->lastCheckKey)) {
             return $this->createFromTimestamp($lastRun);
         }
     }
@@ -59,7 +65,7 @@ class LastRun
      */
     public function lastUpdate()
     {
-        if ($lastUpdate = Cache::get($this->config['last-update-key'])) {
+        if ($lastUpdate = Cache::get($this->lastUpdateKey)) {
             return $this->createFromTimestamp($lastUpdate);
         }
     }
