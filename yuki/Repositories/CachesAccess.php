@@ -20,9 +20,9 @@ trait CachesAccess
     }
 
     /**
-     * @param  array|mixed $tags
-     * @param string       $key
-     * @param \Closure     $callback
+     * @param array|mixed $tags
+     * @param string      $key
+     * @param \Closure    $callback
      * @return mixed
      */
     protected function taggedCached($tags, string $key, Closure $callback)

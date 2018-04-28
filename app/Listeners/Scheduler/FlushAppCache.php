@@ -10,7 +10,7 @@ class FlushAppCache
     /**
      * Handle the event.
      *
-     * @param  AppsUpdated $event
+     * @param AppsUpdated $event
      * @return void
      */
     public function handle(AppsUpdated $event)
