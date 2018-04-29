@@ -1,7 +1,6 @@
 <?php
 
 use Monolog\Handler\StreamHandler;
-use yuki\Logging\DeDuplicatedSlack;
 
 return [
 
