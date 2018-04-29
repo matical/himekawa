@@ -22,8 +22,8 @@ class LastRun
      */
     public function __construct(array $config)
     {
-        $this->lastCheckKey = $config['last-check-key'];
-        $this->lastUpdateKey = $config['last-update-key'];
+        $this->lastCheckKey = array_get($config, 'cache.last-check');
+        $this->lastUpdateKey = array_get($config, 'cache.last-update');
     }
 
     /**

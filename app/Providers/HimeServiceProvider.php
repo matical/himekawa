@@ -28,16 +28,11 @@ class HimeServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind('apk', function () {
-            return new Apk([
-                'apk_path' => config('googleplay.apk_base_path'),
-            ]);
+            return new Apk(config('googleplay'));
         });
 
         $this->app->bind('lastRun', function () {
-            return new LastRun([
-                'last-check-key'  => config('himekawa.cache.last-run'),
-                'last-update-key' => config('himekawa.cache.last-update'),
-            ]);
+            return new LastRun(config('himekawa'));
         });
 
         $this->registerFeedRoutes();
