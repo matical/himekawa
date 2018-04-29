@@ -1,7 +1,5 @@
 <?php
 
-use Monolog\Handler\StreamHandler;
-
 return [
 
     /*
@@ -31,42 +29,50 @@ return [
     */
 
     'channels' => [
-        'stack'    => [
+        'stack'       => [
             'driver'   => 'stack',
             'channels' => ['single', 'slack'],
         ],
-        'single'   => [
+        'single'      => [
             'driver' => 'single',
             'path'   => storage_path('logs/laravel.log'),
             'level'  => 'debug',
         ],
-        'daily'    => [
+        'daily'       => [
             'driver' => 'daily',
             'path'   => storage_path('logs/laravel.log'),
             'level'  => 'debug',
             'days'   => 7,
         ],
-        'slack'    => [
+        'slack'       => [
             'driver'   => 'slack',
             'url'      => env('LOG_SLACK_WEBHOOK_URL'),
             'username' => 'ひめかわ',
             'emoji'    => ':cd:',
             'level'    => 'error',
         ],
-        'stderr'   => [
+        'stderr'      => [
             'driver'  => 'monolog',
-            'handler' => StreamHandler::class,
+            'handler' => \Monolog\Handler\StreamHandler::class,
             'with'    => [
                 'stream' => 'php://stderr',
             ],
         ],
-        'syslog'   => [
+        'syslog'      => [
             'driver' => 'syslog',
             'level'  => 'debug',
         ],
-        'errorlog' => [
+        'errorlog'    => [
             'driver' => 'errorlog',
             'level'  => 'debug',
+        ],
+        'deduped_slack' => [
+            'driver'   => 'custom',
+            'via'      => yuki\Logging\DeDuplicatedSlack::class,
+            'url'      => env('LOG_SLACK_WEBHOOK_URL'),
+            'username' => 'ひめかわ',
+            'emoji'    => ':cd:',
+            'level'    => 'error',
         ],
     ],
 ];
