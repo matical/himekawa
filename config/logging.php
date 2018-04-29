@@ -1,5 +1,8 @@
 <?php
 
+use Monolog\Handler\StreamHandler;
+use yuki\Logging\DeDuplicatedSlack;
+
 return [
 
     /*
@@ -53,7 +56,7 @@ return [
         ],
         'stderr'      => [
             'driver'  => 'monolog',
-            'handler' => \Monolog\Handler\StreamHandler::class,
+            'handler' => StreamHandler::class,
             'with'    => [
                 'stream' => 'php://stderr',
             ],
@@ -66,13 +69,13 @@ return [
             'driver' => 'errorlog',
             'level'  => 'debug',
         ],
-        'deduped_slack' => [
-            'driver'   => 'custom',
-            'via'      => yuki\Logging\DeDuplicatedSlack::class,
-            'url'      => env('LOG_SLACK_WEBHOOK_URL'),
-            'username' => 'ひめかわ',
-            'emoji'    => ':cd:',
-            'level'    => 'error',
-        ],
+//        'deduped_slack' => [
+//            'driver'   => 'custom',
+//            'via'      => DeDuplicatedSlack::class,
+//            'url'      => env('LOG_SLACK_WEBHOOK_URL'),
+//            'username' => 'ひめかわ',
+//            'emoji'    => ':cd:',
+//            'level'    => 'error',
+//        ],
     ],
 ];
