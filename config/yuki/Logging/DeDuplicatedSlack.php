@@ -85,7 +85,6 @@ class DeDuplicatedSlack
         return $config['name'];
     }
 
-
     /**
      * Parse the string level into a Monolog constant.
      *
