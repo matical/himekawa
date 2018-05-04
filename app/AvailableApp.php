@@ -64,6 +64,14 @@ class AvailableApp extends Model implements Feedable
     }
 
     /**
+     * @return string
+     */
+    public function getHumanBytesAttribute()
+    {
+        return humanReadableSize($this->size);
+    }
+
+    /**
      * @return array|\Spatie\Feed\FeedItem
      */
     public function toFeedItem()
