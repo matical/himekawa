@@ -5,13 +5,15 @@ namespace himekawa\Console\Commands;
 use yuki\Update;
 use yuki\Scrapers\Download;
 use Illuminate\Console\Command;
+use yuki\Command\HasPrettyProgressBars;
 use himekawa\Events\Scheduler\AppsUpdated;
 use yuki\Repositories\AvailableAppsRepository;
-use Symfony\Component\Console\Helper\ProgressBar;
 use yuki\Exceptions\PackageAlreadyExistsException;
 
 class CheckForAppUpdates extends Command
 {
+    use HasPrettyProgressBars;
+
     /**
      * The name and signature of the console command.
      *
@@ -115,7 +117,7 @@ class CheckForAppUpdates extends Command
     protected function downloadRequiredUpdates(array $appsRequiringUpdates): array
     {
         $appsUpdated = [];
-        $bar = $this->prettifyProgressBar(count($appsRequiringUpdates));
+        $bar = $this->newProgressBar($appsRequiringUpdates);
 
         foreach ($appsRequiringUpdates as $app) {
             $bar->setMessage("Downloading {$app->packageName}");
@@ -135,20 +137,6 @@ class CheckForAppUpdates extends Command
         $bar->finish();
 
         return $appsUpdated;
-    }
-
-    /**
-     * @param int $count
-     * @return ProgressBar
-     */
-    protected function prettifyProgressBar(int $count)
-    {
-        return tap($this->output->createProgressBar($count), function (ProgressBar $bar) {
-            $bar->setBarCharacter('<fg=green>=</>');
-            $bar->setEmptyBarCharacter('<fg=red>=</>');
-            $bar->setProgressCharacter('<fg=green>></>');
-            $bar->setFormat("<fg=white;bg=cyan> %message:-45s%</>\n%current%/%max% [%bar%] %percent:3s%%\n🏁  %estimated:-20s%  %memory:20s%");
-        });
     }
 
     /**
