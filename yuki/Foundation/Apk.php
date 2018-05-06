@@ -42,11 +42,11 @@ class Apk
     {
         $apkPath = $this->config['apk_path'];
 
-        if (is_null($packageName)) {
+        if ($packageName === null) {
             return $apkPath;
         }
 
-        if ($packageName && is_null($versionCode)) {
+        if ($packageName && $versionCode === null) {
             return $apkPath . DIRECTORY_SEPARATOR . $packageName;
         }
 
