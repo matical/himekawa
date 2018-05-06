@@ -1,6 +1,7 @@
 <?php
 
 return [
-    'apk_base_path'           => env('APK_PATH', storage_path('apks')),
-    'metainfo_cache_ttl'      => env('METAINFO_TTL', 15),
+    'apk_base_path'      => env('APK_PATH', storage_path('apks')),
+    'metainfo_cache_ttl' => env('METAINFO_TTL', 15),
+    'details_cache_ttl'  => env('DETAILS_TTL', 60 * 24),
 ];
