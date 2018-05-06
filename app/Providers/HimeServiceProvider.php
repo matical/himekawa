@@ -6,6 +6,7 @@ use yuki\Foundation\Apk;
 use yuki\Scheduler\LastRun;
 use Spatie\Feed\Helpers\Path;
 use Spatie\Feed\Http\FeedController;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
 class HimeServiceProvider extends ServiceProvider
@@ -43,15 +44,13 @@ class HimeServiceProvider extends ServiceProvider
      */
     protected function registerFeedRoutes()
     {
-        $router = app('router');
-
-        $router->macro('rssFeeds', function ($baseUrl = '') use ($router) {
+        Route::macro('rssFeeds', function ($baseUrl = '') {
             foreach (config('feed.feeds') as $name => $configuration) {
                 $url = Path::merge($baseUrl, $configuration['url']);
 
-                $router->get($url, '\\' . FeedController::class)
-                       ->name("feeds.{$name}")
-                       ->middleware('weak.cache');
+                Route::get($url, '\\' . FeedController::class)
+                     ->name("feeds.{$name}")
+                     ->middleware('weak.cache');
             }
         });
     }
