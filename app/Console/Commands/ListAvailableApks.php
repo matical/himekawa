@@ -13,7 +13,7 @@ class ListAvailableApks extends Command
      *
      * @var string
      */
-    protected $signature = 'apk:list';
+    protected $signature = 'apk:list {--all}';
 
     /**
      * The console command description.
@@ -27,6 +27,15 @@ class ListAvailableApks extends Command
         'version_code',
         'version_name',
         'size',
+        'hash',
+        'created_at',
+        'updated_at',
+    ];
+
+    protected $inView = [
+        'version_code',
+        'version_name',
+        'human_bytes',
         'hash',
         'created_at',
         'updated_at',
@@ -50,17 +59,42 @@ class ListAvailableApks extends Command
     public function handle()
     {
         $apps = AvailableApp::all($this->fields);
+
+        if ($this->option('all')) {
+            $this->detailed($apps);
+        }
+    }
+
+    /**
+     * @param \Illuminate\Database\Eloquent\Collection $apps
+     */
+    protected function detailed($apps)
+    {
         $grouped = $apps->groupBy('app_id');
 
         $grouped->each(function (Collection $group) {
-            $this->line($group->first()->watchedBy->name);
+            $this->line('# ' . $group->first()->watchedBy->name);
 
             // Unload relations
             $fields = $group->map(function (AvailableApp $app) {
-                return $app->only($this->fields);
-            });
+                return $app->only($this->inView);
+            })->toArray();
 
-            $this->table($this->fields, $fields->toArray());
+            $this->table($this->unSlug($this->inView), $fields);
+            $this->output->newLine();
         });
+    }
+
+    /**
+     * @param $slug
+     * @return array
+     */
+    protected function unSlug($slug)
+    {
+        $slugs = array_wrap($slug);
+
+        return array_map(function ($slug) {
+            return ucwords(str_replace('_', ' ', $slug));
+        }, $slugs);
     }
 }
