@@ -67,7 +67,7 @@ class PendingRequest
 
     /**
      * @param $options
-     * @return $this
+     * @return self
      */
     public function pokeOptions($options)
     {
@@ -78,7 +78,7 @@ class PendingRequest
 
     /**
      * @param $headers
-     * @return $this
+     * @return self
      */
     public function pokeHeaders($headers)
     {
@@ -195,7 +195,7 @@ class PendingRequest
 
     /**
      * @param $format
-     * @return $this
+     * @return self
      * @throws \yuki\Clients\Exceptions\InvalidBodyFormatException
      */
     protected function bodyFormat($format)

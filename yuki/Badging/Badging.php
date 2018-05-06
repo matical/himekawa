@@ -35,7 +35,7 @@ class Badging
     /**
      * @param $packageName
      * @param $package
-     * @return $this
+     * @return self
      */
     public function package($packageName, $package)
     {
@@ -75,7 +75,7 @@ class Badging
     }
 
     /**
-     * @return $this
+     * @return self
      */
     protected function run()
     {

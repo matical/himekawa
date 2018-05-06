@@ -60,8 +60,7 @@ class Download extends Scraper
      * @param $packageName
      * @param $versionCode
      * @param $hash
-     *
-     * @return $this
+     * @return self
      *
      * @throws \yuki\Exceptions\PackageAlreadyExistsException
      * @throws \yuki\Exceptions\FailedToVerifyHashException
@@ -99,7 +98,7 @@ class Download extends Scraper
     }
 
     /**
-     * @return $this
+     * @return self
      */
     public function run()
     {

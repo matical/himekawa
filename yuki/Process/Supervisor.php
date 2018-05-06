@@ -55,7 +55,7 @@ class Supervisor
 
     /**
      * @param bool $hasOutput
-     * @return $this
+     * @return self
      */
     public function setOutputAvailability(bool $hasOutput)
     {

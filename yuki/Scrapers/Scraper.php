@@ -24,7 +24,7 @@ abstract class Scraper
     protected $outputAsArray = false;
 
     /**
-     * @return $this
+     * @return self
      */
     public function run()
     {
@@ -49,7 +49,7 @@ abstract class Scraper
 
     /**
      * @param bool $shouldBeArray
-     * @return $this
+     * @return self
      */
     public function asArray(bool $shouldBeArray)
     {

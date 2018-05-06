@@ -33,7 +33,7 @@ class Details
     }
 
     /**
-     * @return $this
+     * @return self
      */
     public function run()
     {
