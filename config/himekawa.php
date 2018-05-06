@@ -15,6 +15,9 @@ return [
         'gp-download-meta' => env('COMMANDS_GPDOWNLOADMETA', 'npx gp-download-meta'),
     ],
     'max_apps'      => env('MAX_APPS', 5),
+    'paths'         => [
+        'app_images' => env('HIMEKAWA_IMAGE_PATH', resource_path('assets/images')),
+    ],
     'scheduler'     => [
         'timezone'   => env('HIMEKAWA_SCHEDULER_TIMEZONE', 'Asia/Tokyo'),
         'start_time' => env('HIMEKAWA_SCHEDULER_START', '8:00'),
