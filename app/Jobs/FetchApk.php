@@ -33,7 +33,7 @@ class FetchApk
      * @param \yuki\Scrapers\Download               $download
      *
      * @throws \yuki\Exceptions\FailedToVerifyHashException
-     * @throws \yuki\Exceptions\PackageAlreadyExistsException
+     * @throws \yuki\Exceptions\PackageException
      */
     public function handle(MetainfoRepository $metainfo, Download $download)
     {

@@ -3,11 +3,11 @@
 namespace yuki\Scrapers;
 
 use Illuminate\Support\Facades\Log;
+use yuki\Exceptions\PackageException;
 use Symfony\Component\Process\Process;
 use Illuminate\Support\Facades\Storage;
 use yuki\Repositories\AvailableAppsRepository;
 use yuki\Exceptions\FailedToVerifyHashException;
-use yuki\Exceptions\PackageAlreadyExistsException;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Exception\ProcessTimedOutException;
 
@@ -62,7 +62,7 @@ class Download extends Scraper
      * @param $hash
      * @return self
      *
-     * @throws \yuki\Exceptions\PackageAlreadyExistsException
+     * @throws \yuki\Exceptions\PackageException
      * @throws \yuki\Exceptions\FailedToVerifyHashException
      */
     public function build($packageName, $versionCode, $hash)
@@ -74,13 +74,7 @@ class Download extends Scraper
         if ($this->fileAlreadyExists()) {
             $this->verifyFileIntegrity($this->packageName, $this->hash);
 
-            throw new PackageAlreadyExistsException(
-                'File ' . $this->buildApkFilename() . ' already exists.',
-                0,
-                null,
-                $this->packageName,
-                $this->versionCode
-            );
+            throw PackageException::AlreadyExists($this->packageName, $this->versionCode);
         }
 
         // Checks if a folder with the respective package name exists already

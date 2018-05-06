@@ -33,7 +33,7 @@ class FetchApk extends Command
      *
      * @return mixed
      *
-     * @throws \yuki\Exceptions\PackageAlreadyExistsException
+     * @throws \yuki\Exceptions\PackageException
      * @throws \yuki\Exceptions\FailedToVerifyHashException
      */
     public function handle(Download $download)

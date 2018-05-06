@@ -5,10 +5,10 @@ namespace himekawa\Console\Commands;
 use yuki\Update;
 use yuki\Scrapers\Download;
 use Illuminate\Console\Command;
+use yuki\Exceptions\PackageException;
 use yuki\Command\HasPrettyProgressBars;
 use himekawa\Events\Scheduler\AppsUpdated;
 use yuki\Repositories\AvailableAppsRepository;
-use yuki\Exceptions\PackageAlreadyExistsException;
 
 class CheckForAppUpdates extends Command
 {
@@ -126,8 +126,8 @@ class CheckForAppUpdates extends Command
                 $appsUpdated[] = $this->download->build($app->packageName, $app->versionCode, $app->sha1)
                                                 ->run()
                                                 ->store();
-            } catch (PackageAlreadyExistsException $exception) {
-                $bar->setMessage("APK already exists for {$exception->package}.");
+            } catch (PackageException $exception) {
+                $bar->setMessage("An APK already exists for {$exception->package}.");
             }
 
             $bar->advance();

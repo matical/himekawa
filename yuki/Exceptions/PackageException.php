@@ -4,8 +4,9 @@ namespace yuki\Exceptions;
 
 use Exception;
 use Throwable;
+use yuki\Facades\Apk;
 
-class PackageAlreadyExistsException extends Exception implements ExceptionInterface
+class PackageException extends Exception implements ExceptionInterface
 {
     /**
      * Name of the existing file.
@@ -32,5 +33,15 @@ class PackageAlreadyExistsException extends Exception implements ExceptionInterf
     {
         $this->package = $package;
         $this->versionCode = $versionCode;
+    }
+
+    /**
+     * @param $package
+     * @param $version
+     * @return static
+     */
+    public static function AlreadyExists($package, $version)
+    {
+        return new static(Apk::resolveApkFilename($package, $version) . ' already exists.', 0, null, $package, $version);
     }
 }
