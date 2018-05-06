@@ -32,7 +32,7 @@ class DownloadImages extends Command
     protected $description = 'Fetches app icons for watched apps';
 
     /**
-     * @var \yuki\Scrapers\Details
+     * @var DetailsRepository
      */
     protected $details;
 
