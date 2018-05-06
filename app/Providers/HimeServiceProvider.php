@@ -5,6 +5,7 @@ namespace himekawa\Providers;
 use yuki\Foundation\Apk;
 use yuki\Scheduler\LastRun;
 use Spatie\Feed\Helpers\Path;
+use yuki\Clients\PendingRequest;
 use Spatie\Feed\Http\FeedController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
@@ -34,6 +35,10 @@ class HimeServiceProvider extends ServiceProvider
 
         $this->app->bind('lastRun', function () {
             return new LastRun(config('himekawa'));
+        });
+
+        $this->app->bind('http', function () {
+            return new PendingRequest();
         });
 
         $this->registerFeedRoutes();
