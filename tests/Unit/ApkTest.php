@@ -42,7 +42,7 @@ class ApkTest extends TestCase
      */
     public function testPathResolvers()
     {
-        $builder = new Apk(['apk_path' => $this->basePath]);
+        $builder = new Apk(['apk_base_path' => $this->basePath]);
 
         $filename = $builder->resolveApkFilename($this->package, 130);
         $this->assertSame('jp.co.bandainamcoent.BNEI0242.130.apk', $filename);
