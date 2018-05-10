@@ -2,7 +2,6 @@
 
 namespace himekawa\Http\Controllers\Api;
 
-use Illuminate\Support\Facades\Cache;
 use yuki\Repositories\WatchedAppsRepository;
 use himekawa\Http\Resources\WatchedAppResource;
 use himekawa\Http\Controllers\Api\BaseApiController as Controller;
