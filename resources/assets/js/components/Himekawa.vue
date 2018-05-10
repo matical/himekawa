@@ -49,8 +49,6 @@
 </script>
 
 <style lang="scss">
-    @import '~vue-material/src/components/mdLayout/mixins';
-
     $himekawa: #ff9800;
     $dark: #212121;
     $white: #fff;
