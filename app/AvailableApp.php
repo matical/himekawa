@@ -10,11 +10,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class AvailableApp extends Model implements Feedable
 {
-    /**
-     * @var array
-     */
-    protected $appends = [
-        'url',
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d\TH:i:sP',
     ];
 
     /**
@@ -35,24 +32,6 @@ class AvailableApp extends Model implements Feedable
     {
         return $this->belongsTo(WatchedApp::class, 'app_id')
                     ->withDefault();
-    }
-
-    /**
-     * Generate the url to download the APK.
-     *
-     * @return string
-     */
-    public function url()
-    {
-        return Apk::resolveApkUrl($this->watchedBy->package_name, $this->version_code);
-    }
-
-    /**
-     * @return string
-     */
-    public function getUrlAttribute()
-    {
-        return Apk::resolveApkUrl($this->watchedBy->package_name, $this->version_code);
     }
 
     /**

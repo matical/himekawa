@@ -1,6 +1,8 @@
 <?php
 
-Route::get('/', 'AvailableAppController@index')
+//Route::get('/', 'AvailableAppController@index')
+//     ->name('index');
+Route::get('/', 'AvailableAppController@ngIndex')
      ->name('index');
 Route::get('/about', 'HomeController@about')
      ->name('index.about');
