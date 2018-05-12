@@ -22,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
         if (app()->environment('production')) {
             URL::forceScheme('https');
         }
-        
+
 //        \DB::listen(function($query)
 //        {
 //            info("{$query->sql}");
