@@ -26,6 +26,14 @@ if (! mix.inProduction()) {
     mix.sourceMaps();
 }
 
+mix.webpackConfig(webpack => {
+    return {
+        plugins: [
+            new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
+        ]
+    }
+});
+
 mix.browserSync({
     proxy: {
         target: 'localhost:8000',
