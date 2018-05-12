@@ -6,8 +6,6 @@
     <himekawa :available-apps='@json($apps)'></himekawa>
     <div class="s-container">
         Last check:
-        <a href="{{ route('index.faq') }}">{{ lastRun()->lastCheck() ? lastRun()->lastCheck()->diffForHumans() : 'N/A' }}</a>,
-        Last update:
-        <a href="{{ route('index.faq') }}">{{ lastRun()->lastUpdate() ? lastRun()->lastUpdate()->diffForHumans() : 'N/A' }}</a>
+        <a href="{{ route('index.faq') }}">{{ lastRun()->lastCheck() ? lastRun()->lastCheck()->diffForHumans() : 'N/A' }}</a>
     </div>
 @endsection
