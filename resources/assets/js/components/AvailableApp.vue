@@ -7,11 +7,11 @@
             <span>{{ app.name }}</span>
             <span class="md-small-hide muted">{{ app.original_title }}</span>
             <span>
-                    {{ formatDate(app.available_apps[0].created_at) }}
+                    <span :class="{recent: isRecent(latestApp.created_at)}">{{ formatDate(latestApp.created_at) }}</span>
                     <transition name="fade">
                         <span v-if="hovered">/ {{ formatPrettyDate(app.available_apps[0].created_at) }}</span>
                     </transition>
-                </span>
+            </span>
         </div>
 
         <md-list slot="md-expand">
@@ -33,7 +33,8 @@
         props: ['app'],
         data() {
             return {
-                hovered: false
+                hovered: false,
+                latestApp: this.app.available_apps[0]
             }
         },
         methods: {
@@ -43,6 +44,12 @@
             formatDate(iso) {
                 return upperFirst(moment(iso).fromNow());
             },
+            isRecent(iso) {
+                return this.diffInDays(moment(iso)) < 25;
+            },
+            diffInDays(from) {
+                return moment().diff(from, 'days');
+            }
         }
     }
 </script>

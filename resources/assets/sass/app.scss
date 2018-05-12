@@ -40,6 +40,15 @@ body {
     background-color: $himekawa !important;
 }
 
+.himekawa-text {
+    color: $himekawa !important;
+}
+
+.recent {
+    @extend .himekawa-text;
+    font-weight: 500;
+}
+
 .md-toolbar {
     @extend .himekawa;
 }
