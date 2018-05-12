@@ -21,7 +21,7 @@
                 return `${this.packageName}.${versionCode}.apk`
             },
             resolveApkUrl(versionCode) {
-                return location.href + `apk/${this.packageName}/${this.resolveApkFilename(versionCode)}`
+                return location.href + `apks/${this.packageName}/${this.resolveApkFilename(versionCode)}`
             }
         }
     }
