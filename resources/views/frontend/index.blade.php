@@ -1,4 +1,4 @@
-@extends('ng-layouts.master')
+@extends('layouts.master')
 @section('title', 'Available Apps')
 @section('meta-description', 'APKs for weeb games.')
 

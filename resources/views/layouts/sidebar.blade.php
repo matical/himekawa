@@ -1,4 +1,4 @@
-@include('ng-layouts.header')
+@include('layouts.header')
 
 <md-app-drawer :md-active.sync="menuVisible">
     <md-toolbar class="md-transparent" md-elevation="0">
