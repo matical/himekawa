@@ -13,10 +13,6 @@ $white: #fff;
 @import 'debugbar';
 @import 'mixins';
 
-[v-cloak] {
-    display: none;
-}
-
 body {
     font-family: 'Roboto', 'Meiryo UI', sans-serif;
 }
