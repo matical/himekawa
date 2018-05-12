@@ -20,13 +20,4 @@ class AvailableAppController extends Controller
             'apps' => $apps,
         ]);
     }
-
-    public function ngIndex(WatchedAppsRepository $watchedApps)
-    {
-        $apps = $watchedApps->allAppsWithApks();
-
-        return view('frontend.ng-index', [
-            'apps' => $apps,
-        ]);
-    }
 }

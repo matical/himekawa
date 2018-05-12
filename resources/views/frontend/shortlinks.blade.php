@@ -1,9 +1,9 @@
-@extends('ng-layouts.master')
+@extends('layouts.master')
 @section('title', 'Short Links')
 
 @section('content')
     <h2 class="md-headline">Short Links</h2>
-    <p>Links here will always redirect you to the latest app available. For nerds on mobile. </p>
+    <p>Links here will always redirect and force a download of the latest app available. For nerds on mobile. </p>
     <md-list class="md-double-line">
         <div class="md-layout md-layout-nowrap md-gutter md-alignment-center">
             @foreach ($apps as $availableApp)

@@ -1,4 +1,4 @@
-@extends('ng-layouts.master')
+@extends('layouts.master')
 @section('title', 'FAQ')
 
 @section('content')
