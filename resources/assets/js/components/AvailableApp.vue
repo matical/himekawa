@@ -45,7 +45,7 @@
                 return upperFirst(moment(iso).fromNow());
             },
             isRecent(iso) {
-                return this.diffInDays(moment(iso)) < 25;
+                return this.diffInDays(moment(iso)) < 3;
             },
             diffInDays(from) {
                 return moment().diff(from, 'days');
