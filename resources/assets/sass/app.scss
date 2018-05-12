@@ -1,11 +1,16 @@
+$himekawa: #d86b0d;
+$dark: #212121;
+$white: #fff;
+
+:root {
+    --md-theme-default-background: #252525 !important;
+    --md-theme-default-accent-on-background: $himekawa;
+}
+
 @import '~vue-material/dist/vue-material.min.css';
 @import '~vue-material/dist/theme/default-dark.css';
 @import 'debugbar';
 @import 'mixins';
-
-$himekawa: #ff9800;
-$dark: #212121;
-$white: #fff;
 
 [v-cloak] {
     display: none;
@@ -34,8 +39,16 @@ body {
     padding: 6px 9px;
 }
 
-.hime {
-    background-color: darken($himekawa, 5%) !important;
+.himekawa {
+    background-color: $himekawa !important;
+}
+
+.md-toolbar {
+    @extend .himekawa;
+}
+
+.s-container {
+    padding: 4px 16px;
 }
 
 @include md-layout-xsmall {
@@ -53,5 +66,32 @@ body {
 @include md-layout-small {
     .md-list-item-text :nth-child(3) {
         color: #bbbbbb;
+    }
+}
+
+.muted {
+    // CR: 8.45, AA: 4.5
+    color: #bbbbbb;
+}
+
+.tags {
+    padding: 3px 3px;
+    border-radius: 1px;
+    background-color: rgb(125, 119, 123);
+    margin-right: 8px;
+    border-color: transparent;
+    min-width: 60px;
+    text-align: center;
+
+    &.latest {
+        background-color: darken($himekawa, 5%);
+    }
+}
+
+.truncated {
+    span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 }

@@ -17,7 +17,7 @@
                         <span class="md-layout md-alignment-center-left">{{ resolveApkFilename(app.package_name, apk.version_code) }}</span>
                     </div>
                     <div class="md-layout md-layout-item md-xsmall-size-15 md-size-30 md-alignment-center-right">
-                        <md-button class="md-raised md-accent hime" :href="resolveApkUrl(app.package_name, apk.version_code)" :md-ripple="false">
+                        <md-button class="md-raised md-accent himekawa" :href="resolveApkUrl(app.package_name, apk.version_code)" :md-ripple="false">
                             <md-icon>file_download</md-icon>
                             <span class="md-xsmall-hide">Download</span>
                         </md-button>
@@ -47,36 +47,3 @@
         }
     }
 </script>
-
-<style lang="scss">
-    $himekawa: #ff9800;
-    $dark: #212121;
-    $white: #fff;
-
-    .muted {
-        // CR: 8.45, AA: 4.5
-        color: #bbbbbb;
-    }
-
-    .tags {
-        padding: 3px 3px;
-        border-radius: 1px;
-        background-color: rgb(125, 119, 123);
-        margin-right: 8px;
-        border-color: transparent;
-        min-width: 60px;
-        text-align: center;
-
-        &.latest {
-            background-color: darken($himekawa, 5%);
-        }
-    }
-
-    .truncated {
-        span {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-    }
-</style>

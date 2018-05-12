@@ -1,7 +1,13 @@
 <template>
-    <md-app-drawer md-permanent="full">
+    <md-app-drawer :md-active.sync="menuVisible">
         <md-toolbar class="md-transparent" md-elevation="0">
-            Navigation
+            <span>Navigation</span>
+
+            <div class="md-toolbar-section-end">
+                <md-button class="md-icon-button md-dense" @click="toggleMenu">
+                    <md-icon>keyboard_arrow_left</md-icon>
+                </md-button>
+            </div>
         </md-toolbar>
 
         <md-list>
