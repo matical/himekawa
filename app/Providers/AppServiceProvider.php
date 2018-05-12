@@ -18,6 +18,10 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
 
         $this->registerBladeDirectives();
+//        \DB::listen(function($query)
+//        {
+//            info("{$query->sql}");
+//        });
     }
 
     /**
