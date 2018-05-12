@@ -8,10 +8,10 @@
         <div class="md-layout md-layout-nowrap md-gutter md-alignment-center">
             @foreach ($apps as $availableApp)
                 <md-list-item class="md-layout-item md-xlarge-size-25 md-large-size-33 md-small-size-50 md-xsmall-size-100">
-                    <md-avatar><img src="{{ $availableApp->image }}" alt=""></md-avatar>
+                    <md-avatar><img src="{{ $availableApp->image }}"></md-avatar>
                     <div class="md-list-item-text">
                         <span>{{ $availableApp->name }}</span>
-                        <span><a href="{{ route('links.show', $availableApp->slug) }}">(s/{{ $availableApp->slug }})</a></span>
+                        <span><a href="{{ route('links.show', $availableApp->slug) }}">({{ route('links.show', $availableApp->slug) }})</a></span>
                     </div>
                 </md-list-item>
             @endforeach

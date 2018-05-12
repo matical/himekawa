@@ -3,6 +3,7 @@ $dark: #212121;
 $white: #fff;
 
 :root {
+    --md-theme-default-primary-on-background: $himekawa;
     --md-theme-default-background: #252525 !important;
     --md-theme-default-accent-on-background: $himekawa;
 }
@@ -93,5 +94,16 @@ body {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+    }
+}
+
+.md-avatar > img {
+    border-radius: 0;
+}
+
+a:not(.md-button) {
+    text-decoration: none !important;
+    &:hover {
+        color: lighten($himekawa, 10%) !important;
     }
 }
