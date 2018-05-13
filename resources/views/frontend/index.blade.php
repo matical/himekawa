@@ -7,5 +7,7 @@
     <div class="s-container">
         Last check:
         <a href="{{ route('index.faq') }}">{{ lastRun()->lastCheck() ? lastRun()->lastCheck()->diffForHumans() : 'N/A' }}</a>
+        <br>
+        &gt;&gt;<a href="{{ route('index.faq') }}"> FAQ</a>
     </div>
 @endsection
