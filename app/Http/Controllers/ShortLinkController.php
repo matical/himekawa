@@ -32,7 +32,7 @@ class ShortLinkController extends Controller
     public function show($shortCode)
     {
         $watched = $this->watchedApps->findBySlug($shortCode);
-        $link = optional($watched->latestApp())->url();
+        $link = optional($watched->latestApp())->url() ?? route('index');
 
         return redirect($link);
     }
