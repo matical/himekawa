@@ -11,11 +11,19 @@ class ShortLinkController extends Controller
      */
     protected $watchedApps;
 
+    /**
+     * ShortLinkController constructor.
+     *
+     * @param \yuki\Repositories\WatchedAppsRepository $watchedApps
+     */
     public function __construct(WatchedAppsRepository $watchedApps)
     {
         $this->watchedApps = $watchedApps;
     }
 
+    /**
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
         $apps = $this->watchedApps->allAppsWithApks();
@@ -32,8 +40,8 @@ class ShortLinkController extends Controller
     public function show($shortCode)
     {
         $watched = $this->watchedApps->findBySlug($shortCode);
-        $link = $watched->latestApp()->url();
+        $to = optional($watched->latestApp())->url() ?? route('index');
 
-        return redirect($link);
+        return redirect($to);
     }
 }

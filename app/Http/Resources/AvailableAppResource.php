@@ -19,7 +19,6 @@ class AvailableAppResource extends JsonResource
             'version_name'  => $this->version_name,
             'size'          => $this->size,
             'hash'          => $this->hash,
-            'url'           => $this->url,
             'downloaded_on' => $this->created_at->toIso8601ZuluString(),
         ];
     }

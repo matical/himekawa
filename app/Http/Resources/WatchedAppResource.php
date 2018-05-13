@@ -15,11 +15,12 @@ class WatchedAppResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'name'         => $this->name,
-            'slug'         => $this->slug,
-            'package_name' => $this->package_name,
-            'image'        => url($this->image),
-            'apps'         => AvailableAppResource::collection($this->whenLoaded('availableApps')),
+            'name'           => $this->name,
+            'slug'           => $this->slug,
+            'package_name'   => $this->package_name,
+            'original_title' => $this->original_title,
+            'image'          => url($this->image),
+            'apps'           => AvailableAppResource::collection($this->whenLoaded('availableApps')),
         ];
     }
 }

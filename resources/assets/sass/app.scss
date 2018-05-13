@@ -1,78 +1,83 @@
-$not-yuki: #ff9800;
-$white-ish: #e7e7e7;
+$himekawa: #d86b0d;
 $dark: #212121;
-$darker: darken($dark, 5%);
+$white: #fff;
 
-@import url("~vue-material/dist/vue-material.css");
-@import 'common';
-@import 'moverrides';
+:root {
+    --md-theme-default-primary-on-background: $himekawa;
+    --md-theme-default-background: #252525 !important;
+    --md-theme-default-accent-on-background: $himekawa;
+}
+
+@import '~vue-material/dist/vue-material.min.css';
+@import '~vue-material/dist/theme/default-dark.css';
 @import 'debugbar';
+@import 'mixins';
 
-.header {
-    font-weight: 300;
+body {
+    font-family: 'Roboto', 'Meiryo UI', sans-serif;
 }
 
-.muted {
-    color: darken($white-ish, 20%);
+.md-app {
+    height: 100vh;
+    min-height: 350px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
 }
 
-.truncate {
-    max-width: 60%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin-right: 3px;
+.md-drawer {
+    width: 230px;
+    max-width: calc(100vw - 125px);
 }
 
-.truncate-longer {
-    @extend .truncate;
-    max-width: 90%;
+.md-tooltip {
+    height: auto;
+    font-size: 14px;
+    background-color: lighten($dark, 15%);
+    letter-spacing: 0;
+    padding: 6px 9px;
 }
 
-.button-download {
-    color: $darker !important;
-    &:hover {
-        color: lighten($darker, 10%) !important;
-    }
+.himekawa {
+    background-color: $himekawa !important;
 }
 
-.button-download-old {
-    @extend .button-download;
-    background-color: darken($not-yuki, 20%) !important;
+.himekawa-text {
+    color: $himekawa !important;
 }
 
-.img-responsive {
-    max-width: 100%;
-    max-height: 20px;
-}
-
-.container__faq {
-    .heavy {
-        font-weight: 500;
-    }
-
-    p {
-        color: darken($white-ish, 10%);
-    }
-}
-
-.recently-updated {
-    color: darken($not-yuki, 5%) !important;
-}
-
-.md-theme-dark a:not(.md-button) {
+.recent {
+    @extend .himekawa-text;
     font-weight: 500;
 }
 
-blockquote {
-    h3 {
-        font-weight: 500;
-        font-size: 17px;
+.md-toolbar {
+    @extend .himekawa;
+}
+
+.s-container {
+    padding: 4px 16px;
+}
+
+@include md-layout-xsmall {
+    .md-list-item.md-inset .md-list-item-content {
+        padding-left: 15px;
     }
 
-    margin: 20px 0;
-    padding-left: 0.8rem;
-    border-left: 4px solid $not-yuki;
+    .md-button {
+        min-width: 0;
+        padding: 0;
+        margin: 0 0 0 15px;
+    }
+}
+
+@include md-layout-small {
+    .md-list-item-text :nth-child(3) {
+        color: #bbbbbb;
+    }
+}
+
+.muted {
+    // CR: 8.45, AA: 4.5
+    color: #bbbbbb;
 }
 
 .tags {
@@ -81,8 +86,29 @@ blockquote {
     background-color: rgb(125, 119, 123);
     margin-right: 8px;
     border-color: transparent;
+    min-width: 60px;
+    text-align: center;
 
     &.latest {
-        background-color: darken($not-yuki, 5%);
+        background-color: darken($himekawa, 5%);
+    }
+}
+
+.truncated {
+    span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+.md-avatar > img {
+    border-radius: 0;
+}
+
+a:not(.md-button) {
+    text-decoration: none !important;
+    &:hover {
+        color: lighten($himekawa, 10%) !important;
     }
 }

@@ -2,14 +2,13 @@
 
 Route::get('/', 'AvailableAppController@index')
      ->name('index');
-Route::get('/about', 'HomeController@about')
-     ->name('index.about');
-Route::get('/faq', 'HomeController@faq')
+Route::view('faq', 'frontend.faq')
      ->name('index.faq');
-Route::prefix('l')->group(function () {
+Route::prefix('s')->group(function () {
     Route::get('/', 'ShortLinkController@index')
          ->name('links.index');
-    Route::get('{shortCode}', 'ShortLinkController@show');
+    Route::get('{shortCode}', 'ShortLinkController@show')
+         ->name('links.show');
 });
 
 Route::rssFeeds();

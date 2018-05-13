@@ -10,11 +10,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class AvailableApp extends Model implements Feedable
 {
-    /**
-     * @var array
-     */
-    protected $appends = [
-        'url',
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d\TH:i:sP',
     ];
 
     /**
@@ -28,6 +25,17 @@ class AvailableApp extends Model implements Feedable
         'raw_badging',
     ];
 
+    protected static $availableFields = [
+        'id',
+        'app_id',
+        'version_code',
+        'version_name',
+        'size',
+        'hash',
+        'created_at',
+        'updated_at',
+    ];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -35,6 +43,22 @@ class AvailableApp extends Model implements Feedable
     {
         return $this->belongsTo(WatchedApp::class, 'app_id')
                     ->withDefault();
+    }
+
+    /**
+     * @return string
+     */
+    public function getFilenameAttribute()
+    {
+        return Apk::resolveApkFilename($this->watchedBy->package_name, $this->version_code);
+    }
+
+    /**
+     * @return string
+     */
+    public function getHumanBytesAttribute()
+    {
+        return humanReadableSize($this->size);
     }
 
     /**
@@ -53,22 +77,6 @@ class AvailableApp extends Model implements Feedable
     public function getUrlAttribute()
     {
         return Apk::resolveApkUrl($this->watchedBy->package_name, $this->version_code);
-    }
-
-    /**
-     * @return string
-     */
-    public function getFilenameAttribute()
-    {
-        return Apk::resolveApkFilename($this->watchedBy->package_name, $this->version_code);
-    }
-
-    /**
-     * @return string
-     */
-    public function getHumanBytesAttribute()
-    {
-        return humanReadableSize($this->size);
     }
 
     /**
@@ -97,19 +105,12 @@ class AvailableApp extends Model implements Feedable
      */
     public static function getFeedItems()
     {
-        return Cache::remember('available-apps:all-watched', config('googleplay.metainfo_cache_ttl'), function () {
-            return AvailableApp::with('watchedBy')
-                               ->limit(20)
-                               ->get([
-                                   'id',
-                                   'app_id',
-                                   'version_code',
-                                   'version_name',
-                                   'size',
-                                   'hash',
-                                   'created_at',
-                                   'updated_at',
-                               ]);
-        });
+        return Cache::tags('apps')
+                    ->remember('available-apps:all-watched', config('googleplay.metainfo_cache_ttl'), function () {
+                        return AvailableApp::with('watchedBy')
+                                           ->latest()
+                                           ->limit(20)
+                                           ->get(static::$availableFields);
+                    });
     }
 }

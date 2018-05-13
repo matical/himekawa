@@ -66,7 +66,7 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapApiRoutes()
     {
         Route::prefix('hime')
-             ->middleware('api')
+             ->middleware(['api', 'weak.cache'])
              ->namespace($this->apiNamespace)
              ->group(base_path('routes/api.php'));
     }

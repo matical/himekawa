@@ -3,6 +3,10 @@
 namespace himekawa\Providers;
 
 use Illuminate\Support\Facades\Event;
+use himekawa\Events\Scheduler\AppsUpdated;
+use himekawa\Listeners\Scheduler\FlushAppCache;
+use himekawa\Listeners\Scheduler\NotifyByTelegram;
+use himekawa\Listeners\Scheduler\MarkSchedulerLastSuccessfulRun;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
@@ -13,10 +17,10 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'himekawa\Events\Scheduler\AppsUpdated' => [
-            'himekawa\Listeners\Scheduler\FlushAppCache',
-            'himekawa\Listeners\Scheduler\MarkSchedulerLastSuccessfulRun',
-            'himekawa\Listeners\Scheduler\NotifyByTelegram',
+        AppsUpdated::class => [
+            FlushAppCache::class,
+            MarkSchedulerLastSuccessfulRun::class,
+            NotifyByTelegram::class,
         ],
     ];
 

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#ff9800">
+    <meta name="theme-color" content="#d86b0d">
 
     <meta name="description" content="@yield('meta-description', 'ksmz is mine.')">
 
@@ -13,23 +13,23 @@
 
     <title>ひめかわ :: @yield('title')</title>
 
-    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,400italic">
     <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
 
     {{-- Styles --}}
+    <style>[v-cloak] { display: none; }</style>
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
     @include('feed::links')
 </head>
 <body>
 <div id="app" v-cloak>
-    <div class="container">
+    <md-app :md-scrollbar="false">
         @include('layouts.sidebar')
-        @include('layouts.header')
-        <div class="main-content">
+        <md-app-content>
             @yield('content')
-        </div>
-    </div>
+        </md-app-content>
+    </md-app>
 </div>
 
 {{-- Scripts --}}
