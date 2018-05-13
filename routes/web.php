@@ -2,7 +2,7 @@
 
 Route::get('/', 'AvailableAppController@index')
      ->name('index');
-Route::get('/faq', 'HomeController@faq')
+Route::view('faq', 'frontend.faq')
      ->name('index.faq');
 Route::prefix('s')->group(function () {
     Route::get('/', 'ShortLinkController@index')
