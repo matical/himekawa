@@ -11,7 +11,7 @@
                     <md-avatar><img src="{{ $availableApp->image }}"></md-avatar>
                     <div class="md-list-item-text">
                         <span>{{ $availableApp->name }}</span>
-                        <span><a href="{{ route('links.show', $availableApp->slug) }}">({{ route('links.show', $availableApp->slug) }})</a></span>
+                        <span><a href="{{ route('links.show', $availableApp->slug) }}">{{ route('links.show', $availableApp->slug) }}</a></span>
                     </div>
                 </md-list-item>
             @endforeach
