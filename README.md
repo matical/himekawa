@@ -8,19 +8,19 @@
 <p align="center">** incomplete **</p>
 
 # Dependencies
-* PHP >7.1
-* Laravel 5.6 [Requirements](https://laravel.com/docs/5.6#installation)
+* PHP >7.1 with [L5.6's Requirements](https://laravel.com/docs/5.6#installation)
 * Redis
-* [`google-play-cli`](https://github.com/dweinstein/node-google-play-cli)
-* `aapt` (Available standalone, check your package manager)
+* Any DB supported by [Eloquent](https://laravel.com/docs/5.6/database#introduction)
+    - If you don't want to run a full blown DB, SQLite should do pretty well here since most of the heavy lifting will be carried
+    out by redis.
+* [google-play-cli](https://github.com/dweinstein/node-google-play-cli) (this implies Node + Yarn)
+* `aapt` (Android Asset Packaging Too) - Available standalone on most distros, check your package manager
 
-## Bootstrapping a local environment
-You will need a \*nix environment (WSL works) as [horizon](https://laravel.com/docs/5.5/horizon) requires ext-pcntl (\*nix only PHP extension).
-
-* `git clone https://github.com/kbkyzd/shiraishi` - Clone the repo
+## Developing
+* `git clone https://github.com/matical/himekawa` - Clone the repo
 * `composer install` - Install PHP dependencies
 * `yarn` - Install frontend assets
-* `yarn run dev` - Compile frontend assets
+* `yarn run dev/watch` - Compile frontend assets
 * `cp .env.example .env` - Fill in your secrets here. Should be pretty self explantory
 
 ## Setting up google-play-cli
