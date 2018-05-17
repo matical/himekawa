@@ -14,9 +14,7 @@ return [
              */
             'items' => 'himekawa\AvailableApp@getFeedItems',
 
-            /*
-             * The feed will be available on this url.
-             */
+            // The feed will be available on this url.
             'url'   => '/feed',
 
             'title' => 'APK Releases for himekawa (' . config('app.url') . ')',

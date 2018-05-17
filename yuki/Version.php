@@ -16,10 +16,12 @@ class Version
      * @var string
      */
     protected $currentRevisionKey = 'version:current-revision';
+
     /**
      * @var string
      */
     protected $currentHashKey = 'version:current-hash';
+
     /**
      * @var string
      */

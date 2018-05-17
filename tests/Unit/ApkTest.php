@@ -6,8 +6,6 @@ use Tests\TestCase;
 use yuki\Foundation\Apk;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ApkTest extends TestCase
 {

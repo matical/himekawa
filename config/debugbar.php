@@ -73,7 +73,7 @@ return [
      | in the Messages tab.
      |
      */
-    'error_handler' => false,
+    'error_handler'   => false,
 
     /*
      |--------------------------------------------------------------------------
@@ -84,7 +84,7 @@ return [
      | Extension, without the server-side code. It uses Debugbar collectors instead.
      |
      */
-    'clockwork' => false,
+    'clockwork'       => false,
 
     /*
      |--------------------------------------------------------------------------
@@ -129,20 +129,22 @@ return [
      */
 
     'options' => [
-        'auth' => [
+        'auth'  => [
             'show_name' => true,   // Also show the users name/email in the debugbar
         ],
-        'db' => [
-            'with_params'       => true,   // Render SQL with the parameters substituted
-            'backtrace'         => true,   // Use a backtrace to find the origin of the query in your files.
-            'timeline'          => true,  // Add the queries to the timeline
-            'explain'           => [                 // Show EXPLAIN output on queries
+        'db'    => [
+            'with_params' => true,   // Render SQL with the parameters substituted
+            'backtrace'   => true,   // Use a backtrace to find the origin of the query in your files.
+            'timeline'    => true,  // Add the queries to the timeline
+            'explain'     => [
+                // Show EXPLAIN output on queries
                 'enabled' => false,
-                'types'   => ['SELECT'],     // ['SELECT', 'INSERT', 'UPDATE', 'DELETE']; for MySQL 5.6.3+
+                'types'   => ['SELECT'],
+                // ['SELECT', 'INSERT', 'UPDATE', 'DELETE']; for MySQL 5.6.3+
             ],
-            'hints'             => true,    // Show hints for common mistakes
+            'hints'       => true,    // Show hints for common mistakes
         ],
-        'mail' => [
+        'mail'  => [
             'full_log' => false,
         ],
         'views' => [
@@ -151,7 +153,7 @@ return [
         'route' => [
             'label' => true,  // show complete route on bar
         ],
-        'logs' => [
+        'logs'  => [
             'file' => null,
         ],
         'cache' => [
@@ -170,7 +172,7 @@ return [
      |
      */
 
-    'inject' => true,
+    'inject'       => true,
 
     /*
      |--------------------------------------------------------------------------
