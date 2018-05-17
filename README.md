@@ -1,8 +1,8 @@
 <p align="center"><img src="https://raw.githubusercontent.com/matical/himekawa/master/public/favicon.png"></p>
 <p align="center">
-    <a href="https://styleci.io/repos/110443572"><img src="https://styleci.io/repos/103241043/shield?branch=master" alt="Style CI Status" title="Style CI Status"></a>
-    <a href="https://travis-ci.org/kbkyzd/shiraishi"><img src="https://img.shields.io/travis/matical/himekawa.svg?style=flat-square" alt="Build Status" title="Build Status"></a>
-    <a href="https://coveralls.io/github/kbkyzd/shiraishi?branch=master"><img src="https://img.shields.io/coveralls/github/matical/himekawa/master.svg?style=flat-square" alt="Test Coverage" title="Test Coverage"></a>
+    <a href="https://styleci.io/repos/103241043"><img src="https://styleci.io/repos/103241043/shield?branch=master" alt="Style CI Status" title="Style CI Status"></a>
+    <a href="https://travis-ci.org/matical/himekawa"><img src="https://img.shields.io/travis/matical/himekawa.svg?style=flat-square" alt="Build Status" title="Build Status"></a>
+    <a href="https://coveralls.io/github/matical/himekawa?branch=master"><img src="https://img.shields.io/coveralls/github/matical/himekawa/master.svg?style=flat-square" alt="Test Coverage" title="Test Coverage"></a>
 </p>
 
 <p align="center">** incomplete **</p>
