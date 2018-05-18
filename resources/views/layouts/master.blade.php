@@ -9,7 +9,7 @@
     <meta name="description" content="@yield('meta-description', 'ksmz is mine.')">
 
     <meta property="og:title" content="@yield('title')">
-    <meta property="og:description" content="@yield('meta-description')">
+    <meta property="og:description" content="@yield('meta-description', 'ksmz is mine.')">
 
     <title>ひめかわ :: @yield('title')</title>
 
