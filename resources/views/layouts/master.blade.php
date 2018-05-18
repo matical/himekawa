@@ -8,7 +8,7 @@
 
     <meta name="description" content="@yield('meta-description', 'ksmz is mine.')">
 
-    <meta property="og:title" content="@yield('title')">
+    <meta property="og:title" content="ひめかわ :: @yield('title')">
     <meta property="og:description" content="@yield('meta-description', 'ksmz is mine.')">
     <meta property="og:image" content="{{ asset('favicon.png') }}">
 
