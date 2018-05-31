@@ -5,6 +5,7 @@ namespace himekawa\Console\Commands;
 use yuki\Clients\Image;
 use himekawa\WatchedApp;
 use Illuminate\Console\Command;
+use ksmz\NanaLaravel\NanaManager;
 use yuki\Command\HasPrettyProgressBars;
 use yuki\Repositories\DetailsRepository;
 
@@ -42,17 +43,22 @@ class DownloadImages extends Command
     protected $image;
 
     /**
+     * @var \ksmz\NanaLaravel\NanaManager
+     */
+    protected $nana;
+
+    /**
      * Create a new command instance.
      *
      * @param \yuki\Repositories\DetailsRepository $details
-     * @param \yuki\Clients\Image                  $image
+     * @param \ksmz\NanaLaravel\NanaManager        $nana
      */
-    public function __construct(DetailsRepository $details, Image $image)
+    public function __construct(DetailsRepository $details, NanaManager $nana)
     {
         parent::__construct();
 
         $this->details = $details;
-        $this->image = $image;
+        $this->nana = $nana;
     }
 
     /**
@@ -62,18 +68,8 @@ class DownloadImages extends Command
      */
     public function handle()
     {
-        $this->configureImagePath();
-
         $imagesToDownload = $this->peekImages(WatchedApp::pluck('package_name'));
-
-        $this->output->newLine(2);
-
         $this->fetchImages($imagesToDownload);
-    }
-
-    protected function configureImagePath()
-    {
-        $this->image->setImagePath($this->option('image') ?? config('himekawa.paths.app_images'));
     }
 
     /**
@@ -93,6 +89,8 @@ class DownloadImages extends Command
 
             $bar->advance();
         }
+
+        $this->output->newLine(2);
 
         return $imagesToDownload;
     }
@@ -116,7 +114,9 @@ class DownloadImages extends Command
         foreach ($imagesToDownload as $package => $imageUrl) {
             $bar->setMessage("Downloading $package's icon");
 
-            $this->image->fetchAndStore($imageUrl, $package);
+            $this->nana->faucet('image')
+                       ->get($imageUrl)
+                       ->store("$package.png");
 
             $bar->advance();
         }
