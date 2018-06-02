@@ -46,6 +46,14 @@ class AvailableApp extends Model implements Feedable
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function badging()
+    {
+        return $this->hasOne(Badging::class, 'available_app_id');
+    }
+
+    /**
      * @return string
      */
     public function getFilenameAttribute()

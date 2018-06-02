@@ -79,15 +79,18 @@ class AvailableAppsRepository
             )
         )->getPackage();
 
-        $rawBadging = $this->badging->getRawBadging();
-
-        return $package->availableApps()->create([
+        $newApp = $package->availableApps()->create([
             'version_code' => $metadata->versionCode,
             'version_name' => $badging['versionName'],
             'size'         => $metadata->size,
             'hash'         => $metadata->sha1,
-            'raw_badging'  => $rawBadging,
         ]);
+
+        return tap($newApp, function (AvailableApp $newApp) {
+            $newApp->badging()->create([
+                'raw_badging' => $this->badging->getRawBadging(),
+            ]);
+        });
     }
 
     /**
