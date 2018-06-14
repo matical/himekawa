@@ -4,7 +4,7 @@
     "keywords": [
         "himekawa"
     ],
-    "license": "MIT",
+    "license": "BSD-2-Clause",
     "type": "project",
     "require": {
         "php": ">=7.1.3",
