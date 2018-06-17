@@ -50,7 +50,7 @@ class ListAvailableApks extends Command
         $apps = AvailableApp::latest()
                             ->get();
 
-        $this->option('all') ? $this->detailed($apps) : $this->summarized($apps);
+        $this->option('all') ? $this->detailed($apps) : $this->summarized();
     }
 
     /**
@@ -72,7 +72,7 @@ class ListAvailableApks extends Command
     /**
      * @param \Illuminate\Database\Eloquent\Collection $apps
      */
-    protected function summarized($apps)
+    protected function summarized()
     {
         $this->briefStats();
 
