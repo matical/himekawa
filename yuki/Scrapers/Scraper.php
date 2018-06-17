@@ -2,6 +2,7 @@
 
 namespace yuki\Scrapers;
 
+use ksmz\json\Json;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
 abstract class Scraper
@@ -63,6 +64,6 @@ abstract class Scraper
      */
     protected function decodeResult(string $output): void
     {
-        $this->jsonOutput = json_decode($output, $this->outputAsArray);
+        $this->jsonOutput = Json::decode($output, $this->outputAsArray);
     }
 }

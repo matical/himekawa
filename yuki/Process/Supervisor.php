@@ -2,6 +2,7 @@
 
 namespace yuki\Process;
 
+use ksmz\json\Json;
 use RuntimeException;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
@@ -83,6 +84,6 @@ class Supervisor
      */
     protected function serializeOutput($output)
     {
-        return json_decode($output);
+        return Json::decode($output);
     }
 }
