@@ -105,11 +105,10 @@ class CheckForAppUpdates extends Command
      * Download required updates.
      *
      * @param $appsRequiringUpdates
-     * @return array
      *
      * @throws \yuki\Exceptions\FailedToVerifyHashException
      */
-    protected function downloadRequiredUpdates(array $appsRequiringUpdates): array
+    protected function downloadRequiredUpdates(array $appsRequiringUpdates)
     {
         $appsUpdated = [];
         $bar = $this->newProgressBar($appsRequiringUpdates);
