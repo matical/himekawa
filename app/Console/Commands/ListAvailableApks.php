@@ -2,7 +2,9 @@
 
 namespace himekawa\Console\Commands;
 
+use himekawa\WatchedApp;
 use himekawa\AvailableApp;
+use yuki\Command\Apk\Stats;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 
@@ -22,33 +24,20 @@ class ListAvailableApks extends Command
      */
     protected $description = 'List available APKs';
 
-    protected $fields = [
-        'app_id',
-        'version_code',
-        'version_name',
-        'size',
-        'hash',
-        'created_at',
-        'updated_at',
-    ];
-
-    protected $inView = [
-        'version_code',
-        'version_name',
-        'human_bytes',
-        'hash',
-        'created_at',
-        'updated_at',
-    ];
+    /**
+     * @var \yuki\Command\Apk\Stats
+     */
+    protected $stats;
 
     /**
      * Create a new command instance.
      *
-     * @return void
+     * @param \yuki\Command\Apk\Stats $stats
      */
-    public function __construct()
+    public function __construct(Stats $stats)
     {
         parent::__construct();
+        $this->stats = $stats;
     }
 
     /**
@@ -58,11 +47,10 @@ class ListAvailableApks extends Command
      */
     public function handle()
     {
-        $apps = AvailableApp::all($this->fields);
+        $apps = AvailableApp::latest()
+                            ->get();
 
-        if ($this->option('all')) {
-            $this->detailed($apps);
-        }
+        $this->option('all') ? $this->detailed($apps) : $this->summarized($apps);
     }
 
     /**
@@ -73,28 +61,86 @@ class ListAvailableApks extends Command
         $grouped = $apps->groupBy('app_id');
 
         $grouped->each(function (Collection $group) {
-            $this->line('# ' . $group->first()->watchedBy->name);
+            $this->line($this->formatTitle($group->first()->app_id));
 
-            // Unload relations
-            $fields = $group->map(function (AvailableApp $app) {
-                return $app->only($this->inView);
-            })->toArray();
+            $this->table(['VC', 'Version', 'Size', 'Hash (SHA1)', 'Downloaded On'], $this->filter($group));
 
-            $this->table($this->unSlug($this->inView), $fields);
             $this->output->newLine();
         });
     }
 
     /**
-     * @param $slug
+     * @param \Illuminate\Database\Eloquent\Collection $apps
+     */
+    protected function summarized($apps)
+    {
+        $this->briefStats();
+
+        $firstOfEachApp = collect();
+        foreach (WatchedApp::all() as $watched) {
+            $firstOfEachApp[$watched->package_name] = $watched->latestApp();
+        }
+
+        $this->line('DB');
+        $this->line('--');
+
+        $firstOfEachApp->each(function (AvailableApp $latestApp, $packageName) {
+            $output = sprintf(
+                '<fg=magenta>%s</>: %s vc%s (%s)',
+                $packageName,
+                $latestApp->version_name,
+                $latestApp->version_code,
+                $latestApp->created_at->diffForHumans()
+            );
+
+            $this->line($output);
+        });
+    }
+
+    protected function briefStats()
+    {
+        $this->line('Local Directory');
+        $this->line('---------------');
+
+        $output = sprintf(
+            'Size: <info>%s</info> | Files Available: <info>%s</info>',
+            $this->stats->totalSizeOfDirectory(),
+            $this->stats->totalAmountOfFiles()
+        );
+
+        $this->line($output);
+        $this->output->newLine();
+    }
+
+    /**
+     * @param $appId
+     * @return string
+     */
+    protected function formatTitle($appId)
+    {
+        $format = '%s [%s]';
+        $watchedApp = WatchedApp::find($appId);
+
+        return sprintf($format, $watchedApp->name, $watchedApp->package_name);
+    }
+
+    /**
+     * @param \Illuminate\Support\Collection $apps
+     * @return \Illuminate\Support\Collection
+     */
+    protected function filter(Collection $apps)
+    {
+        return $apps->map(function ($apk) {
+            return $this->only($apk);
+        });
+    }
+
+    /**
+     * @param \himekawa\AvailableApp $apk
      * @return array
      */
-    protected function unSlug($slug)
+    protected function only(AvailableApp $apk)
     {
-        $slugs = array_wrap($slug);
-
-        return array_map(function ($slug) {
-            return ucwords(str_replace('_', ' ', $slug));
-        }, $slugs);
+        return $apk->only(['version_code', 'version_name', 'human_bytes', 'hash', 'created_at']);
     }
 }

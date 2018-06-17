@@ -41,11 +41,6 @@ class CheckForAppUpdates extends Command
     protected $appsRequiringUpdates = [];
 
     /**
-     * @var array
-     */
-    protected $appsUpdated = [];
-
-    /**
      * @var \yuki\Scrapers\Download
      */
     protected $download;
@@ -103,7 +98,7 @@ class CheckForAppUpdates extends Command
 
         info('Updates found.', $this->appsRequiringUpdates);
 
-        $this->appsUpdated = $this->downloadRequiredUpdates($this->appsRequiringUpdates);
+        $this->downloadRequiredUpdates($this->appsRequiringUpdates);
     }
 
     /**
@@ -133,10 +128,11 @@ class CheckForAppUpdates extends Command
             $bar->advance();
         }
 
-        event(new AppsUpdated($appsUpdated));
         $bar->finish();
 
-        return $appsUpdated;
+        if (! empty($appsUpdated)) {
+            event(new AppsUpdated($appsUpdated));
+        }
     }
 
     /**

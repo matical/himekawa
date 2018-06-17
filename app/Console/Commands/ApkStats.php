@@ -2,9 +2,8 @@
 
 namespace himekawa\Console\Commands;
 
+use yuki\Command\Apk\Stats;
 use Illuminate\Console\Command;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Storage;
 
 class ApkStats extends Command
 {
@@ -35,46 +34,16 @@ class ApkStats extends Command
     /**
      * Execute the console command.
      *
-     * @return mixed
+     * @param \yuki\Command\Apk\Stats $stats
      */
-    public function handle()
+    public function handle(Stats $stats)
     {
-        $this->line(sprintf(
+        $output = sprintf(
             'Size: <info>%s</info> | Files Available: <info>%s</info>',
-            humanReadableSize($this->totalSizeOfDirectory()),
-            $this->totalAmountOfFiles()
-        ));
-    }
+            $stats->totalSizeOfDirectory(),
+            $stats->totalAmountOfFiles()
+        );
 
-    /**
-     * @return int
-     */
-    protected function totalSizeOfDirectory(): int
-    {
-        $totalSize = 0;
-
-        foreach ($this->allFiles() as $file) {
-            $totalSize += Storage::size($file);
-        }
-
-        return $totalSize;
-    }
-
-    /**
-     * @return int
-     */
-    protected function totalAmountOfFiles(): int
-    {
-        return $this->allFiles()->count();
-    }
-
-    /**
-     * @return \Illuminate\Support\Collection
-     */
-    protected function allFiles(): Collection
-    {
-        return collect(array_filter(Storage::allFiles(), function ($file) {
-            return ! (strpos($file, '.') === 0);
-        }));
+        $this->line($output);
     }
 }

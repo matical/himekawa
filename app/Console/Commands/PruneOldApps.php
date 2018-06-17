@@ -20,7 +20,7 @@ class PruneOldApps extends Command
      *
      * @var string
      */
-    protected $description = '';
+    protected $description = 'Cleanup outdated APKs.';
 
     /**
      * @var \yuki\Repositories\AvailableAppsRepository
