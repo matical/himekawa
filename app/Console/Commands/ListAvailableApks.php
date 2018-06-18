@@ -69,9 +69,6 @@ class ListAvailableApks extends Command
         });
     }
 
-    /**
-     * @param \Illuminate\Database\Eloquent\Collection $apps
-     */
     protected function summarized()
     {
         $this->briefStats();
