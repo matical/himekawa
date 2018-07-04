@@ -3,9 +3,9 @@ import VueMaterial from 'vue-material';
 
 Vue.use(VueMaterial);
 
-Vue.component('himekawa', require('./components/Himekawa'));
-Vue.component('app-item', require('./components/AvailableApp'));
-Vue.component('apk', require('./components/Apk'));
+Vue.component('himekawa', require('./components/Index/Himekawa'));
+Vue.component('app-item', require('./components/Index/AvailableApp'));
+Vue.component('apk', require('./components/Index/Apk'));
 
 new Vue({
     el: '#app',
