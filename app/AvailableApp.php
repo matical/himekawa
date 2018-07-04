@@ -14,6 +14,10 @@ class AvailableApp extends Model implements Feedable
         'created_at' => 'datetime:Y-m-d\TH:i:sP',
     ];
 
+    protected $touches = [
+        'watchedBy',
+    ];
+
     /**
      * @var array
      */
