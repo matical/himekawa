@@ -12,4 +12,7 @@ Route::prefix('s')->group(function () {
          ->name('links.show');
 });
 
+Route::get('{shortCode}', 'ShortLinkController@show')
+     ->name('links.show');
+
 Route::rssFeeds();
