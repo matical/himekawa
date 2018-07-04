@@ -5,6 +5,7 @@
 /public/js
 /public/images
 /public/fonts
+/public/apks
 /storage/*.key
 /vendor
 /.idea
