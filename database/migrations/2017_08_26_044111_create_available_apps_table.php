@@ -21,8 +21,6 @@ class CreateAvailableAppsTable extends Migration
             $table->string('version_name');
             $table->integer('size');
             $table->string('hash');
-            $table->text('raw_badging')
-                  ->nullable();
 
             $table->timestamps();
 

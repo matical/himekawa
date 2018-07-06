@@ -21,15 +21,8 @@ class CreateBadgingsTable extends Migration
 
             $table->foreign('available_app_id')
                   ->references('id')
-                  ->on('available_apps');
-        });
-
-        AvailableApp::all()->each(function (AvailableApp $app) {
-            $app->badging()->create(['raw_badging' => $app->raw_badging]);
-        });
-
-        Schema::table('available_apps', function (Blueprint $table) {
-            $table->dropColumn('raw_badging');
+                  ->on('available_apps')
+                  ->onDelete('cascade');
         });
     }
 
@@ -40,11 +33,6 @@ class CreateBadgingsTable extends Migration
      */
     public function down()
     {
-        Schema::table('available_apps', function (Blueprint $table) {
-            $table->text('raw_badging')
-                  ->nullable();
-        });
-
         Schema::dropIfExists('badgings');
     }
 }
