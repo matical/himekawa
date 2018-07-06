@@ -8,35 +8,32 @@
 <p align="center">** incomplete **</p>
 
 # Dependencies
-* PHP >7.1 with [L5.6's Requirements](https://laravel.com/docs/5.6#installation)
+* PHP >7.1/7.2 with [L5.6's Requirements](https://laravel.com/docs/5.6#installation)
+* Composer + Yarn/NPM
 * Redis
 * Any DB supported by [Eloquent](https://laravel.com/docs/5.6/database#introduction)
-    - If you don't want to run a full blown DB, SQLite should do pretty well here since most of the heavy lifting will be carried
-    out by redis.
-* [google-play-cli](https://github.com/dweinstein/node-google-play-cli) (this implies Node + Yarn)
-* `aapt` (Android Asset Packaging Too) - Available standalone on most distros, check your package manager
+    - MariaDB, Postgres and SQLite should all work just fine
+* [node-google-play-cli](https://github.com/dweinstein/node-google-play-cli)
+* `aapt` (Android Asset Packaging Too)
+    - Available standalone on most distros, check your package manager
 
 ## Developing
 * `git clone https://github.com/matical/himekawa` - Clone the repo
 * `composer install` - Install PHP dependencies
 * `yarn` - Install frontend assets
-* `yarn run dev/watch` - Compile frontend assets
-* `cp .env.example .env` - Fill in your secrets here. Should be pretty self explantory
+* `yarn run dev/watch/prod` - Compile frontend assets
 
-## Setting up google-play-cli
+### Bootstrapping
+* `cp .env.example .env` - Fill in your secrets here. Should be pretty self explantory
+* `php artisan key:generate`
+* `php artisan serve`
+
+# Design
+
+## google-play-cli
 `google-play-cli` is just a very simplistic wrapper around the [`gpapi`](https://github.com/dweinstein/node-google-play) node librry. Feed it a package name and it'll return json.
 
-## What google-play-cli does
-* Fetch GP's
-
-## What himekawa does
-`himekawa` is built around parsing output from the node app.
-
-### Region restricted apps
-Since this focuses on scraping weeb apps, here's some tips to get things running.
-
-#### Google Account
-
+`himekawa` is built around parsing output from this node app.
 
 ## Example Crontab config
 ```sh
