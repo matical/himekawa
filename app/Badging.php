@@ -10,6 +10,8 @@ class Badging extends Model
         'raw_badging',
     ];
 
+    protected $primaryKey = 'available_app_id';
+
     public $timestamps = false;
 
     public function app()
