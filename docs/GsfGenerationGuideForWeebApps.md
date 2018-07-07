@@ -10,9 +10,9 @@ Google Play (henceforth referred to as GP) has a *roaming* feature when it comes
 This means you don't actually need to be on a JP VPN once you've downloaded it at least *once*. 
 
 ## build.prop
-Besides region, GP filters (and subsequently prevent) apps based on your device capabilities. Dummydroid lets you register devices and spits out a GSF ID. This is how GP does its filtering.
+Besides region, GP filters (and subsequently prevents) app installs based on your identified GSF ID, which is tied to your device capabilities. Dummydroid lets you register a custom device and spits out a GSF ID.
 
-The props you should usually take note of is your SDK version (Android version) and OpenGL ES version. 
+For games, just take note of is your SDK version (Android version) and OpenGL ES version. GP doesn't really care too much about the specifics as long as it isn't too ridiculous.
 
 Some relatively new games like Theater Days (ミリシタ) requires OpenGL ES >3.0. TD does actually support x86 platforms, but as of time of this writing, GLES >3 only exists on beta builds. 
 
