@@ -24,9 +24,14 @@
 * `yarn run dev/watch/prod` - Compile frontend assets
 
 ### Bootstrapping
-* `cp .env.example .env` - Fill in your secrets here. Should be pretty self explantory
+* `cp .env.example .env`
+    - Fill in your secrets here. Fields should be pretty self explanatory.
 * `php artisan key:generate`
 * `php artisan serve`
+
+
+### Configuration
+
 
 # Design
 
