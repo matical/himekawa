@@ -10,4 +10,5 @@
         <br>
         &gt;&gt;<a href="{{ route('index.faq') }}"> FAQ</a>
     </div>
+    @includeWhen(announcement()->available(), 'components.cd', ['announcement' => announcement()->rendered()])
 @endsection

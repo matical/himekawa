@@ -1,6 +1,8 @@
-<h2>💿</h2>
-<blockquote>
-    @foreach ($announcements as $announcement)
-        <p style="{{ ! $loop->first ? 'text-decoration: line-through' : '' }}">{{ $announcement }}</p>
-    @endforeach
-</blockquote>
+<md-card class="announcement-container">
+    <md-card-header>
+        <div class="md-title">💿</div>
+    </md-card-header>
+    <md-card-content>
+        {!! $announcement !!}
+    </md-card-content>
+</md-card>

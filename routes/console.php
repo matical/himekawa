@@ -1,9 +1,17 @@
 <?php
 
 use yuki\Announce\Announcement;
+use yuki\Command\TerminalEditorBuffer;
 
-Artisan::command('announce', function (Announcement $announcement) {
-    $announcement->broadcast($this->ask('Announcement'));
+Artisan::command('announce', function (Announcement $announcement, TerminalEditorBuffer $buffer) {
+    $output = $announcement->available()
+        ? $buffer->initial($announcement->get())
+                 ->prompt()
+                 ->getOutput()
+        : $buffer->prompt()
+                 ->getOutput();
+
+    $announcement->broadcast($output);
     $this->info('Announcement added.');
 })->describe('Creates an announcement');
 
@@ -11,22 +19,3 @@ Artisan::command('announce:clear', function (Announcement $announcement) {
     $announcement->clear();
     $this->info('Announcements cleared.');
 })->describe('Clear all announcements');
-
-Artisan::command('announce:list', function (Announcement $announcement) {
-    $secondsTo = Redis::ttl(config('cache.prefix') . ':' . config('himekawa.announcement.key'));
-    // Redis ttl returns -2 for non-existent keys.
-    if ($secondsTo === -2) {
-        $this->info('No announcements active.');
-
-        return;
-    }
-
-    $expiry = now()->addSeconds($secondsTo)->diffForHumans();
-
-    $this->line("Announcement(s) will expire in <info>$expiry</info>.");
-    $this->line('');
-
-    foreach ($announcement->get() as $announce) {
-        $this->line("> <info>$announce</info>");
-    }
-})->describe('List announcements');

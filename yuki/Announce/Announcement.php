@@ -2,7 +2,7 @@
 
 namespace yuki\Announce;
 
-use Illuminate\Support\Collection;
+use Parsedown;
 use Illuminate\Support\Facades\Cache;
 
 class Announcement
@@ -37,9 +37,7 @@ class Announcement
      */
     public function broadcast($message)
     {
-        $announcements = $this->get();
-        $announcements->prepend($message);
-        $this->store($announcements);
+        $this->store($message);
     }
 
     /**
@@ -51,19 +49,24 @@ class Announcement
     }
 
     /**
-     * @return \Illuminate\Support\Collection
+     * @return string
      */
-    public function get(): Collection
+    public function get(): string
     {
-        return collect(Cache::get($this->cacheKey, []));
+        return Cache::get($this->cacheKey, '');
     }
 
     /**
-     * @param \Illuminate\Support\Collection $announcements
+     * @param string $announcements
      */
-    protected function store(Collection $announcements)
+    public function store(string $announcements)
     {
         Cache::put($this->cacheKey, $announcements, $this->expiry);
+    }
+
+    public function rendered()
+    {
+        return (new Parsedown())->text($this->get());
     }
 
     /**
