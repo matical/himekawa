@@ -2,7 +2,6 @@
 
 namespace himekawa\Console\Commands;
 
-use yuki\Clients\Image;
 use himekawa\WatchedApp;
 use Illuminate\Console\Command;
 use ksmz\NanaLaravel\NanaManager;

@@ -2,7 +2,6 @@
 
 namespace himekawa\Console\Commands;
 
-use yuki\Scrapers\Metainfo;
 use yuki\Command\BaseCommand as Command;
 
 class FetchMetainfo extends Command

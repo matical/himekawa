@@ -77,7 +77,7 @@ class WatchedAppSeeder extends Seeder
             'slug'           => 'priconne',
             'original_title' => 'プリンセスコネクト！Re:Dive',
             'package_name'   => 'jp.co.cygames.princessconnectredive',
-        ]
+        ],
     ];
 
     /**
