@@ -5,8 +5,13 @@
 </template>
 
 <script>
+    import availableApp from './AvailableApp';
+
     export default {
         props: ['availableApps'],
+        components: {
+            'app-item': availableApp
+        }
     }
 </script>
 

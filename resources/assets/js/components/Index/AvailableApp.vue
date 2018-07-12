@@ -5,11 +5,11 @@
         </md-avatar>
         <div class="md-list-item-text">
             <span>{{ app.name }}</span>
-            <span class="md-small-hide muted">{{ app.original_title }}</span>
+            <span class="md-small-hide muted">v{{ latestApp.version_name }}</span>
             <span>
-                    <span :class="{recent: isRecent(latestApp.created_at)}">{{ formatDate(latestApp.created_at) }}</span>
+                    <span :class="{recent: isRecent(latestApp.created_at)}">{{ diffDate(latestApp.created_at) }}</span>
                     <transition name="fade">
-                        <span v-if="hovered">/ {{ formatPrettyDate(app.available_apps[0].created_at) }}</span>
+                        <span v-if="hovered">/ {{ formatPrettyDate(latestApp.created_at) }}</span>
                     </transition>
             </span>
         </div>
@@ -26,29 +26,17 @@
 </template>
 
 <script>
-    import moment from "moment";
-    import {upperFirst} from "lodash-es";
+    import apk from './Apk';
 
     export default {
         props: ['app'],
+        components: {
+            'apk': apk
+        },
         data() {
             return {
                 hovered: false,
                 latestApp: this.app.available_apps[0]
-            }
-        },
-        methods: {
-            formatPrettyDate(iso) {
-                return moment(iso).format('MMMM Do, H:mm [JST]');
-            },
-            formatDate(iso) {
-                return upperFirst(moment(iso).fromNow());
-            },
-            isRecent(iso) {
-                return this.diffInDays(moment(iso)) < 3;
-            },
-            diffInDays(from) {
-                return moment().diff(from, 'days');
             }
         }
     }

@@ -16,6 +16,7 @@
 <script>
     export default {
         props: ['apk', 'index', 'packageName'],
+
         methods: {
             resolveApkFilename(versionCode) {
                 return `${this.packageName}.${versionCode}.apk`

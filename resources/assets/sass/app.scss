@@ -4,7 +4,7 @@ $white: #fff;
 
 :root {
     --md-theme-default-primary-on-background: $himekawa;
-    --md-theme-default-background: #252525 !important;
+    --md-theme-default-background: #252525;
     --md-theme-default-accent-on-background: $himekawa;
 }
 
@@ -54,7 +54,19 @@ body {
 }
 
 .s-container {
-    padding: 4px 16px;
+    padding: 5px 16px;
+}
+
+.announcement-container {
+    margin-top: 15px;
+}
+
+.md-card.md-theme-default {
+    background-color: #d86b0d !important;
+}
+
+.md-card-header {
+    padding: 7px;
 }
 
 @include md-layout-xsmall {
