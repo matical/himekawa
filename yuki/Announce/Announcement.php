@@ -66,7 +66,9 @@ class Announcement
 
     public function rendered()
     {
-        return (new Parsedown())->text($this->get());
+        return Cache::remember($this->cacheKey . '-rendered', $this->expiry, function () {
+            return (new Parsedown())->text($this->get());
+        });
     }
 
     /**
