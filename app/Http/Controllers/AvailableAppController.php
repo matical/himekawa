@@ -20,4 +20,16 @@ class AvailableAppController extends Controller
             'apps' => $apps,
         ]);
     }
+
+    public function notices()
+    {
+        return view('frontend.announcements', [
+            'announcement' => announcement()->rendered(),
+        ]);
+    }
+
+    public function faq()
+    {
+        return view('frontend.faq');
+    }
 }

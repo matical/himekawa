@@ -2,7 +2,9 @@
 
 Route::get('/', 'AvailableAppController@index')
      ->name('index');
-Route::view('faq', 'frontend.faq')
+Route::get('notice', 'AvailableAppController@notices')
+     ->name('index.cd');
+Route::get('faq', 'AvailableAppController@faq')
      ->name('index.faq');
 Route::redirect('l', 's');
 Route::prefix('s')->group(function () {
