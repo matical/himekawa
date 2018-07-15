@@ -25,10 +25,10 @@ class WatchedAppSeeder extends Seeder
             'package_name'   => 'com.bandainamcoent.imas_SideM_LIVEONSTAGE',
         ],
         [
-            'name'           => 'Photokatsu',
-            'slug'           => 'photokatsu',
-            'original_title' => 'アイカツ！フォトonステージ！！',
-            'package_name'   => 'com.bandainamcoent.aktposjp',
+            'name'           => 'Magia Record',
+            'slug'           => 'magireco',
+            'original_title' => 'マギアレコード 魔法少女まどかマギカ外伝',
+            'package_name'   => 'com.aniplex.magireco',
         ],
         [
             'name'           => 'Girls Band Party',
