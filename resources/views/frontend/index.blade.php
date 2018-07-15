@@ -3,6 +3,9 @@
 @section('meta-description', 'APKs for weeb games.')
 
 @section('content')
+    <div class="s-container">
+        <h3><a href="{{ route('index.cd') }}">💿: announcement thingy</a></h3>
+    </div>
     <himekawa :available-apps='@json($apps)'></himekawa>
     <div class="s-container">
         Last check:
@@ -10,5 +13,4 @@
         <br>
         &gt;&gt;<a href="{{ route('index.faq') }}"> FAQ</a>
     </div>
-    @includeWhen(announcement()->available(), 'components.cd', ['announcement' => announcement()->rendered()])
 @endsection

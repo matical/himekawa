@@ -3,5 +3,5 @@
 @section('title', '404.')
 
 @section('message')
-    <span>404 :(</span>
+    <span>404.</span>
 @endsection

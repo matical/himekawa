@@ -9,15 +9,15 @@
     <title>@yield('title')</title>
 
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Neucha" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,400italic">
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <!-- Styles -->
     <style>
         html, body {
-            background-color: #161616;
+            background-color: #212121;
             color: #eb6c24;
-            font-family: 'Neucha', sans-serif;
+            font-family: 'Roboto', sans-serif;
             height: 100vh;
             margin: 0;
         }
@@ -51,6 +51,9 @@
     <div class="content">
         <div class="title">
             @yield('message')
+        </div>
+        <div>
+            <img src="/chiruchiru.png" title="chiruchiru-chang">
         </div>
     </div>
 </div>
