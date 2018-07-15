@@ -5,6 +5,7 @@ namespace himekawa\Console\Commands;
 use himekawa\WatchedApp;
 use Illuminate\Console\Command;
 use ksmz\NanaLaravel\NanaManager;
+use Symfony\Component\Process\Process;
 use yuki\Command\HasPrettyProgressBars;
 use yuki\Repositories\DetailsRepository;
 
@@ -22,7 +23,8 @@ class DownloadImages extends Command
      *
      * @var string
      */
-    protected $signature = 'apk:fetch-images {--image=}';
+    protected $signature = 'apk:fetch-images 
+                            {--O|optimize : Optimize app icons after download (Requires optipng to be accessible from path) }';
 
     /**
      * The console command description.
@@ -35,11 +37,6 @@ class DownloadImages extends Command
      * @var DetailsRepository
      */
     protected $details;
-
-    /**
-     * @var \yuki\Clients\Image
-     */
-    protected $image;
 
     /**
      * @var \ksmz\NanaLaravel\NanaManager
@@ -64,11 +61,15 @@ class DownloadImages extends Command
      * Execute the console command.
      *
      * @return mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function handle()
     {
         $imagesToDownload = $this->peekImages(WatchedApp::pluck('package_name'));
         $this->fetchImages($imagesToDownload);
+        if ($this->option('optimize')) {
+            $this->runOptimizeCommand();
+        }
     }
 
     /**
@@ -105,6 +106,8 @@ class DownloadImages extends Command
 
     /**
      * @param array $imagesToDownload
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     protected function fetchImages(array $imagesToDownload)
     {
@@ -119,5 +122,20 @@ class DownloadImages extends Command
 
             $bar->advance();
         }
+    }
+
+    protected function runOptimizeCommand()
+    {
+        $path = resource_path('assets/images');
+
+        // Process will automatically kill/cleanup optipng if this (apk:fetch-images) gets ctrl-c'd
+        $optipng = new Process("optipng $path/*.png");
+
+        $optipng->start();
+        $optipng->wait(function ($type, $buffer) {
+            if (str_contains($buffer, 'assets')) {
+                $this->line($buffer);
+            }
+        });
     }
 }
