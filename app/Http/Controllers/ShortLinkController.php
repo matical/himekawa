@@ -40,7 +40,13 @@ class ShortLinkController extends Controller
     public function show($shortCode)
     {
         $watched = $this->watchedApps->findBySlug($shortCode);
-        $to = optional($watched->latestApp())->url() ?? route('index');
+
+        // Since short links are accessible from '/'
+        if ($watched === null) {
+            abort(404);
+        }
+
+        $to = $watched->latestApp()->url() ?? route('index');
 
         return redirect($to);
     }
