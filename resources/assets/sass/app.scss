@@ -128,8 +128,8 @@ body {
     border-radius: 0;
 }
 
-a:not(.md-button) {
-    color: $himekawa !important;
+a:not(.md-button).md-theme-default {
+    color: $himekawa;
     text-decoration: none !important;
     &:hover {
         color: lighten($himekawa, 10%) !important;
