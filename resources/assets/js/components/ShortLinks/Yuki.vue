@@ -31,7 +31,7 @@
         },
         methods: {
             linkToShortRedirector(slug) {
-                return `/s/${slug}`;
+                return `${location.origin}/${slug}`;
             }
         }
     }
