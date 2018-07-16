@@ -2,7 +2,11 @@
 @section('title', 'Available Apps')
 
 @section('content')
-    <div class="marked">
-        {!! $announcement !!}
-    </div>
+    @empty($announcement)
+        No announcements available :)
+    @else
+        <div class="marked">
+            {!! $announcement !!}
+        </div>
+    @endif
 @endsection
