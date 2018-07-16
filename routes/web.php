@@ -6,14 +6,12 @@ Route::get('notice', 'AvailableAppController@notices')
      ->name('index.cd');
 Route::get('faq', 'AvailableAppController@faq')
      ->name('index.faq');
-Route::redirect('l', 's');
-Route::prefix('s')->group(function () {
-    Route::get('/', 'ShortLinkController@index')
-         ->name('links.index');
-    Route::get('{shortCode}', 'ShortLinkController@show')
-         ->name('links.show');
-});
 
+Route::redirect('l', 'short-links');
+Route::redirect('s', 'short-links');
+
+Route::get('short-links', 'ShortLinkController@index')
+     ->name('links.index');
 Route::get('{shortCode}', 'ShortLinkController@show')
      ->name('links.show');
 
