@@ -48,5 +48,8 @@ mix.browserSync({
             };
         }
     },
-    notify: false
+    notify: false,
+    open: false,
+    online: false,
+    ui: false
 });
