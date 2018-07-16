@@ -1,5 +1,5 @@
 <template>
-    <md-list-item class="md-inset md-layout" :title="'SHA1: ' + apk.hash" @click="toggleHashVisibility">
+    <md-list-item class="md-inset md-layout" title="Click to show hash" @click="toggleHashVisibility">
         <div class="md-layout md-layout-item md-xsmall-size-85 md-size-70 md-alignment-center-left truncated">
             <span :class="{ tags: true, latest: index === 0 }">v{{ apk.version_name }}</span>
             <span class="md-layout md-alignment-center-left">{{ title }}</span>
