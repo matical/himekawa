@@ -3,6 +3,7 @@
 namespace himekawa\Exceptions;
 
 use Exception;
+use yuki\Repositories\ExceptionRepository;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
@@ -33,10 +34,13 @@ class Handler extends ExceptionHandler
      *
      * @param \Exception $exception
      * @return void
+     * @throws \Exception
      */
     public function report(Exception $exception)
     {
         parent::report($exception);
+
+        app(ExceptionRepository::class)->increment();
     }
 
     /**

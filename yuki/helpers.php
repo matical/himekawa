@@ -1,6 +1,7 @@
 <?php
 
 use yuki\Version;
+use Carbon\Carbon;
 use yuki\Facades\Apk;
 use Cake\Chronos\Chronos;
 use yuki\Announce\Announcement;
@@ -113,5 +114,16 @@ if (! function_exists('humanReadableSize')) {
         }
 
         return round($sizeInBytes, 2) . ' ' . $units[$i];
+    }
+}
+
+if (! function_exists('carbon')) {
+    /**
+     * @param $time
+     * @return \Carbon\Carbon
+     */
+    function carbon($time)
+    {
+        return new Carbon($time);
     }
 }
