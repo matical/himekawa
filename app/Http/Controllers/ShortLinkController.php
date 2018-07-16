@@ -3,6 +3,7 @@
 namespace himekawa\Http\Controllers;
 
 use yuki\Repositories\WatchedAppsRepository;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ShortLinkController extends Controller
 {
@@ -43,7 +44,7 @@ class ShortLinkController extends Controller
 
         // Since short links are accessible from '/'
         if ($watched === null) {
-            abort(404);
+            throw new NotFoundHttpException();
         }
 
         $to = $watched->latestApp()->url() ?? route('index');
