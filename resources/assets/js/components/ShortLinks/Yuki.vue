@@ -10,8 +10,8 @@
                 >
                     <md-avatar><img :src="watched.image"></md-avatar>
                     <div class="md-list-item-text">
-                        <span>{{ watched.name }} v{{ watched.available_apps[0].version_name }}</span>
-                        <span>{{ diffDate(watched.updated_at) }}</span>
+                        <span>{{ watched.name }}</span>
+                        <span>v{{ watched.available_apps[0].version_name }} ({{ diffDate(watched.updated_at) }})</span>
                         <span><a :href="linkToShortRedirector(watched.slug)">{{ linkToShortRedirector(watched.slug) }}</a></span>
                     </div>
                 </md-list-item>

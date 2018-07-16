@@ -1,5 +1,5 @@
 <template>
-    <md-list-item md-expand @mouseover="hovered = true" @mouseleave="hovered = false">
+    <md-list-item md-expand :md-ripple="false" @md-expanded="hovered = true" @md-collapsed="hovered = false">
         <md-avatar>
             <img :src="app.image">
         </md-avatar>
@@ -9,7 +9,7 @@
             <span>
                     <span :class="{recent: isRecent(latestApp.created_at)}">{{ diffDate(latestApp.created_at) }}</span>
                     <transition name="fade">
-                        <span v-if="hovered">/ {{ formatPrettyDate(latestApp.created_at) }}</span>
+                        <span v-if="hovered" class="muted">({{ formatPrettyDate(latestApp.created_at) }})</span>
                     </transition>
             </span>
         </div>
