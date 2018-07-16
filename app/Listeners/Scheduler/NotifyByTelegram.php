@@ -31,7 +31,7 @@ class NotifyByTelegram
      */
     public function handle(AppsUpdated $event)
     {
-        if ($this->notificationsEnabled) {
+        if ($this->notificationsEnabled && ! $event->noNotifications) {
             User::find(1)->notifyNow(new ApkDownloaded($event->appsUpdated));
         }
     }

@@ -19,7 +19,8 @@ class CheckForAppUpdates extends Command
      *
      * @var string
      */
-    protected $signature = 'apk:update';
+    protected $signature = 'apk:update
+                            {--N|no-notifications : Ensure no notifications will be dispatched }';
 
     /**
      * The console command description.
@@ -130,7 +131,7 @@ class CheckForAppUpdates extends Command
         $bar->finish();
 
         if (! empty($appsUpdated)) {
-            event(new AppsUpdated($appsUpdated));
+            event(new AppsUpdated($appsUpdated, $this->option('no-notifications')));
         }
     }
 
