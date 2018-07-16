@@ -16,7 +16,7 @@
         "postcss-custom-properties": "^7.0.0",
         "tooltip.js": "^1.2.0",
         "vue": "^2.1.10",
-        "vue-material": "^1.0.0-beta-8"
+        "vue-material": "^1.0.0-beta-10"
     },
     "devDependencies": {
         "browser-sync": "^2.18.13",
