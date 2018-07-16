@@ -10,9 +10,9 @@
     @endif
     <himekawa :available-apps='@json($apps)'></himekawa>
     <div class="s-container">
-        Last check:
+        <span>Last check:</span>
         <a href="{{ route('index.faq') }}">{{ lastRun()->lastCheck() ? lastRun()->lastCheck()->diffForHumans() : 'N/A' }}</a>
         <br>
-        &gt;&gt;<a href="{{ route('index.faq') }}"> FAQ</a>
+        <span>Exceptions last week: <span class="muted">{{ app('yuki\Repositories\ExceptionRepository')->numberOfExceptions() }}</span></span>
     </div>
 @endsection
