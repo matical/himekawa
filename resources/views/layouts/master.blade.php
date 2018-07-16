@@ -19,7 +19,16 @@
     <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
 
     {{-- Styles --}}
-    <style>[v-cloak] { display: none; }</style>
+    <style>
+        [v-cloak] > * {
+            display: none;
+        }
+
+        body {
+            background: #212121;
+        }
+
+    </style>
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
     @include('feed::links')
 </head>
