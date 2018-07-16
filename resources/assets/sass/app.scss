@@ -129,6 +129,7 @@ body {
 }
 
 a:not(.md-button) {
+    color: $himekawa !important;
     text-decoration: none !important;
     &:hover {
         color: lighten($himekawa, 10%) !important;

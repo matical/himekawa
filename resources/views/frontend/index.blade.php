@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="s-container">
-        <h3 class="light"><a href="{{ route('index.cd') }}">💿: announcement thingy</a></h3>
+        <h3 class="med"><a href="{{ route('index.cd') }}">💿: announcement thingy</a></h3>
     </div>
     <himekawa :available-apps='@json($apps)'></himekawa>
     <div class="s-container">
