@@ -28,20 +28,19 @@ class FailedToVerifyHashException extends Exception implements ExceptionInterfac
     public $reportedHash;
 
     /**
-     * @param string          $message
-     * @param int             $code
-     * @param \Throwable|null $previous
-     * @param string          $package
-     * @param string          $packageFilename
-     * @param string          $hashOfLocalPackage
-     * @param string          $reportedHash
+     * @param string $package
+     * @param string $packageFilename
+     * @param string $hashOfLocalPackage
+     * @param string $reportedHash
      */
-    public function __construct($message, $code, \Throwable $previous = null, $package, $packageFilename, $hashOfLocalPackage, $reportedHash)
+    public function __construct($package, $packageFilename, $hashOfLocalPackage, $reportedHash)
     {
         $this->package = $package;
         $this->packageFilename = $packageFilename;
         $this->hashOfLocalPackage = $hashOfLocalPackage;
         $this->reportedHash = $reportedHash;
+
+        parent::__construct("Failed to verify hash for $package", 0, null);
     }
 
     /**

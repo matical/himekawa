@@ -188,15 +188,7 @@ class Download extends Scraper
         $hashOfLocalPackage = sha1_file($packagePath);
 
         if ($hashOfLocalPackage !== $expectedHash) {
-            throw new FailedToVerifyHashException(
-                "Failed to verify hash for $packageName.",
-                0,
-                null,
-                $packageName,
-                $this->buildApkFilename(),
-                $hashOfLocalPackage,
-                $expectedHash
-            );
+            throw new FailedToVerifyHashException($packageName, $this->buildApkFilename(), $hashOfLocalPackage, $expectedHash);
         }
 
         Log::info("Verified hash for $packageName (SHA1: $expectedHash)");
