@@ -134,9 +134,6 @@ body {
 a:not(.md-button,.md-list-item-content) {
     color: $himekawa;
     text-decoration: none !important;
-    &:hover {
-        color: lighten($himekawa, 10%) !important;
-    }
 }
 
 .md-card-content:last-of-type {
