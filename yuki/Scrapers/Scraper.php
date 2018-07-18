@@ -3,7 +3,6 @@
 namespace yuki\Scrapers;
 
 use ksmz\json\Json;
-use Symfony\Component\Process\Exception\ProcessFailedException;
 
 abstract class Scraper
 {

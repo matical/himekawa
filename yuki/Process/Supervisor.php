@@ -5,7 +5,6 @@ namespace yuki\Process;
 use ksmz\json\Json;
 use RuntimeException;
 use Symfony\Component\Process\Process;
-use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class Supervisor
 {
