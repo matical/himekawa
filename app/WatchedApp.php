@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class WatchedApp extends Model
 {
+    protected $casts = [
+        'updated_at' => 'datetime:Y-m-d\TH:i:sP',
+    ];
+
     protected $appends = [
         'image',
     ];
