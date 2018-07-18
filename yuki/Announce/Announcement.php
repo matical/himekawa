@@ -78,4 +78,9 @@ class Announcement
     {
         Cache::forget($this->cacheKey);
     }
+
+    public function clearRendered()
+    {
+        Cache::forget($this->cacheKey . '-rendered');
+    }
 }
