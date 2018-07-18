@@ -62,7 +62,6 @@ class Download extends Scraper
      * @param $hash
      * @return self
      *
-     * @throws \yuki\Exceptions\PackageException
      * @throws \yuki\Exceptions\FailedToVerifyHashException
      */
     public function build($packageName, $versionCode, $hash)
@@ -96,18 +95,14 @@ class Download extends Scraper
      */
     public function run()
     {
-        $this->process->setTimeout(150);
-        $this->process->run();
-
-        if (! $this->process->isSuccessful()) {
-            throw new ProcessFailedException($this->process);
-        }
+        $this->process->setTimeout(config('googleplay.download_timeout'));
 
         try {
+            $this->process->mustRun();
+
             $this->verifyFileIntegrity($this->packageName, $this->hash);
         } catch (FailedToVerifyHashException $exception) {
             $this->cleanupFailedDownload($this->packageName, $this->buildApkFilename());
-            Log::warning("{$exception->packageFilename} has been discarded.");
         } catch (ProcessTimedOutException $exception) {
             $this->cleanupFailedDownload($this->packageName, $this->buildApkFilename());
             Log::warning("Failed to download {$this->buildApkFilename()}. Process timed out.");
