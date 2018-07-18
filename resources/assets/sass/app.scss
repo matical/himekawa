@@ -18,6 +18,10 @@ body {
     font-family: 'Roboto', 'Meiryo UI', sans-serif;
 }
 
+::selection {
+    background-color: $himekawa !important;
+}
+
 .md-app {
     height: 100vh;
     min-height: 350px;

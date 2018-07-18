@@ -11,7 +11,7 @@
                     <md-avatar><img :src="watched.image"></md-avatar>
                     <div class="md-list-item-text">
                         <span>{{ watched.name }}</span>
-                        <span>v{{ watched.available_apps[0].version_name }} ({{ diffDate(watched.updated_at) }})</span>
+                        <span>v{{ watched.available_apps[0].version_name }} <span :class="{recent: isRecent(watched.available_apps[0].created_at)}">({{ diffDate(watched.updated_at) }})</span></span>
                         <span><a :href="linkToShortRedirector(watched.slug)">{{ linkToShortRedirector(watched.slug) }}</a></span>
                     </div>
                 </md-list-item>
@@ -25,7 +25,7 @@
         props: ['availableApps'],
         data() {
             return {
-                hovered: false
+                hovered: false,
             }
         },
         methods: {
