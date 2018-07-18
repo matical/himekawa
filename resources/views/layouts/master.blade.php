@@ -15,7 +15,7 @@
     <title>ひめかわ :: @yield('title')</title>
 
     <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
-    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,400italic">
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:400">
     <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
 
     {{-- Styles --}}
