@@ -25,8 +25,7 @@
         props: ['availableApps'],
         data() {
             return {
-                hovered: false,
-                latestApp: this.availableApps[0].available_apps[0]
+                hovered: false
             }
         },
         methods: {
