@@ -79,11 +79,7 @@ class Badging
      */
     protected function run()
     {
-        $this->process->run();
-
-        if (! $this->process->isSuccessful()) {
-            throw new ProcessFailedException($this->process);
-        }
+        $this->process->mustRun();
 
         $this->dumpOutput = $this->process->getOutput();
 

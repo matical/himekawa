@@ -29,11 +29,7 @@ abstract class Scraper
      */
     public function run()
     {
-        $this->process->run();
-
-        if (! $this->process->isSuccessful()) {
-            throw new ProcessFailedException($this->process);
-        }
+        $this->process->mustRun();
 
         $this->decodeResult($this->process->getOutput());
 

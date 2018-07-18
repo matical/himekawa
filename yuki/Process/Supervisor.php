@@ -41,11 +41,7 @@ class Supervisor
      */
     public function execute()
     {
-        $this->process->run();
-
-        if (! $this->process->isSuccessful()) {
-            throw new ProcessFailedException($this->process);
-        }
+        $this->process->mustRun();
 
         if ($this->hasOutput) {
             $this->output = $this->serializeOutput($this->process->getOutput());
