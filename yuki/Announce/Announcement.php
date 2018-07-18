@@ -61,7 +61,7 @@ class Announcement
      */
     public function store(string $announcements)
     {
-        Cache::put($this->cacheKey, $announcements, $this->expiry);
+        Cache::forever($this->cacheKey, $announcements);
     }
 
     public function rendered()
