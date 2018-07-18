@@ -32,7 +32,7 @@
         computed: {
             title() {
                 if (this.state.hash) {
-                    return `v${this.apk.hash}`;
+                    return this.apk.hash;
                 }
 
                 return this.resolveApkFilename(this.apk.version_code);
