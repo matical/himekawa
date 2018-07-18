@@ -134,3 +134,11 @@ a:not(.md-button,.md-list-item-content) {
         color: lighten($himekawa, 10%) !important;
     }
 }
+
+.md-card-content:last-of-type {
+    padding-bottom: 16px;
+}
+
+.marked {
+    padding: 10px;
+}
