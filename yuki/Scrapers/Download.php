@@ -8,7 +8,6 @@ use Symfony\Component\Process\Process;
 use Illuminate\Support\Facades\Storage;
 use yuki\Repositories\AvailableAppsRepository;
 use yuki\Exceptions\FailedToVerifyHashException;
-use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Exception\ProcessTimedOutException;
 
 class Download extends Scraper
