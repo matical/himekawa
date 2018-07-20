@@ -1,8 +1,8 @@
 import toDate from "date-fns/toDate";
-import fuzzyDiff from "date-fns/formatDistance";
 import {upperFirst} from "lodash-es";
-import differenceInDays from "date-fns/differenceInDays";
 import format from "date-fns/format";
+import fuzzyDiff from "date-fns/formatDistance";
+import differenceInDays from "date-fns/differenceInDays";
 
 export default {
     now() {
