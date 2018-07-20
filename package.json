@@ -10,6 +10,7 @@
     "dependencies": {
         "axios": "^0.18",
         "cross-env": "^5.0.1",
+        "date-fns": "^2.0.0-alpha.11",
         "laravel-mix": "^1.0",
         "lodash-es": "^4.17.10",
         "moment": "^2.22.1",
