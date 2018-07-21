@@ -2,6 +2,7 @@
 
 namespace yuki\Command\Apk;
 
+use himekawa\WatchedApp;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 
@@ -40,6 +41,13 @@ class Stats
         });
 
         return collect($files);
+    }
+
+    public function summary()
+    {
+        return WatchedApp::all()->mapWithKeys(function (WatchedApp $watched) {
+            return [$watched->package_name => $watched->latestApp()];
+        });
     }
 
     /**
