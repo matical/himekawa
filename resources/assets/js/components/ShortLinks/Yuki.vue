@@ -3,10 +3,10 @@
         <h2 class="md-headline">Short Links</h2>
         <p>Links here will always redirect the version available.</p>
         <md-list class="md-double-line">
-            <div class="md-layout md-layout-nowrap md-gutter md-alignment-center">
+            <div class="md-layout md-layout-nowrap md-gutter">
                 <md-list-item v-for="watched in availableApps"
                               :key="watched.id"
-                              class="md-layout-item md-xlarge-size-25 md-large-size-33 md-small-size-50 md-xsmall-size-100"
+                              class="md-layout-item md-xlarge-size-20 md-large-size-33 md-small-size-50 md-xsmall-size-100"
                 >
                     <md-avatar><img :src="watched.image"></md-avatar>
                     <div class="md-list-item-text">
