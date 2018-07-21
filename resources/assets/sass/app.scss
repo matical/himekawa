@@ -124,11 +124,8 @@ body {
 }
 
 .md-avatar {
+    border-radius: 0;
     box-shadow: 0 3px 3px -2px rgba(0, 0, 0, .2), 0 3px 4px 0 rgba(0, 0, 0, .14), 0 1px 8px 0 rgba(0, 0, 0, .12);
-}
-
-.md-avatar > img {
-    border-radius: 10px;
 }
 
 a:not(.md-button,.md-list-item-content) {
@@ -142,4 +139,8 @@ a:not(.md-button,.md-list-item-content) {
 
 .marked {
     padding: 10px;
+}
+
+.md-list.md-theme-default .md-list-item-container:not(.md-list-item-default):not([disabled]):hover  {
+    background-color: unset;
 }
