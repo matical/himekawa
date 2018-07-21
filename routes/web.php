@@ -15,4 +15,3 @@ Route::get('short-links', 'ShortLinkController@index')
      ->name('links.index');
 Route::get('{shortCode}', 'ShortLinkController@show')
      ->name('links.show');
-
