@@ -13,7 +13,7 @@
                 }"
                        :href="resolveApkUrl(apk.version_code)" :md-ripple="false">
                 <md-icon>file_download</md-icon>
-                <span class="md-xsmall-hide">{{ getReadableFileSizeString(apk.size) }}</span>
+                <span class="md-xsmall-hide">{{ humanBytes(apk.size) }}</span>
             </md-button>
         </div>
     </md-list-item>
@@ -49,7 +49,7 @@
             resolveApkUrl(versionCode) {
                 return location.href + `apks/${this.packageName}/${this.resolveApkFilename(versionCode)}`
             },
-            getReadableFileSizeString(sizeInBytes) {
+            humanBytes(sizeInBytes) {
                 const units = ["B", "KB", "MB", "GB", "TB", "PB"];
 
                 if (sizeInBytes === 0) {
