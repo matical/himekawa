@@ -3,8 +3,10 @@
 namespace himekawa\Exceptions;
 
 use Exception;
+use Psr\Log\LoggerInterface;
 use yuki\Repositories\ExceptionRepository;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Foundation\Http\Exceptions\MaintenanceModeException;
 
 class Handler extends ExceptionHandler
 {
@@ -14,7 +16,7 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontReport = [
-        //
+        MaintenanceModeException::class,
     ];
 
     /**
@@ -32,15 +34,35 @@ class Handler extends ExceptionHandler
      *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
      *
-     * @param \Exception $exception
+     * @param \Exception $e
      * @return void
      * @throws \Exception
      */
-    public function report(Exception $exception)
+    public function report(Exception $e)
     {
-        parent::report($exception);
+        if ($this->shouldntReport($e)) {
+            return;
+        }
 
         app(ExceptionRepository::class)->increment();
+
+        if (method_exists($e, 'report')) {
+            return $e->report();
+        }
+
+        try {
+            $logger = $this->container->make(LoggerInterface::class);
+        } catch (Exception $ex) {
+            throw $e;
+        }
+
+        $logger->error(
+            $e->getMessage(),
+            array_merge(
+                $this->context(),
+                ['exception' => $e]
+            )
+        );
     }
 
     /**
