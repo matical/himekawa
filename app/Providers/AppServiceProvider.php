@@ -17,7 +17,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->registerBladeDirectives();
 
-        if (app()->environment('production')) {
+        if ($this->app->environment('production')) {
             URL::forceScheme('https');
         }
     }
@@ -29,7 +29,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        if ($this->app->environment('local')) {
+            $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
+        }
     }
 
     protected function registerBladeDirectives()
