@@ -9,7 +9,7 @@
 
 # Dependencies
 * PHP >7.1/7.2 with [L5.6's Requirements](https://laravel.com/docs/5.6#installation)
-* Composer + Yarn/NPM
+* Composer + Yarn
 * Redis
 * Any DB supported by [Eloquent](https://laravel.com/docs/5.6/database#introduction)
     - MariaDB, Postgres and SQLite should all work just fine
@@ -21,17 +21,16 @@
 * `git clone https://github.com/matical/himekawa` - Clone the repo
 * `composer install` - Install PHP dependencies
 * `yarn` - Install frontend assets
-* `yarn run dev/watch/prod` - Compile frontend assets
+* `yarn run dev/watch/hot/prod` - Compile frontend assets
 
 ### Bootstrapping
 * `cp .env.example .env`
     - Fill in your secrets here. Fields should be pretty self explanatory.
 * `php artisan key:generate`
-* `php artisan serve`
-
+* `php artisan migrate --seed`
+    - Seeds the DB with data from [WatchedAppSeeder](https://github.com/matical/himekawa/blob/master/database/seeds/WatchedAppSeeder.php)
 
 ### Configuration
-
 
 # Design
 
