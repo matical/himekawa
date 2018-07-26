@@ -29,17 +29,6 @@ class AvailableApp extends Model implements Feedable
         'raw_badging',
     ];
 
-    protected static $availableFields = [
-        'id',
-        'app_id',
-        'version_code',
-        'version_name',
-        'size',
-        'hash',
-        'created_at',
-        'updated_at',
-    ];
-
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -122,7 +111,7 @@ class AvailableApp extends Model implements Feedable
                         return AvailableApp::with('watchedBy')
                                            ->latest()
                                            ->limit(20)
-                                           ->get(static::$availableFields);
+                                           ->get();
                     });
     }
 }
