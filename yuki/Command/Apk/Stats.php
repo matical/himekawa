@@ -45,9 +45,12 @@ class Stats
 
     public function summary()
     {
-        return WatchedApp::all()->mapWithKeys(function (WatchedApp $watched) {
-            return [$watched->package_name => $watched->latestApp()];
-        });
+        return WatchedApp::latest('updated_at')
+                         ->take(5)
+                         ->get()
+                         ->mapWithKeys(function (WatchedApp $watched) {
+                             return [$watched->package_name => $watched->latestApp()];
+                         });
     }
 
     /**
