@@ -49,7 +49,9 @@ class Stats
                          ->take(5)
                          ->get()
                          ->mapWithKeys(function (WatchedApp $watched) {
-                             return [$watched->package_name => $watched->latestApp()];
+                             $payload = array_merge($watched->latestApp()->toArray(), ['name' => $watched->name]);
+
+                             return [$watched->package_name => $payload];
                          });
     }
 

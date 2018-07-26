@@ -24,16 +24,15 @@ class Stats extends SignatureHandler
     public function handle(Request $request): Response
     {
         return tap($this->respondToSlack($this->formatPretext()), function (Response $response) {
-            /** @var \himekawa\AvailableApp $app */
             foreach ($this->stats()->summary() as $packageName => $app) {
                 $attachment = Attachment::create();
 
-                $attachment->setTitle($app->watchedBy->name)
+                $attachment->setTitle($app['name'])
                            ->setColor('#f8858d');
 
                 $attachment->addFields([
-                    $this->createField('Version', $app->version_name),
-                    $this->createField('Downloaded On', $app->created_at->format('d M, H:i')),
+                    $this->createField('Version', $app['version_name']),
+                    $this->createField('Downloaded On', carbon($app['created_at'])->format('d M, H:i')),
                 ]);
 
                 $response->withAttachment($attachment);
