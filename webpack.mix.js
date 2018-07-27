@@ -3,7 +3,7 @@ let mix = require('laravel-mix');
 mix.copy('resources/assets/images/*.png', 'public/images')
    .js('resources/assets/js/app.js', 'public/js')
    .sass('resources/assets/sass/app.scss', 'public/css')
-   .sourceMaps()
+   .sourceMaps(false)
    .options({
        postCss: [
            require('postcss-custom-properties')
