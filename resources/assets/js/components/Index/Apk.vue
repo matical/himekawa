@@ -11,7 +11,7 @@
                     'download__old': index !== 0,
                     'himekawa': index === 0
                 }"
-                       :href="resolveApkUrl(apk.version_code)" :md-ripple="false">
+                       :href="url" :md-ripple="false">
                 <md-icon>file_download</md-icon>
                 <span class="md-xsmall-hide">{{ humanBytes(apk.size) }}</span>
             </md-button>
@@ -31,11 +31,13 @@
 
         computed: {
             title() {
-                if (this.state.hash) {
-                    return this.apk.hash;
-                }
-
-                return this.resolveApkFilename(this.apk.version_code);
+                return this.state.hash ? this.apk.hash : this.filename;
+            },
+            filename() {
+                return `${this.packageName}.${this.apk.version_code}.apk`
+            },
+            url() {
+                return location.href + `apks/${this.packageName}/${this.filename}`
             }
         },
 
@@ -43,14 +45,8 @@
             toggleHashVisibility() {
                 this.state.hash = ! this.state.hash;
             },
-            resolveApkFilename(versionCode) {
-                return `${this.packageName}.${versionCode}.apk`
-            },
-            resolveApkUrl(versionCode) {
-                return location.href + `apks/${this.packageName}/${this.resolveApkFilename(versionCode)}`
-            },
             humanBytes(sizeInBytes) {
-                const units = ["B", "KB", "MB", "GB", "TB", "PB"];
+                const units = ["B", "KiB", "MiB", "GiB", "TiB"];
 
                 if (sizeInBytes === 0) {
                     return "0 " + units[1];
