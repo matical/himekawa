@@ -11,7 +11,7 @@ class CheckForUpdates extends SignatureHandler
 {
     protected $signature = '* update';
 
-    protected $description = 'Lists APK related stats';
+    protected $description = 'Check for APK updates';
 
     /**
      * Handle the given request.

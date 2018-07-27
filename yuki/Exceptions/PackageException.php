@@ -33,6 +33,8 @@ class PackageException extends Exception implements ExceptionInterface
     {
         $this->package = $package;
         $this->versionCode = $versionCode;
+
+        parent::__construct($message, 0, $previous);
     }
 
     /**

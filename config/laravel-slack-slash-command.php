@@ -20,6 +20,7 @@ return [
     'handlers' => [
         yuki\Slack\Handlers\Stats::class,
         yuki\Slack\Handlers\CheckForUpdates::class,
+        yuki\Slack\Handlers\SchedulerManager::class,
 
         //this handler will display instructions on how to use the various commands.
         Spatie\SlashCommand\Handlers\Help::class,

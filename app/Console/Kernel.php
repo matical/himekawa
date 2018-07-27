@@ -4,6 +4,7 @@ namespace himekawa\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\Cache;
 
 class Kernel extends ConsoleKernel
 {
@@ -31,6 +32,10 @@ class Kernel extends ConsoleKernel
     {
         $this->loadSchedulerSettings();
 
+        if ($this->disabledByCache()) {
+            return;
+        }
+
         $schedule->command('apk:update')
                  ->everyFifteenMinutes()
                  ->timezone($this->settings['timezone'])
@@ -38,6 +43,14 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('apk:prune-old')
                  ->daily();
+    }
+
+    /**
+     * @return bool
+     */
+    protected function disabledByCache()
+    {
+        return Cache::has(config('himekawa.scheduler.cache_key'));
     }
 
     /**

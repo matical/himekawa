@@ -28,7 +28,8 @@ class Stats extends SignatureHandler
                 $attachment = Attachment::create();
 
                 $attachment->setTitle($app['name'])
-                           ->setColor('#f8858d');
+                           ->setColor('#f8858d')
+                           ->setThumbUrl("https://apk.ksmz.moe/images/{$packageName}.png");
 
                 $attachment->addFields([
                     $this->createField('Version', $app['version_name']),
