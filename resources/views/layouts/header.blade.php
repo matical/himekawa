@@ -1,4 +1,4 @@
-<md-app-toolbar class="himekawa">
+<md-app-toolbar class="himekawa" :md-elevation="0">
     <md-button class="md-icon-button" @click="toggleMenu">
         <md-icon>menu</md-icon>
     </md-button>

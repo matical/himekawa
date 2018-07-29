@@ -1,10 +1,11 @@
 $himekawa: #e27400;
-$dark: #212121;
+$dark: #1a1a1d;
 $white: #fff;
+$muted: #bbbbbb;
 
 :root {
     --md-theme-default-primary-on-background: $himekawa;
-    --md-theme-default-background: #252525;
+    --md-theme-default-background: #1a1a1d;
     --md-theme-default-accent-on-background: $himekawa;
 }
 
@@ -88,7 +89,7 @@ body {
 
 @include md-layout-small {
     .md-list-item-text :nth-child(3) {
-        color: #bbbbbb;
+        color: $muted;
     }
 
     .md-app-content {
@@ -98,7 +99,7 @@ body {
 
 .muted {
     // CR: 8.45, AA: 4.5
-    color: #bbbbbb;
+    color: $muted;
 }
 
 .tags {

@@ -25,7 +25,7 @@
         }
 
         body {
-            background: #212121;
+            background: #1a1a1d;
         }
 
     </style>

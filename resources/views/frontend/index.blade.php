@@ -10,8 +10,12 @@
     @endif
     <himekawa :available-apps='@json($apps)'></himekawa>
     <div class="s-container">
-        <span>Last check:</span>
-        <a href="{{ route('index.faq') }}">{{ lastRun()->lastCheck() ? lastRun()->lastCheck()->diffForHumans() : 'N/A' }}</a>
+        @if (Cache::has('scheduler-disabled'))
+            <span>Scheduler is disabled.</span>
+        @else
+            <span>Last check:</span>
+            <a href="{{ route('index.faq') }}">{{ lastRun()->lastCheck() ? lastRun()->lastCheck()->diffForHumans() : 'N/A' }}</a>
+        @endif
         <br>
         <span>Exceptions last week: <span class="muted">{{ app('yuki\Repositories\ExceptionRepository')->numberOfExceptions() }}</span></span>
     </div>
