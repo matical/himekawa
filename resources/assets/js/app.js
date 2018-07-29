@@ -26,20 +26,20 @@ Vue.use(MdToolbar);
 Vue.use(MdContent);
 Vue.use(MdElevation);
 
-Vue.mixin({methods: mixins});
+Vue.mixin({ methods: mixins });
 
 new Vue({
     el: '#app',
     data: {
-        menuVisible: false
+        menuVisible: false,
     },
     components: {
         himekawa,
-        yuki
+        yuki,
     },
     methods: {
         toggleMenu() {
-            this.menuVisible = ! this.menuVisible
-        }
-    }
+            this.menuVisible = !this.menuVisible;
+        },
+    },
 });

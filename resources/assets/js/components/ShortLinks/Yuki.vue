@@ -21,18 +21,17 @@
 </template>
 
 <script>
-    export default {
-        props: ['availableApps'],
-        data() {
-            return {
-                hovered: false,
-            }
+export default {
+    props: ['availableApps'],
+    data() {
+        return {
+            hovered: false,
+        };
+    },
+    methods: {
+        linkToShortRedirector(slug) {
+            return `${location.origin}/${slug}`;
         },
-        methods: {
-            linkToShortRedirector(slug) {
-                return `${location.origin}/${slug}`;
-            }
-        }
-    }
+    },
+};
 </script>
-

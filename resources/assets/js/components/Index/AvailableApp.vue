@@ -26,28 +26,30 @@
 </template>
 
 <script>
-    import apk from './Apk';
+import apk from './Apk';
 
-    export default {
-        props: ['app'],
-        components: {
-            'apk': apk
-        },
-        data() {
-            return {
-                hovered: false,
-                latestApp: this.app.available_apps[0]
-            }
-        }
-    }
+export default {
+    props: ['app'],
+    components: {
+        apk: apk,
+    },
+    data() {
+        return {
+            hovered: false,
+            latestApp: this.app.available_apps[0],
+        };
+    },
+};
 </script>
 
 <style lang="scss" scoped>
-    .fade-enter-active, .fade-leave-active {
-        transition: opacity .3s;
-    }
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.3s;
+}
 
-    .fade-enter, .fade-leave-to {
-        opacity: 0;
-    }
+.fade-enter,
+.fade-leave-to {
+    opacity: 0;
+}
 </style>

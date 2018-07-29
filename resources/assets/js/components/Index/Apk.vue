@@ -20,37 +20,37 @@
 </template>
 
 <script>
-    export default {
-        props: ['apk', 'index', 'packageName'],
+export default {
+    props: ['apk', 'index', 'packageName'],
 
-        data() {
-            return {
-                state: {hash: false}
-            }
+    data() {
+        return {
+            state: { hash: false },
+        };
+    },
+
+    computed: {
+        title() {
+            return this.state.hash ? this.apk.hash : this.filename;
         },
-
-        computed: {
-            title() {
-                return this.state.hash ? this.apk.hash : this.filename;
-            },
-            filename() {
-                return `${this.packageName}.${this.apk.version_code}.apk`
-            },
-            url() {
-                return location.href + `apks/${this.packageName}/${this.filename}`
-            }
+        filename() {
+            return `${this.packageName}.${this.apk.version_code}.apk`;
         },
+        url() {
+            return location.href + `apks/${this.packageName}/${this.filename}`;
+        },
+    },
 
-        methods: {
-            toggleHashVisibility() {
-                this.state.hash = ! this.state.hash;
-            }
-        }
-    }
+    methods: {
+        toggleHashVisibility() {
+            this.state.hash = !this.state.hash;
+        },
+    },
+};
 </script>
 
 <style lang="scss" scoped>
-    .download__old {
-        background-color: #444444 !important;
-    }
+.download__old {
+    background-color: #444444 !important;
+}
 </style>
