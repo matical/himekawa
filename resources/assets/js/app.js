@@ -14,6 +14,7 @@ import {
 import yuki from './components/ShortLinks/Yuki';
 import himekawa from './components/Index/Himekawa';
 import mixins from './mixins';
+import './filters';
 
 Vue.use(MdApp);
 Vue.use(MdIcon);

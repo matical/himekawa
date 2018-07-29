@@ -1,15 +1,11 @@
 import toDate from "date-fns/toDate";
 import {upperFirst} from "lodash-es";
-import format from "date-fns/format";
 import fuzzyDiff from "date-fns/formatDistance";
 import differenceInDays from "date-fns/differenceInDays";
 
 export default {
     now() {
         return new Date()
-    },
-    formatPrettyDate(iso) {
-        return format(toDate(iso), "MMM do, H:mm 'JST'");
     },
     diffDate(iso) {
         return upperFirst(

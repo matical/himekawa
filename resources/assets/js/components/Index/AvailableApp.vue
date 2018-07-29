@@ -9,7 +9,7 @@
             <span>
                     <span :class="{recent: isRecent(latestApp.created_at)}">{{ diffDate(latestApp.created_at) }}</span>
                     <transition name="fade">
-                        <span v-if="hovered" class="muted">({{ formatPrettyDate(latestApp.created_at) }})</span>
+                        <span v-if="hovered" class="muted">({{ latestApp.created_at | prettyDate }})</span>
                     </transition>
             </span>
         </div>

@@ -13,7 +13,7 @@
                 }"
                        :href="url" :md-ripple="false">
                 <md-icon>file_download</md-icon>
-                <span class="md-xsmall-hide">{{ humanBytes(apk.size) }}</span>
+                <span class="md-xsmall-hide">{{ apk.size | humanBytes }}</span>
             </md-button>
         </div>
     </md-list-item>
@@ -44,19 +44,6 @@
         methods: {
             toggleHashVisibility() {
                 this.state.hash = ! this.state.hash;
-            },
-            humanBytes(sizeInBytes) {
-                const units = ["B", "KiB", "MiB", "GiB", "TiB"];
-
-                if (sizeInBytes === 0) {
-                    return "0 " + units[1];
-                }
-
-                for (var i = 0; sizeInBytes > 1024; i ++) {
-                    sizeInBytes /= 1024;
-                }
-
-                return sizeInBytes.toFixed(2) + " " + units[i];
             }
         }
     }
