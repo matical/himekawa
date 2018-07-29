@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import toDate from 'date-fns/toDate';
 import format from 'date-fns/format';
-import { upperFirst } from 'lodash-es';
 
 Vue.filter('humanBytes', sizeInBytes => {
     const units = ['B', 'KiB', 'MiB', 'GiB', 'TiB'];
