@@ -1,8 +1,8 @@
 <template>
-    <md-list-item class="md-inset md-layout" title="Click to show hash" @click="toggleHashVisibility">
+    <md-list-item class="md-inset md-layout" title="Click to show hash">
         <div class="md-layout md-layout-item md-xsmall-size-85 md-size-70 md-alignment-center-left truncated">
             <span :class="{ tags: true, latest: index === 0 }">v{{ apk.version_name }}</span>
-            <span class="md-layout md-alignment-center-left">{{ title }}</span>
+            <span @click="toggleHashVisibility" class="md-layout md-alignment-center-left">{{ title }}</span>
         </div>
         <div class="md-layout md-layout-item md-xsmall-size-15 md-size-30 md-alignment-center-right">
             <md-button :class="{
