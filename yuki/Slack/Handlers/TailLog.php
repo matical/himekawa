@@ -32,7 +32,7 @@ class TailLog extends SignatureHandler
         }
 
         $lines = $this->getOption('lines');
-        $output = $this->tail($this->findLatestLogFile($logDirectory), $lines);
+        $output = $this->tail($path, $lines);
 
         return $this->respondToSlack("Logs for last $lines lines.\n" . '```' . $output . '```');
     }
