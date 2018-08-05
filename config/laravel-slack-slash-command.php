@@ -21,6 +21,7 @@ return [
         yuki\Slack\Handlers\Stats::class,
         yuki\Slack\Handlers\CheckForUpdates::class,
         yuki\Slack\Handlers\SchedulerManager::class,
+        yuki\Slack\Handlers\TailLog::class,
 
         //this handler will display instructions on how to use the various commands.
         Spatie\SlashCommand\Handlers\Help::class,
