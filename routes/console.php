@@ -11,6 +11,12 @@ Artisan::command('announce', function (Announcement $announcement, TerminalEdito
         : $buffer->prompt()
                  ->getOutput();
 
+    if ($output === $announcement->get()) {
+        $this->info('No changes detected.');
+
+        return;
+    }
+
     $announcement->broadcast($output);
     $this->info('Announcement added.');
 })->describe('Creates an announcement');

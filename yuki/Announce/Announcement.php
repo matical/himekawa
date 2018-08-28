@@ -2,13 +2,14 @@
 
 namespace yuki\Announce;
 
+use Illuminate\Contracts\Cache\Repository;
 use Parsedown;
 use Illuminate\Support\Facades\Cache;
 
 class Announcement
 {
     /**
-     * @var \Illuminate\Cache\CacheManager
+     * @var \Illuminate\Cache\Repository
      */
     protected $cache;
 
@@ -24,10 +25,12 @@ class Announcement
 
     /**
      * Announcement constructor.
+     *
+     * @param \Illuminate\Contracts\Cache\Repository $cacheRepository
      */
-    public function __construct()
+    public function __construct(Repository $cacheRepository)
     {
-        $this->cache = app('cache');
+        $this->cache = $cacheRepository;
         $this->cacheKey = config('himekawa.announcement.key');
         $this->expiry = config('himekawa.announcement.ttl');
     }
@@ -37,7 +40,9 @@ class Announcement
      */
     public function broadcast($message)
     {
+        $this->clear();
         $this->store($message);
+        $this->announced();
     }
 
     /**
@@ -45,7 +50,12 @@ class Announcement
      */
     public function available()
     {
-        return Cache::has($this->cacheKey);
+        return $this->cache()->has($this->cacheKey);
+    }
+
+    public function announcedOn()
+    {
+        return $this->cache()->get('announced-on');
     }
 
     /**
@@ -53,20 +63,20 @@ class Announcement
      */
     public function get(): string
     {
-        return Cache::get($this->cacheKey, '');
+        return $this->cache()->get($this->cacheKey, '');
     }
 
     /**
-     * @param string $announcements
+     * @param string $announcement
      */
-    public function store(string $announcements)
+    public function store(string $announcement)
     {
-        Cache::forever($this->cacheKey, $announcements);
+        $this->cache()->forever($this->cacheKey, $announcement);
     }
 
     public function rendered()
     {
-        return Cache::remember($this->cacheKey . '-rendered', $this->expiry, function () {
+        return $this->cache()->remember($this->cacheKey . '-rendered', $this->expiry, function () {
             return (new Parsedown())->text($this->get());
         });
     }
@@ -76,11 +86,16 @@ class Announcement
      */
     public function clear()
     {
-        Cache::forget($this->cacheKey);
+        $this->cache()->flush();
     }
 
-    public function clearRendered()
+    protected function cache()
     {
-        Cache::forget($this->cacheKey . '-rendered');
+        return $this->cache->tags('announcement');
+    }
+
+    protected function announced()
+    {
+        $this->cache()->forever('announced-on', now());
     }
 }
