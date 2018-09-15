@@ -9,8 +9,8 @@ $muted: #bbbbbb;
     --md-theme-default-accent-on-background: $himekawa;
 }
 
-@import '../../node_modules/vue-material/dist/vue-material.min.css';
-@import '../../node_modules/vue-material/dist/theme/default-dark.css';
+@import '~vue-material/dist/vue-material.min.css';
+@import '~vue-material/dist/theme/default-dark.css';
 @import 'debugbar';
 @import 'mixins';
 @import "general";
