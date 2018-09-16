@@ -1,7 +1,7 @@
 <template>
     <div class="s-container">
         <h2 class="md-headline">Short Links</h2>
-        <p>Links here will always redirect the version available.</p>
+        <p>Links here will always redirect you to the latest available APK version.</p>
         <md-list class="md-double-line">
             <div class="md-layout md-layout-nowrap md-gutter">
                 <md-list-item v-for="watched in availableApps"
