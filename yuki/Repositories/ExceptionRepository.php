@@ -36,6 +36,9 @@ class ExceptionRepository
      */
     protected function endOfThisWeek()
     {
-        return new Carbon('this sunday');
+        // If "this" instead of "next" is used, if the current date is a Sunday, this will return the same date.
+        // "next" will always return the following Sunday. That is, if the current date is a Sunday, it'll return
+        // next week's Sunday (as expected).
+        return new Carbon('next sunday');
     }
 }
