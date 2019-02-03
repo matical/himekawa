@@ -57,7 +57,7 @@ class Download extends Scraper
 
     /**
      * @param string $packageName
-     * @param int $versionCode
+     * @param int    $versionCode
      * @param string $hash
      * @return self
      */
