@@ -4,9 +4,9 @@ $white: #fff;
 $muted: #bbbbbb;
 
 :root {
-    --md-theme-default-primary-on-background: $himekawa;
+    --md-theme-default-primary-on-background: #e27400;
     --md-theme-default-background: #1a1a1d;
-    --md-theme-default-accent-on-background: $himekawa;
+    --md-theme-default-accent-on-background: #e27400;
 }
 
 @import '~vue-material/dist/vue-material.min.css';
