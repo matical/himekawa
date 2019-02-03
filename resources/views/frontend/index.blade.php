@@ -5,7 +5,9 @@
 @section('content')
     @if (announcement()->available())
         <div class="s-container">
-            <h3 class="med"><a href="{{ route('index.cd') }}">💿 Announcement - {{ announcement()->announcedOn()->diffForHumans() }}</a></h3>
+            <h3 class="med">
+                <a href="{{ route('index.cd') }}">💿 Announcement - {{ announcement()->announcedOn()->diffForHumans() }}</a>
+            </h3>
         </div>
     @endif
     <himekawa :available-apps='@json($apps)'></himekawa>
@@ -18,5 +20,7 @@
         @endif
         <br>
         <span>Exceptions last week: <span class="muted">{{ app('yuki\Repositories\ExceptionRepository')->numberOfExceptions() }}</span></span>
+        <br>
+        <span>hime#{{ git()->hash() }} (r{{ git()->revision() }})</span>
     </div>
 @endsection
