@@ -126,7 +126,7 @@ class DownloadImages extends Command
 
     protected function runOptimizeCommand()
     {
-        $path = resource_path('images');
+        $path = config('filesystems.disks.images.root');
 
         // Process will automatically kill/cleanup optipng if this (apk:fetch-images) gets ctrl-c'd
         $optipng = new Process("optipng $path/*.png");
