@@ -56,12 +56,10 @@ class Download extends Scraper
     }
 
     /**
-     * @param $packageName
-     * @param $versionCode
-     * @param $hash
+     * @param string $packageName
+     * @param int $versionCode
+     * @param string $hash
      * @return self
-     *
-     * @throws \yuki\Exceptions\FailedToVerifyHashException
      */
     public function build($packageName, $versionCode, $hash)
     {
@@ -70,7 +68,13 @@ class Download extends Scraper
         $this->hash = $hash;
 
         if ($this->fileAlreadyExists()) {
-            $this->verifyFileIntegrity($this->packageName, $this->hash);
+            try {
+                // If there's an empty file from a previous failed download
+                $this->verifyFileIntegrity($this->packageName, $this->hash);
+            } catch (FailedToVerifyHashException $exception) {
+                // TODO: Separate this so download can continue on the same apk:update run.
+                $this->cleanupFailedDownload($packageName, $this->buildApkFilename());
+            }
 
             throw PackageException::AlreadyExists($this->packageName, $this->versionCode);
         }
@@ -189,8 +193,8 @@ class Download extends Scraper
     }
 
     /**
-     * @param $package
-     * @param $apkFilename
+     * @param string $package
+     * @param string $apkFilename
      */
     protected function cleanupFailedDownload($package, $apkFilename)
     {
