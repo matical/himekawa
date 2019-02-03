@@ -20,7 +20,10 @@ if (mix.inProduction()) {
 mix.webpackConfig(webpack => {
     return {
         plugins: [
-            new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
+            new webpack.IgnorePlugin({
+                resourceRegExp: /^\.\/locale$/,
+                contextRegExp: /moment$/
+            })
         ]
     }
 });

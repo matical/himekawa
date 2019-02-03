@@ -32,6 +32,11 @@ class AppServiceProvider extends ServiceProvider
         if ($this->app->environment('local')) {
             $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
         }
+
+        if ($this->app->environment('production')) {
+            // Only use http2 push in prod since it breaks `yarn run hot`
+            $this->app->router->pushMiddlewareToGroup('web', \JacobBennett\Http2ServerPush\Middleware\AddHttp2ServerPush::class);
+        }
     }
 
     protected function registerBladeDirectives()
