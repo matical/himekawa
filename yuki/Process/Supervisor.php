@@ -32,7 +32,7 @@ class Supervisor
      */
     public function __construct($command, $directory = null)
     {
-        $this->process = new Process($command, $directory);
+        $this->process = Process::fromShellCommandline($command, $directory);
     }
 
     /**

@@ -10,7 +10,7 @@ class Sha1 extends Scraper
 
     public function build($appName)
     {
-        $this->process = new Process("gp-get-sha1 $appName");
+        $this->process = Process::fromShellCommandline("gp-get-sha1 $appName");
 
         return $this;
     }

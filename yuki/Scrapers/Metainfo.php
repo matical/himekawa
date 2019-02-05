@@ -16,7 +16,7 @@ class Metainfo extends Scraper
     public function build($appName)
     {
         $command = sprintf('%s %s', config('himekawa.commands.gp-download-meta'), $appName);
-        $this->process = new Process($command);
+        $this->process = Process::fromShellCommandline($command);
 
         return $this;
     }

@@ -88,7 +88,7 @@ class TerminalEditorBuffer
      */
     protected function buildProcess()
     {
-        return tap(new Process("vim {$this->fileLocation}"), function (Process $process) {
+        return tap(Process::fromShellCommandline("vim {$this->fileLocation}"), function (Process $process) {
             $process->setTty(true);
             $process->setTimeout(3600);
         });

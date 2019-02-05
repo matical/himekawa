@@ -70,7 +70,7 @@ class Badging
      */
     protected function createNewProcess($packageName, $package)
     {
-        return new Process("aapt dump badging $package", apkDirectory($packageName));
+        return Process::fromShellCommandline("aapt dump badging $package", apkDirectory($packageName));
     }
 
     /**

@@ -172,7 +172,7 @@ class Download extends Scraper
     {
         $command = sprintf('%s %s > %s', config('himekawa.commands.gp-download'), $packageName, $filename);
 
-        return new Process($command, $directory);
+        return Process::fromShellCommandline($command, $directory);
     }
 
     /**

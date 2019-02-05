@@ -129,7 +129,7 @@ class DownloadImages extends Command
         $path = config('filesystems.disks.images.root');
 
         // Process will automatically kill/cleanup optipng if this (apk:fetch-images) gets ctrl-c'd
-        $optipng = new Process("optipng $path/*.png");
+        $optipng = Process::fromShellCommandline("optipng $path/*.png");
 
         $optipng->start();
         $optipng->wait(function ($type, $buffer) {
