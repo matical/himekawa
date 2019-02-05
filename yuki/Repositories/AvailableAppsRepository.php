@@ -94,7 +94,7 @@ class AvailableAppsRepository
     }
 
     /**
-     * @param string               $toKeep
+     * @param int                  $toKeep
      * @param \himekawa\WatchedApp $package
      * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Support\Collection
      */

@@ -29,7 +29,7 @@ class WatchedAppsRepository
     }
 
     /**
-     * @param $id
+     * @param int $id
      * @return \himekawa\WatchedApp
      */
     public function find($id)
@@ -40,7 +40,7 @@ class WatchedAppsRepository
     }
 
     /**
-     * @param $slug
+     * @param string $slug
      * @return \himekawa\WatchedApp
      */
     public function findBySlug($slug)

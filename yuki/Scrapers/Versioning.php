@@ -22,8 +22,8 @@ class Versioning
     /**
      * Check if a particular package requires any updates.
      *
-     * @param $packageName Package identifier
-     * @param $latestPlaystoreVersionCode Version code of the latest app available on the Play Store
+     * @param string $packageName                Package identifier
+     * @param int    $latestPlaystoreVersionCode Version code of the latest app available on the Play Store
      * @return bool Whether updates are available
      */
     public function areUpdatesAvailableFor($packageName, $latestPlaystoreVersionCode)

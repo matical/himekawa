@@ -35,7 +35,7 @@ class ShortLinkController extends Controller
     }
 
     /**
-     * @param $shortCode
+     * @param string $shortCode
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function show($shortCode)
