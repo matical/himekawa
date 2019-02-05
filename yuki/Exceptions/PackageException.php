@@ -29,12 +29,12 @@ class PackageException extends Exception implements ExceptionInterface
      * @param string          $package
      * @param int             $versionCode
      */
-    public function __construct(string $message, int $code, Throwable $previous = null, $package, $versionCode)
+    public function __construct(string $message, int $code, Throwable $previous, $package, $versionCode)
     {
         $this->package = $package;
         $this->versionCode = $versionCode;
 
-        parent::__construct($message, 0, $previous);
+        parent::__construct($message, $code, $previous);
     }
 
     /**
