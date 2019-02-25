@@ -56,7 +56,8 @@ body {
 }
 
 .md-toolbar {
-    @extend .himekawa;
+    background-color: $dark !important;
+    border-bottom: 4px $himekawa solid;
 }
 
 .s-container {
