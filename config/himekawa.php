@@ -18,13 +18,12 @@ return [
     // Max number of apps to keep when the pruner is running
     'max_apps'      => env('MAX_APPS', 5),
 
-    // Directory to download app icons to
-    'paths'         => [
-        'app_images' => env('HIMEKAWA_IMAGE_PATH', resource_path('assets/images')),
+    'paths'     => [
+        'apps_to_import' => resource_path('apps.json'),
     ],
 
     // Main APK downloader parameters
-    'scheduler'     => [
+    'scheduler' => [
         'cache_key'  => 'scheduler-disabled',
         'timezone'   => env('HIMEKAWA_SCHEDULER_TIMEZONE', 'Asia/Tokyo'),
         'start_time' => env('HIMEKAWA_SCHEDULER_START', '8:00'),
