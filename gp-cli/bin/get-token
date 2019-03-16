@@ -1,0 +1,13 @@
+#!/usr/bin/env node
+'use strict';
+
+var api = require('../lib/api');
+
+api.login(true)
+  .then(function (token) {
+    console.log(token);
+  })
+  .catch(function (err) {
+    console.error(err.toString());
+    process.exit(1);
+  });

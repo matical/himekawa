@@ -6,9 +6,11 @@ use yuki\Update;
 use yuki\Scrapers\Download;
 use Illuminate\Console\Command;
 use yuki\Exceptions\PackageException;
+use Symfony\Component\Process\Process;
 use yuki\Command\HasPrettyProgressBars;
 use himekawa\Events\Scheduler\AppsUpdated;
 use yuki\Repositories\AvailableAppsRepository;
+use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class CheckForAppUpdates extends Command
 {
@@ -82,6 +84,7 @@ class CheckForAppUpdates extends Command
     {
         $this->line('Checking for updates...');
         info('Running APK scheduler');
+        $this->fetchAndSetToken();
 
         retry(2, function () {
             $this->appMetadata = $this->update->allApkMetadata();
@@ -123,6 +126,15 @@ class CheckForAppUpdates extends Command
                                                 ->store();
             } catch (PackageException $exception) {
                 $bar->setMessage("An APK already exists for {$exception->package}.");
+            } catch (ProcessFailedException $exception) {
+                if (str_contains($exception->getMessage(), 'DF-DFERH-01')) {
+                    $this->info('Refreshing token...');
+                    $this->fetchAndSetToken();
+
+                    $appsUpdated[] = $this->download->build($app->packageName, $app->versionCode, $app->sha1)
+                                                    ->run()
+                                                    ->store();
+                }
             }
 
             $bar->advance();
@@ -141,5 +153,14 @@ class CheckForAppUpdates extends Command
     protected function markSchedulerLastCheck()
     {
         lastRun()->markLastCheck();
+    }
+
+    protected function fetchAndSetToken()
+    {
+        $process = new Process(['./gp-cli/bin/get-token']);
+        $process->mustRun();
+        $token = trim($process->getOutput());
+        $this->line("Setting Token: <info>$token</info>");
+        putenv("GOOGLE_AUTHTOKEN=$token");
     }
 }
