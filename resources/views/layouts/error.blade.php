@@ -53,7 +53,7 @@
             @yield('message')
         </div>
         <div>
-            <img src="/chiruchiru.png" title="chiruchiru-chang">
+            <a href="/"><img src="/chiruchiru.png" title="Return"></a>
         </div>
     </div>
 </div>
