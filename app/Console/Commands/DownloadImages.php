@@ -133,7 +133,7 @@ class DownloadImages extends Command
 
         $optipng->start();
         $optipng->wait(function ($type, $buffer) {
-            if (str_contains($buffer, 'assets')) {
+            if (str_contains($buffer, 'images')) {
                 $this->line($buffer);
             }
         });
