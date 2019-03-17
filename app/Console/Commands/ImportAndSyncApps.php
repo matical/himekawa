@@ -30,7 +30,7 @@ class ImportAndSyncApps extends Command
     protected $rawContents;
 
     /** @var array */
-    protected $newAppsAdded;
+    protected $newAppsAdded = [];
 
     /**
      * Create a new command instance.
@@ -42,7 +42,6 @@ class ImportAndSyncApps extends Command
         parent::__construct();
         $this->apkListLocation = config('himekawa.paths.apps_to_import');
         $this->rawContents = file_get_contents($this->apkListLocation);
-        $this->newAppsAdded = [];
     }
 
     /**
