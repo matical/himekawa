@@ -84,7 +84,11 @@ class CheckForAppUpdates extends Command
     {
         $this->line('Checking for updates...');
         info('Running APK scheduler');
-        $this->fetchAndSetToken();
+
+        retry(3, function () {
+            $this->fetchAndSetToken();
+        }, 1000);
+        
 
         retry(2, function () {
             $this->appMetadata = $this->update->allApkMetadata();
