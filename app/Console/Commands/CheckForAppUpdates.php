@@ -88,7 +88,6 @@ class CheckForAppUpdates extends Command
         retry(3, function () {
             $this->fetchAndSetToken();
         }, 1000);
-        
 
         retry(2, function () {
             $this->appMetadata = $this->update->allApkMetadata();
