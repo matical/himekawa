@@ -112,8 +112,6 @@ class CheckForAppUpdates extends Command
      * Download required updates.
      *
      * @param $appsRequiringUpdates
-     *
-     * @throws \yuki\Exceptions\FailedToVerifyHashException
      */
     protected function downloadRequiredUpdates(array $appsRequiringUpdates)
     {
