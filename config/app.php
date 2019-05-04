@@ -150,6 +150,7 @@ return [
         himekawa\Providers\AppServiceProvider::class,
         himekawa\Providers\AuthServiceProvider::class,
         // himekawa\Providers\BroadcastServiceProvider::class,
+        // himekawa\Providers\TelescopeServiceProvider::class,
         himekawa\Providers\EventServiceProvider::class,
         himekawa\Providers\RouteServiceProvider::class,
         himekawa\Providers\HimeServiceProvider::class,

@@ -29,8 +29,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        if ($this->app->environment('local')) {
+        if ($this->app->isLocal()) {
             $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
+            $this->app->register(TelescopeServiceProvider::class);
         }
 
         if ($this->app->environment('production')) {
