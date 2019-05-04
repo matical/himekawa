@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import toDate from 'date-fns/toDate';
+import parseISO from 'date-fns/parseISO';
 import format from 'date-fns/format';
 
 Vue.filter('humanBytes', sizeInBytes => {
@@ -17,5 +17,5 @@ Vue.filter('humanBytes', sizeInBytes => {
 });
 
 Vue.filter('prettyDate', date => {
-    return format(toDate(date), "MMM do, H:mm 'JST'");
+    return format(parseISO(date), "MMM do, H:mm 'JST'");
 });

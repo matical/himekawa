@@ -1,4 +1,4 @@
-import toDate from 'date-fns/toDate';
+import parseISO from 'date-fns/parseISO';
 import { upperFirst } from 'lodash-es';
 import fuzzyDiff from 'date-fns/formatDistance';
 import differenceInDays from 'date-fns/differenceInDays';
@@ -9,7 +9,7 @@ export default {
     },
     diffDate(iso) {
         return upperFirst(
-            fuzzyDiff(toDate(iso), this.now(), {
+            fuzzyDiff(parseISO(iso), this.now(), {
                 addSuffix: true,
             })
         );
@@ -18,6 +18,6 @@ export default {
         return differenceInDays(this.now(), from);
     },
     isRecent(iso) {
-        return this.diffInDays(toDate(iso)) < 3;
+        return this.diffInDays(parseISO(iso)) < 3;
     },
 };
