@@ -15,6 +15,6 @@ class MarkSchedulerLastSuccessfulRun
      */
     public function handle(AppsUpdated $event)
     {
-        Cache::forever('scheduler:last-update', now()->timestamp);
+        //
     }
 }

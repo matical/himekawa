@@ -19,8 +19,8 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         AppsUpdated::class => [
             FlushAppCache::class,
-            MarkSchedulerLastSuccessfulRun::class,
             NotifyByTelegram::class,
+            // MarkSchedulerLastSuccessfulRun::class,
         ],
     ];
 
