@@ -18,8 +18,6 @@ class MetainfoRepository
     protected $cacheExpiry;
 
     /**
-     * MetainfoRepository constructor.
-     *
      * @param \yuki\Scrapers\Metainfo $metainfo
      */
     public function __construct(Metainfo $metainfo)
