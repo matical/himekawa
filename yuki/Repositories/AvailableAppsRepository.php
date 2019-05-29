@@ -96,7 +96,7 @@ class AvailableAppsRepository
     /**
      * @param int                  $toKeep
      * @param \himekawa\WatchedApp $package
-     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Support\Collection
+     * @return \Illuminate\Database\Eloquent\Collection
      */
     public function getOldApps($toKeep, WatchedApp $package)
     {
@@ -130,12 +130,12 @@ class AvailableAppsRepository
     }
 
     /**
-     * @param $watchedApps
+     * @param \Illuminate\Database\Eloquent\Collection $watchedApps
      * @param $package
      */
     public function deleteFiles($watchedApps, $package)
     {
-        $filesToDelete = $watchedApps->map(function ($item, $key) use ($package) {
+        $filesToDelete = $watchedApps->map(function ($item) use ($package) {
             return buildApkFilename($package, $item->version_code);
         });
 
