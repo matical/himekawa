@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Cache;
 trait CachesAccess
 {
     /**
-     * @param string $key
+     * @param string   $key
      * @param \Closure $callback
      * @return mixed
      */

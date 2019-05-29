@@ -2,7 +2,6 @@
 
 namespace himekawa\Listeners\Scheduler;
 
-use Illuminate\Support\Facades\Cache;
 use himekawa\Events\Scheduler\AppsUpdated;
 
 class MarkSchedulerLastSuccessfulRun
