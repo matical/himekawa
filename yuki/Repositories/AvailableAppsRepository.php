@@ -5,7 +5,6 @@ namespace yuki\Repositories;
 use himekawa\WatchedApp;
 use yuki\Badging\Badging;
 use himekawa\AvailableApp;
-use yuki\Scrapers\Metainfo;
 use Illuminate\Support\Facades\Storage;
 
 class AvailableAppsRepository
