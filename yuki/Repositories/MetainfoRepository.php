@@ -41,7 +41,7 @@ class MetainfoRepository
      * @param string $package
      * @return mixed
      */
-    public function retrievePackage(string $package)
+    protected function retrievePackage(string $package)
     {
         return $this->metainfo->build($package)
                               ->run()

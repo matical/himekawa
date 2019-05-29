@@ -18,25 +18,22 @@ class AvailableAppsRepository
     protected $badging;
 
     /**
-     * @var \yuki\Scrapers\Metainfo
-     */
-    protected $metainfo;
-
-    /**
      * @var \yuki\Scrapers\Versioning
      */
     protected $versioning;
 
+    /** @var \yuki\Repositories\MetainfoRepository */
+    protected $metainfo;
+
     /**
      * AvailableAppsRepository constructor.
      *
-     * @param \yuki\Scrapers\Metainfo $metainfo
-     * @param \yuki\Badging\Badging   $badging
+     * @param \yuki\Badging\Badging $badging
      */
-    public function __construct(Metainfo $metainfo, Badging $badging)
+    public function __construct(Badging $badging, MetainfoRepository $metainfo)
     {
-        $this->metainfo = $metainfo;
         $this->badging = $badging;
+        $this->metainfo = $metainfo;
     }
 
     /**
@@ -69,7 +66,7 @@ class AvailableAppsRepository
         $package = WatchedApp::where('package_name', $packageName)
                              ->first();
 
-        $metadata = metacache($packageName);
+        $metadata = $this->metainfo->getPackageInfo($packageName);
 
         $badging = $this->badging->package(
             $packageName,
