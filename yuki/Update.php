@@ -5,11 +5,12 @@ namespace yuki;
 use himekawa\WatchedApp;
 use yuki\Scrapers\Metainfo;
 use yuki\Scrapers\Versioning;
+use yuki\Repositories\MetainfoRepository;
 
 class Update
 {
     /**
-     * @var \yuki\Scrapers\Metainfo
+     * @var \yuki\Repositories\MetainfoRepository
      */
     protected $metainfo;
 
@@ -21,10 +22,10 @@ class Update
     /**
      * Update constructor.
      *
-     * @param \yuki\Scrapers\Metainfo   $metainfo
-     * @param \yuki\Scrapers\Versioning $versioning
+     * @param \yuki\Repositories\MetainfoRepository $metainfo
+     * @param \yuki\Scrapers\Versioning             $versioning
      */
-    public function __construct(Metainfo $metainfo, Versioning $versioning)
+    public function __construct(MetainfoRepository $metainfo, Versioning $versioning)
     {
         $this->metainfo = $metainfo;
         $this->versioning = $versioning;
@@ -37,15 +38,11 @@ class Update
      */
     public function allApkMetadata(): ?array
     {
-        $result = [];
-
-        $watchedPackages = WatchedApp::pluck('package_name');
-
-        foreach ($watchedPackages as $package) {
-            $result[$package] = metacache($package);
-        }
-
-        return $result;
+        return tap([], function ($result) {
+            WatchedApp::pluck('package_name')->each(function ($package) use ($result) {
+                $result[$package] = $this->metainfo->getPackageInfo($package);
+            });
+        });
     }
 
     /**
