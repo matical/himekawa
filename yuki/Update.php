@@ -3,7 +3,6 @@
 namespace yuki;
 
 use himekawa\WatchedApp;
-use yuki\Scrapers\Metainfo;
 use yuki\Scrapers\Versioning;
 use yuki\Repositories\MetainfoRepository;
 
