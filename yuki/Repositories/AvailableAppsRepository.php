@@ -11,14 +11,10 @@ class AvailableAppsRepository
 {
     use CachesAccess;
 
-    /**
-     * @var \yuki\Badging\Badging
-     */
+    /** @var \yuki\Badging\Badging */
     protected $badging;
 
-    /**
-     * @var \yuki\Scrapers\Versioning
-     */
+    /** @var \yuki\Scrapers\Versioning */
     protected $versioning;
 
     /** @var \yuki\Repositories\MetainfoRepository */
@@ -27,7 +23,8 @@ class AvailableAppsRepository
     /**
      * AvailableAppsRepository constructor.
      *
-     * @param \yuki\Badging\Badging $badging
+     * @param \yuki\Badging\Badging                 $badging
+     * @param \yuki\Repositories\MetainfoRepository $metainfo
      */
     public function __construct(Badging $badging, MetainfoRepository $metainfo)
     {
