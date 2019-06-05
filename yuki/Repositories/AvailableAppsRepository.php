@@ -5,7 +5,6 @@ namespace yuki\Repositories;
 use himekawa\WatchedApp;
 use yuki\Badging\Badging;
 use himekawa\AvailableApp;
-use yuki\Scrapers\Metainfo;
 use Illuminate\Support\Facades\Storage;
 
 class AvailableAppsRepository
@@ -18,25 +17,22 @@ class AvailableAppsRepository
     protected $badging;
 
     /**
-     * @var \yuki\Scrapers\Metainfo
-     */
-    protected $metainfo;
-
-    /**
      * @var \yuki\Scrapers\Versioning
      */
     protected $versioning;
 
+    /** @var \yuki\Repositories\MetainfoRepository */
+    protected $metainfo;
+
     /**
      * AvailableAppsRepository constructor.
      *
-     * @param \yuki\Scrapers\Metainfo $metainfo
-     * @param \yuki\Badging\Badging   $badging
+     * @param \yuki\Badging\Badging $badging
      */
-    public function __construct(Metainfo $metainfo, Badging $badging)
+    public function __construct(Badging $badging, MetainfoRepository $metainfo)
     {
-        $this->metainfo = $metainfo;
         $this->badging = $badging;
+        $this->metainfo = $metainfo;
     }
 
     /**
@@ -69,7 +65,7 @@ class AvailableAppsRepository
         $package = WatchedApp::where('package_name', $packageName)
                              ->first();
 
-        $metadata = metacache($packageName);
+        $metadata = $this->metainfo->getPackageInfo($packageName);
 
         $badging = $this->badging->package(
             $packageName,
@@ -96,7 +92,7 @@ class AvailableAppsRepository
     /**
      * @param int                  $toKeep
      * @param \himekawa\WatchedApp $package
-     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Support\Collection
+     * @return \Illuminate\Database\Eloquent\Collection
      */
     public function getOldApps($toKeep, WatchedApp $package)
     {
@@ -130,12 +126,12 @@ class AvailableAppsRepository
     }
 
     /**
-     * @param $watchedApps
+     * @param \Illuminate\Database\Eloquent\Collection $watchedApps
      * @param $package
      */
     public function deleteFiles($watchedApps, $package)
     {
-        $filesToDelete = $watchedApps->map(function ($item, $key) use ($package) {
+        $filesToDelete = $watchedApps->map(function ($item) use ($package) {
             return buildApkFilename($package, $item->version_code);
         });
 

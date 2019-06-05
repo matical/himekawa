@@ -13,17 +13,11 @@ class LastRun
     protected $lastCheckKey;
 
     /**
-     * @var string
-     */
-    protected $lastUpdateKey;
-
-    /**
      * @param array $config
      */
     public function __construct(array $config)
     {
         $this->lastCheckKey = array_get($config, 'cache.last-check');
-        $this->lastUpdateKey = array_get($config, 'cache.last-update');
     }
 
     /**
@@ -43,30 +37,12 @@ class LastRun
     }
 
     /**
-     * @return void
-     */
-    public function markLastUpdate()
-    {
-        $this->mark($this->lastUpdateKey);
-    }
-
-    /**
      * @return \Cake\Chronos\Chronos
      */
     public function lastCheck()
     {
         if ($lastRun = Cache::get($this->lastCheckKey)) {
             return $this->createFromTimestamp($lastRun);
-        }
-    }
-
-    /**
-     * @return \Cake\Chronos\Chronos
-     */
-    public function lastUpdate()
-    {
-        if ($lastUpdate = Cache::get($this->lastUpdateKey)) {
-            return $this->createFromTimestamp($lastUpdate);
         }
     }
 

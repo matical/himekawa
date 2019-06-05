@@ -27,8 +27,8 @@ class DetailsRepository
      */
     public function __construct(Details $details)
     {
-        $this->cacheExpiry = config('googleplay.metainfo_cache_ttl');
         $this->details = $details;
+        $this->cacheExpiry = config('googleplay.metainfo_cache_ttl');
     }
 
     /**

@@ -8,7 +8,6 @@ return [
     'notifications' => env('NOTIFICATIONS_ENABLED', false),
     'cache'         => [
         'last-check'  => 'scheduler:last-check',
-        'last-update' => 'scheduler:last-update',
     ],
     'commands'      => [
         'gp-download'      => env('COMMANDS_GPDOWNLOAD', 'npx gp-download'),

@@ -2,7 +2,6 @@
 
 namespace himekawa\Listeners\Scheduler;
 
-use Illuminate\Support\Facades\Cache;
 use himekawa\Events\Scheduler\AppsUpdated;
 
 class MarkSchedulerLastSuccessfulRun
@@ -15,6 +14,6 @@ class MarkSchedulerLastSuccessfulRun
      */
     public function handle(AppsUpdated $event)
     {
-        Cache::forever('scheduler:last-update', now()->timestamp);
+        //
     }
 }
