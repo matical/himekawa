@@ -4,6 +4,7 @@ namespace yuki;
 
 use himekawa\WatchedApp;
 use yuki\Scrapers\Versioning;
+use Illuminate\Support\Collection;
 use yuki\Repositories\MetainfoRepository;
 
 class Update
@@ -42,7 +43,7 @@ class Update
     {
         $result = [];
 
-        foreach (WatchedApp::pluck('package_name') as $package) {
+        foreach ($this->pluckPackages() as $package) {
             $result[$package] = $this->metainfo->getPackageInfo($package);
             sleep($this->delay);
         }
@@ -68,5 +69,13 @@ class Update
         }
 
         return $appsRequiringUpdates;
+    }
+
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    protected function pluckPackages(): Collection
+    {
+        return WatchedApp::pluck('package_name');
     }
 }
