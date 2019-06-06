@@ -18,6 +18,9 @@ class Update
      */
     protected $versioning;
 
+    /** @var int Delay in seconds */
+    protected $delay = 2;
+
     /**
      * Update constructor.
      *
@@ -35,13 +38,16 @@ class Update
      *
      * @return array|null An array containing all app metadata, indexed by the package name
      */
-    public function allApkMetadata(): ?array
+    public function allApkMetadata(): array
     {
-        return tap([], function ($result) {
-            WatchedApp::pluck('package_name')->each(function ($package) use ($result) {
-                $result[$package] = $this->metainfo->getPackageInfo($package);
-            });
-        });
+        $result = [];
+
+        foreach (WatchedApp::pluck('package_name') as $package) {
+            $result[$package] = $this->metainfo->getPackageInfo($package);
+            sleep($this->delay);
+        }
+
+        return $result;
     }
 
     /**
