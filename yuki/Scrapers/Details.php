@@ -57,6 +57,6 @@ class Details
      */
     protected function formatCommand($package)
     {
-        return sprintf($this->commandFormat, $package);
+        return sprintf(config('himekawa.commands.gp-details') . ' %s', $package);
     }
 }

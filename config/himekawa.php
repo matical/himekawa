@@ -7,11 +7,12 @@ return [
     ],
     'notifications' => env('NOTIFICATIONS_ENABLED', false),
     'cache'         => [
-        'last-check'  => 'scheduler:last-check',
+        'last-check' => 'scheduler:last-check',
     ],
     'commands'      => [
         'gp-download'      => env('COMMANDS_GPDOWNLOAD', 'npx gp-download'),
         'gp-download-meta' => env('COMMANDS_GPDOWNLOADMETA', 'npx gp-download-meta'),
+        'gp-details'       => env('COMMANDS_GPDETAILS', 'npx gp-details'),
     ],
 
     // Max number of apps to keep when the pruner is running
