@@ -9,7 +9,7 @@ use Symfony\Component\Process\Process;
 use yuki\Command\HasPrettyProgressBars;
 use yuki\Repositories\DetailsRepository;
 
-class DownloadImages extends Command
+class FetchImages extends Command
 {
     use HasPrettyProgressBars;
 
@@ -24,14 +24,14 @@ class DownloadImages extends Command
      * @var string
      */
     protected $signature = 'apk:fetch-images 
-                            {--O|optimize : Optimize app icons after download (Requires optipng to be accessible from path) }';
+                            {--d|dont-optimize : Skip PNG optimization with OptiPNG}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Fetches app icons for watched apps';
+    protected $description = 'Fetches app icons for watched apps (Requires optipng to be accessible from path)';
 
     /**
      * @var \yuki\Repositories\DetailsRepository
