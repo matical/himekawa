@@ -3,7 +3,7 @@
 use yuki\Version;
 use Carbon\Carbon;
 use yuki\Facades\Apk;
-use Cake\Chronos\Chronos;
+use Carbon\CarbonImmutable;
 use yuki\Announce\Announcement;
 use yuki\Repositories\MetainfoRepository;
 
@@ -69,11 +69,11 @@ if (! function_exists('git')) {
 if (! function_exists('timestamp_format')) {
     /**
      * @param $timestamp
-     * @return Chronos
+     * @return \Carbon\CarbonImmutable
      */
     function timestamp_format($timestamp)
     {
-        return Chronos::createFromTimestamp($timestamp);
+        return CarbonImmutable::createFromTimestamp($timestamp);
     }
 }
 
