@@ -24,7 +24,7 @@ class ApkTest extends TestCase
      */
     protected $url;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
