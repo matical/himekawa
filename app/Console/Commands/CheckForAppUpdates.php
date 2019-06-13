@@ -4,6 +4,7 @@ namespace himekawa\Console\Commands;
 
 use yuki\Update;
 use yuki\Facades\LastRun;
+use Illuminate\Support\Str;
 use yuki\Scrapers\Download;
 use Illuminate\Console\Command;
 use yuki\Exceptions\PackageException;
@@ -127,7 +128,7 @@ class CheckForAppUpdates extends Command
             } catch (PackageException $exception) {
                 $bar->setMessage("An APK already exists for {$exception->package}.");
             } catch (ProcessFailedException $exception) {
-                if (str_contains($exception->getMessage(), 'DF-DFERH-01')) {
+                if (Str::contains($exception->getMessage(), 'DF-DFERH-01')) {
                     $this->info('Refreshing token...');
                     $this->fetchAndSetToken();
 

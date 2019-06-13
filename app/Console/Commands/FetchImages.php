@@ -3,6 +3,7 @@
 namespace himekawa\Console\Commands;
 
 use himekawa\WatchedApp;
+use Illuminate\Support\Str;
 use Illuminate\Console\Command;
 use ksmz\NanaLaravel\NanaManager;
 use Symfony\Component\Process\Process;
@@ -97,7 +98,7 @@ class FetchImages extends Command
 
     /**
      * @param $images
-     * @return mixed|string
+     * @return string
      */
     protected function pluckImageUrl($images)
     {
@@ -133,7 +134,7 @@ class FetchImages extends Command
 
         $optipng->start();
         $optipng->wait(function ($type, $buffer) {
-            if (str_contains($buffer, 'images')) {
+            if (Str::contains($buffer, 'images')) {
                 $this->line($buffer);
             }
         });
