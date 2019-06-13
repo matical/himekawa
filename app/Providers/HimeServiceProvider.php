@@ -33,7 +33,7 @@ class HimeServiceProvider extends ServiceProvider
         });
 
         $this->app->bind(LastRun::class, function () {
-            return new LastRun(config('himekawa'));
+            return new LastRun(config('himekawa'), $this->app->make('cache.store'));
         });
 
         $this->app->alias(Apk::class, 'apk');
