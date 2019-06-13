@@ -3,6 +3,7 @@
 namespace himekawa\Console\Commands;
 
 use yuki\Update;
+use yuki\Facades\LastRun;
 use yuki\Scrapers\Download;
 use Illuminate\Console\Command;
 use yuki\Exceptions\PackageException;
@@ -122,9 +123,7 @@ class CheckForAppUpdates extends Command
             $bar->setMessage("Downloading {$app->packageName}");
 
             try {
-                $appsUpdated[] = $this->download->build($app->packageName, $app->versionCode, $app->sha1)
-                                                ->run()
-                                                ->store();
+                $appsUpdated[] = $this->getAvailableApp($app);
             } catch (PackageException $exception) {
                 $bar->setMessage("An APK already exists for {$exception->package}.");
             } catch (ProcessFailedException $exception) {
@@ -132,9 +131,7 @@ class CheckForAppUpdates extends Command
                     $this->info('Refreshing token...');
                     $this->fetchAndSetToken();
 
-                    $appsUpdated[] = $this->download->build($app->packageName, $app->versionCode, $app->sha1)
-                                                    ->run()
-                                                    ->store();
+                    $appsUpdated[] = $this->getAvailableApp($app);
                 }
             }
 
@@ -153,7 +150,7 @@ class CheckForAppUpdates extends Command
      */
     protected function markSchedulerLastCheck()
     {
-        lastRun()->markLastCheck();
+        LastRun::markLastCheck();
     }
 
     protected function fetchAndSetToken()
@@ -163,5 +160,16 @@ class CheckForAppUpdates extends Command
         $token = trim($process->getOutput());
         $this->line("Setting Token: <info>$token</info>");
         putenv("GOOGLE_AUTHTOKEN=$token");
+    }
+
+    /**
+     * @param $app
+     * @return \himekawa\AvailableApp
+     */
+    protected function getAvailableApp($app)
+    {
+        return $this->download->build($app->packageName, $app->versionCode, $app->sha1)
+                              ->run()
+                              ->store();
     }
 }
