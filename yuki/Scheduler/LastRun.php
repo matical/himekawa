@@ -2,30 +2,26 @@
 
 namespace yuki\Scheduler;
 
-use Cake\Chronos\Chronos;
-use Illuminate\Support\Facades\Cache;
+use Carbon\CarbonImmutable;
+use Illuminate\Support\Arr;
+use Illuminate\Cache\Repository as CacheRepository;
 
 class LastRun
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $lastCheckKey;
 
-    /**
-     * @param array $config
-     */
-    public function __construct(array $config)
-    {
-        $this->lastCheckKey = array_get($config, 'cache.last-check');
-    }
+    /** @var \Illuminate\Cache\Repository */
+    protected $cache;
 
     /**
-     * @param $key
+     * @param array                        $config
+     * @param \Illuminate\Cache\Repository $cache
      */
-    public function mark($key)
+    public function __construct(array $config, CacheRepository $cache)
     {
-        Cache::forever($key, now()->timestamp);
+        $this->lastCheckKey = Arr::get($config, 'cache.last-check');
+        $this->cache = $cache;
     }
 
     /**
@@ -33,25 +29,25 @@ class LastRun
      */
     public function markLastCheck()
     {
-        $this->mark($this->lastCheckKey);
+        $this->cache->forever($this->lastCheckKey, now()->timestamp);
     }
 
     /**
-     * @return \Cake\Chronos\Chronos
+     * @return \Carbon\CarbonImmutable
      */
     public function lastCheck()
     {
-        if ($lastRun = Cache::get($this->lastCheckKey)) {
+        if ($lastRun = $this->cache->get($this->lastCheckKey)) {
             return $this->createFromTimestamp($lastRun);
         }
     }
 
     /**
      * @param $timestamp
-     * @return \Cake\Chronos\Chronos
+     * @return \Carbon\CarbonImmutable
      */
     protected function createFromTimestamp($timestamp)
     {
-        return Chronos::createFromTimestamp($timestamp);
+        return CarbonImmutable::createFromTimestamp($timestamp);
     }
 }
