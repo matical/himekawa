@@ -5,7 +5,6 @@ use Carbon\Carbon;
 use yuki\Facades\Apk;
 use Carbon\CarbonImmutable;
 use yuki\Announce\Announcement;
-use yuki\Repositories\MetainfoRepository;
 
 if (! function_exists('apkDirectory')) {
     /**

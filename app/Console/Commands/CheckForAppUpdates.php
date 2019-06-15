@@ -107,7 +107,7 @@ class CheckForAppUpdates extends Command
 
         info('Updates found.', $this->appsRequiringUpdates);
         $this->line(
-            sprintf("Found <comment>%s</comment> app(s) available for update", count($this->appsRequiringUpdates))
+            sprintf('Found <comment>%s</comment> app(s) available for update', count($this->appsRequiringUpdates))
         );
 
         $this->downloadRequiredUpdates($this->appsRequiringUpdates);
@@ -126,7 +126,7 @@ class CheckForAppUpdates extends Command
         foreach ($appsRequiringUpdates as $app) {
             $bar->setMessage("Downloading {$app->packageName}");
             $bar->advance();
-            
+
             try {
                 $appsUpdated[] = $this->getAvailableApp($app);
             } catch (PackageException $exception) {
@@ -139,7 +139,6 @@ class CheckForAppUpdates extends Command
                     $appsUpdated[] = $this->getAvailableApp($app);
                 }
             }
-
         }
 
         $bar->finish();
