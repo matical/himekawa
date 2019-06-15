@@ -74,9 +74,9 @@ class Download extends Scraper
             } catch (FailedToVerifyHashException $exception) {
                 // TODO: Separate this so download can continue on the same apk:update run.
                 $this->cleanupFailedDownload($packageName, $this->buildApkFilename());
+            } finally {
+                throw PackageException::AlreadyExists($this->packageName, $this->versionCode);
             }
-
-            throw PackageException::AlreadyExists($this->packageName, $this->versionCode);
         }
 
         // Checks if a folder with the respective package name exists already
