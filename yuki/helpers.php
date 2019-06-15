@@ -7,19 +7,6 @@ use Carbon\CarbonImmutable;
 use yuki\Announce\Announcement;
 use yuki\Repositories\MetainfoRepository;
 
-if (! function_exists('metacache')) {
-    /**
-     * Retrieve a cached copy of the metadata whenever possible.
-     *
-     * @param string $package
-     * @return mixed
-     */
-    function metacache($package)
-    {
-        return app(MetainfoRepository::class)->getPackageInfo($package);
-    }
-}
-
 if (! function_exists('apkDirectory')) {
     /**
      * @param string|null $packageName
