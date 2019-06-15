@@ -20,7 +20,7 @@ class Parser
             [$key, $value] = explode('=', $slice);
             $stripped = $this->stripQuotes($value);
 
-            $packages[$key] = $this->parseAndCast($stripped);
+            $packages[$key] = $this->serializeWhenRequired($stripped);
         }
 
         return $packages;
@@ -69,10 +69,12 @@ class Parser
     }
 
     /**
+     * Numbers should be numbers.
+     *
      * @param $stripped
      * @return int|string
      */
-    protected function parseAndCast($stripped)
+    protected function serializeWhenRequired($stripped)
     {
         return is_numeric($stripped) ? (int) $stripped : $stripped;
     }
