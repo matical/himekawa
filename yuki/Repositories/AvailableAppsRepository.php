@@ -64,13 +64,7 @@ class AvailableAppsRepository
 
         $metadata = $this->metainfo->getPackageInfo($packageName);
 
-        $badging = $this->badging->package(
-            $packageName,
-            buildApkFilename(
-                $packageName,
-                $metadata->versionCode
-            )
-        )->getPackage();
+        $badging = $this->getBadging($packageName, $metadata);
 
         $newApp = $package->availableApps()->create([
             'version_code' => $metadata->versionCode,
@@ -135,5 +129,23 @@ class AvailableAppsRepository
         foreach ($filesToDelete as $file) {
             Storage::delete($package . DIRECTORY_SEPARATOR . $file);
         }
+    }
+
+    /**
+     * @param $packageName
+     * @param $metadata
+     * @return array
+     */
+    protected function getBadging($packageName, $metadata): array
+    {
+        $badging = $this->badging->package(
+            $packageName,
+            buildApkFilename(
+                $packageName,
+                $metadata->versionCode
+            )
+        )->getPackage();
+
+        return $badging;
     }
 }
