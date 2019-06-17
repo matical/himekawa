@@ -43,8 +43,7 @@ class MetainfoRepository
      */
     protected function retrievePackage(string $package)
     {
-        return $this->metainfo->build($package)
-                              ->run()
-                              ->output();
+        return $this->metainfo->package($package)
+                              ->fetch();
     }
 }

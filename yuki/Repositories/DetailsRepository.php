@@ -8,11 +8,6 @@ use Illuminate\Support\Facades\Cache;
 class DetailsRepository
 {
     /**
-     * @var \yuki\Scrapers\Metainfo
-     */
-    protected $metainfo;
-
-    /**
      * @var int
      */
     protected $cacheExpiry;
