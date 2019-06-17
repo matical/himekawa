@@ -46,8 +46,6 @@ class Download
     protected $availableApps;
 
     /**
-     * Download constructor.
-     *
      * @param \yuki\Repositories\AvailableAppsRepository $availableAppsRepository
      */
     public function __construct(AvailableAppsRepository $availableAppsRepository)
