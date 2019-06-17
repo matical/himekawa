@@ -45,6 +45,6 @@ class DetailsRepository
     {
         return $this->details->build($package)
                              ->run()
-                             ->getOutput();
+                             ->getDetails();
     }
 }

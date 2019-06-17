@@ -2,26 +2,24 @@
 
 namespace yuki\Process;
 
+use Closure;
 use ksmz\json\Json;
 use RuntimeException;
 use Symfony\Component\Process\Process;
 
 class Supervisor
 {
-    /**
-     * @var \Symfony\Component\Process\Process
-     */
+    /** @var \Symfony\Component\Process\Process */
     protected $process;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $output;
 
-    /**
-     * @var bool
-     */
+    /** @var bool */
     protected $hasOutput = true;
+
+    /** @var \Closure */
+    protected $serializer;
 
     /**
      * Supervisor constructor.
@@ -74,11 +72,27 @@ class Supervisor
     }
 
     /**
+     * Use a custom serializer for process output.
+     *
+     * @param \Closure $serializer
+     */
+    public function setSerializer(Closure $serializer)
+    {
+        $this->serializer = $serializer;
+    }
+
+    /**
+     * Serialize the process output. Defaults to json.
+     *
      * @param $output
      * @return mixed
      */
     protected function serializeOutput($output)
     {
+        if ($this->serializer) {
+            return ($this->serializer)($output);
+        }
+
         return Json::decode($output);
     }
 }

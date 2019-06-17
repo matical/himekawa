@@ -7,11 +7,6 @@ use yuki\Process\Supervisor;
 class Details
 {
     /**
-     * @var string
-     */
-    protected $commandFormat = 'gp-details %s';
-
-    /**
      * @var \stdClass
      */
     protected $output;
@@ -46,7 +41,7 @@ class Details
     /**
      * @return string
      */
-    public function getOutput()
+    public function getDetails()
     {
         return $this->output;
     }
@@ -55,8 +50,8 @@ class Details
      * @param $package
      * @return string
      */
-    protected function formatCommand($package)
+    protected function formatCommand($package): string
     {
-        return sprintf(config('himekawa.commands.gp-details') . ' %s', $package);
+        return config('himekawa.commands.gp-details') . " $package";
     }
 }
