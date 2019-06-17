@@ -14,7 +14,7 @@ class Metainfo
 
     /**
      * @param string $packageName
-     * @return $this
+     * @return self
      */
     public function package(string $packageName)
     {
