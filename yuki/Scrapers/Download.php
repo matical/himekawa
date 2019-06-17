@@ -10,7 +10,7 @@ use yuki\Repositories\AvailableAppsRepository;
 use yuki\Exceptions\FailedToVerifyHashException;
 use Symfony\Component\Process\Exception\ProcessTimedOutException;
 
-class Download extends Scraper
+class Download
 {
     /**
      * @var \Symfony\Component\Process\Process
