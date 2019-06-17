@@ -60,6 +60,6 @@ class Apk
      */
     public function resolveApkUrl(string $packageName, int $versionCode): string
     {
-        return Storage::url($packageName . '/' . buildApkFilename($packageName, $versionCode));
+        return Storage::url($packageName . '/' . $this->resolveApkFilename($packageName, $versionCode));
     }
 }
