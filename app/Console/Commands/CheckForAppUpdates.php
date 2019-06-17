@@ -12,6 +12,7 @@ use Symfony\Component\Process\Process;
 use yuki\Command\HasPrettyProgressBars;
 use himekawa\Events\Scheduler\AppsUpdated;
 use yuki\Repositories\AvailableAppsRepository;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class CheckForAppUpdates extends Command
@@ -96,7 +97,7 @@ class CheckForAppUpdates extends Command
         }, 500);
 
         $this->appsRequiringUpdates = $this->update->checkForUpdates($this->appMetadata);
-        $this->markSchedulerLastCheck();
+        LastRun::markLastCheck();
 
         if (empty($this->appsRequiringUpdates)) {
             $this->info("There's no apps that require updates.");
@@ -105,10 +106,10 @@ class CheckForAppUpdates extends Command
             return;
         }
 
-        info('Updates found.', $this->appsRequiringUpdates);
         $this->line(
             sprintf('Found <comment>%s</comment> app(s) available for update', count($this->appsRequiringUpdates))
         );
+        info('Updates found.', $this->appsRequiringUpdates);
 
         $this->downloadRequiredUpdates($this->appsRequiringUpdates);
     }
@@ -148,20 +149,12 @@ class CheckForAppUpdates extends Command
         }
     }
 
-    /**
-     * @return void
-     */
-    protected function markSchedulerLastCheck()
-    {
-        LastRun::markLastCheck();
-    }
-
     protected function fetchAndSetToken()
     {
         $process = new Process(['./gp-cli/bin/get-token']);
         $process->mustRun();
         $token = trim($process->getOutput());
-        $this->line("Setting Token: <info>$token</info>");
+        $this->line("Setting Token: <info>$token</info>", null, OutputInterface::VERBOSITY_VERBOSE);
         putenv("GOOGLE_AUTHTOKEN=$token");
     }
 
