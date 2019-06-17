@@ -40,17 +40,17 @@ class Apk
      */
     public function resolveApkDirectory(?string $packageName = null, ?int $versionCode = null): string
     {
-        $apkPath = $this->config['apk_base_path'];
+        $basePath = $this->config['apk_base_path'];
 
         if ($packageName === null) {
-            return $apkPath;
+            return $basePath;
         }
 
         if ($packageName && $versionCode === null) {
-            return $apkPath . DIRECTORY_SEPARATOR . $packageName;
+            return $basePath . DIRECTORY_SEPARATOR . $packageName;
         }
 
-        return $apkPath . DIRECTORY_SEPARATOR . $packageName . DIRECTORY_SEPARATOR . $this->resolveApkFilename($packageName, $versionCode);
+        return $basePath . DIRECTORY_SEPARATOR . $packageName . DIRECTORY_SEPARATOR . $this->resolveApkFilename($packageName, $versionCode);
     }
 
     /**
