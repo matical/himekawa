@@ -75,6 +75,10 @@ class ListAvailableApks extends Command
 
         $firstOfEachApp = collect();
         foreach (WatchedApp::all() as $watched) {
+            if ($watched->latestApp() === null) {
+                continue;
+            }
+
             $firstOfEachApp[$watched->package_name] = $watched->latestApp();
         }
 
