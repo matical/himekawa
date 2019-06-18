@@ -9,6 +9,7 @@ use ksmz\NanaLaravel\NanaManager;
 use Symfony\Component\Process\Process;
 use yuki\Command\HasPrettyProgressBars;
 use yuki\Repositories\DetailsRepository;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class FetchImages extends Command
 {
@@ -66,6 +67,7 @@ class FetchImages extends Command
      */
     public function handle()
     {
+        $this->fetchAndSetToken();
         $imagesToDownload = $this->peekImages(WatchedApp::pluck('package_name'));
         $this->fetchImages($imagesToDownload);
         if ($this->option('optimize')) {
@@ -87,6 +89,7 @@ class FetchImages extends Command
 
             $details = $this->details->getDetailsInfo($package);
             $imagesToDownload[$package] = $this->pluckImageUrl($details->image);
+            sleep(2);
 
             $bar->advance();
         }
@@ -123,6 +126,15 @@ class FetchImages extends Command
 
             $bar->advance();
         }
+    }
+
+    protected function fetchAndSetToken()
+    {
+        $process = new Process(['./gp-cli/bin/get-token']);
+        $process->mustRun();
+        $token = trim($process->getOutput());
+        $this->line("Setting Token: <info>$token</info>", null, OutputInterface::VERBOSITY_VERBOSE);
+        putenv("GOOGLE_AUTHTOKEN=$token");
     }
 
     protected function runOptimizeCommand()
