@@ -5,7 +5,6 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use yuki\Foundation\Apk;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Storage;
 
 class ApkTest extends TestCase
 {
