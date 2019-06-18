@@ -19,7 +19,7 @@ class ImportAndSyncApps extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Sync APK watch list if required.';
 
     /**
      * @var string
