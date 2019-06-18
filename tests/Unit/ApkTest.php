@@ -55,11 +55,6 @@ class ApkTest extends TestCase
         $this->assertSame($this->basePath . DIRECTORY_SEPARATOR . $this->package . DIRECTORY_SEPARATOR . 'jp.co.bandainamcoent.BNEI0242.130.apk', $fullApkPathAndDirectory);
 
         $expectedPath = "{$this->url}/{$this->package}/$filename";
-
-        Storage::shouldReceive('url')
-               ->with($this->package . '/' . $filename)
-               ->andReturn($expectedPath);
-
         $path = $builder->resolveApkUrl($this->package, 130);
         $this->assertSame($expectedPath, $path);
     }
