@@ -3,6 +3,7 @@
 namespace yuki\Scrapers;
 
 use yuki\Facades\Apk;
+use himekawa\AvailableApp;
 use yuki\Process\Supervisor;
 use Illuminate\Support\Facades\Log;
 use yuki\Exceptions\PackageException;
@@ -40,8 +41,6 @@ class Download
     protected $hash;
 
     /**
-     * AvailableApps Repository.
-     *
      * @var \yuki\Repositories\AvailableAppsRepository
      */
     protected $availableApps;
@@ -72,7 +71,7 @@ class Download
                 $this->verifyFileIntegrity($this->packageName, $this->hash);
             } catch (FailedToVerifyHashException $exception) {
                 // TODO: Separate this so download can continue on the same apk:update run.
-                $this->cleanupFailedDownload($packageName, $this->buildApkFilename());
+                $this->deleteDownload($packageName, $this->buildApkFilename());
             } finally {
                 throw PackageException::AlreadyExists($this->packageName, $this->versionCode);
             }
@@ -102,9 +101,9 @@ class Download
 
             $this->verifyFileIntegrity($this->packageName, $this->hash);
         } catch (FailedToVerifyHashException $exception) {
-            $this->cleanupFailedDownload($this->packageName, $this->buildApkFilename());
+            $this->deleteDownload($this->packageName, $this->buildApkFilename());
         } catch (ProcessTimedOutException $exception) {
-            $this->cleanupFailedDownload($this->packageName, $this->buildApkFilename());
+            $this->deleteDownload($this->packageName, $this->buildApkFilename());
             Log::warning("Failed to download {$this->buildApkFilename()}. Process timed out.");
         }
 
@@ -114,7 +113,7 @@ class Download
     /**
      * @return string
      */
-    public function output()
+    public function output(): string
     {
         return $this->buildApkFilename();
     }
@@ -122,7 +121,7 @@ class Download
     /**
      * @return \himekawa\AvailableApp
      */
-    public function store()
+    public function store(): AvailableApp
     {
         return tap($this->availableApps->create($this->packageName), function ($availableApp) {
             Log::info("Finished download of {$this->packageName} (r{$availableApp->version_code}-v{$availableApp->version_name})");
@@ -134,9 +133,9 @@ class Download
      *
      * @return string
      */
-    protected function buildApkFilename()
+    protected function buildApkFilename(): string
     {
-        return sprintf('%s.%s.apk', $this->packageName, $this->versionCode);
+        return Apk::resolveApkFilename($this->packageName, $this->versionCode);
     }
 
     /**
@@ -144,15 +143,17 @@ class Download
      *
      * @return string
      */
-    protected function buildApkDirectory()
+    protected function buildApkDirectory(): string
     {
         return Apk::resolveApkDirectory($this->packageName);
     }
 
     /**
+     * Check if an APK already exists at that location.
+     *
      * @return bool
      */
-    protected function fileAlreadyExists()
+    protected function fileAlreadyExists(): bool
     {
         return Storage::exists(
             sprintf('%s/%s', $this->packageName, $this->buildApkFilename())
@@ -160,12 +161,14 @@ class Download
     }
 
     /**
-     * @param $packageName
-     * @param $filename
-     * @param $directory
+     * Build and configure the supervisor instance.
+     *
+     * @param string $packageName
+     * @param string $filename
+     * @param string $directory
      * @return \yuki\Process\Supervisor
      */
-    protected function buildSupervisor($packageName, $filename, $directory)
+    protected function buildSupervisor($packageName, $filename, $directory): Supervisor
     {
         $command = sprintf('%s %s > %s', config('himekawa.commands.gp-download'), $packageName, $filename);
 
@@ -178,9 +181,10 @@ class Download
     /**
      * @param string $packageName
      * @param string $expectedHash
+     *
      * @throws \yuki\Exceptions\FailedToVerifyHashException
      */
-    protected function verifyFileIntegrity($packageName, $expectedHash)
+    protected function verifyFileIntegrity($packageName, $expectedHash): void
     {
         $packagePath = apkDirectory($packageName, $this->versionCode);
         $hashOfLocalPackage = sha1_file($packagePath);
@@ -193,12 +197,12 @@ class Download
     }
 
     /**
-     * @param string $package
+     * @param string $packageName
      * @param string $apkFilename
      */
-    protected function cleanupFailedDownload($package, $apkFilename)
+    protected function deleteDownload($packageName, $apkFilename): void
     {
-        if (Storage::delete("$package/$apkFilename")) {
+        if (Storage::delete("$packageName/$apkFilename")) {
             Log::info("Deleted faulty download: $apkFilename");
         }
     }
