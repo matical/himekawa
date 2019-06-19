@@ -21,7 +21,11 @@ class Update
      */
     protected $versioning;
 
-    /** @var int Delay in seconds */
+    /**
+     * Delay in seconds.
+     *
+     * @var int
+     */
     protected $delay = 2;
 
     /**
