@@ -2,9 +2,10 @@
 
 namespace yuki\Scrapers;
 
+use yuki\Facades\Apk;
+use yuki\Process\Supervisor;
 use Illuminate\Support\Facades\Log;
 use yuki\Exceptions\PackageException;
-use Symfony\Component\Process\Process;
 use Illuminate\Support\Facades\Storage;
 use yuki\Repositories\AvailableAppsRepository;
 use yuki\Exceptions\FailedToVerifyHashException;
@@ -13,9 +14,9 @@ use Symfony\Component\Process\Exception\ProcessTimedOutException;
 class Download
 {
     /**
-     * @var \Symfony\Component\Process\Process
+     * @var \yuki\Process\Supervisor
      */
-    protected $process;
+    protected $supervisor;
 
     /**
      * Package identifier of the app to be downloaded.
@@ -82,7 +83,7 @@ class Download
             Storage::makeDirectory($packageName);
         }
 
-        $this->process = $this->buildProcess(
+        $this->supervisor = $this->buildSupervisor(
             $this->packageName,
             $this->buildApkFilename(),
             $this->buildApkDirectory()
@@ -96,10 +97,8 @@ class Download
      */
     public function run()
     {
-        $this->process->setTimeout(config('googleplay.download_timeout'));
-
         try {
-            $this->process->mustRun();
+            $this->supervisor->execute();
 
             $this->verifyFileIntegrity($this->packageName, $this->hash);
         } catch (FailedToVerifyHashException $exception) {
@@ -147,7 +146,7 @@ class Download
      */
     protected function buildApkDirectory()
     {
-        return apkDirectory($this->packageName);
+        return Apk::resolveApkDirectory($this->packageName);
     }
 
     /**
@@ -164,13 +163,16 @@ class Download
      * @param $packageName
      * @param $filename
      * @param $directory
-     * @return \Symfony\Component\Process\Process
+     * @return \yuki\Process\Supervisor
      */
-    protected function buildProcess($packageName, $filename, $directory)
+    protected function buildSupervisor($packageName, $filename, $directory)
     {
         $command = sprintf('%s %s > %s', config('himekawa.commands.gp-download'), $packageName, $filename);
 
-        return Process::fromShellCommandline($command, $directory);
+        return tap(new Supervisor($command, $directory), function (Supervisor $supervisor) {
+            $supervisor->setTimeout(config('googleplay.download_timeout'));
+            $supervisor->setOutputAvailability(false);
+        });
     }
 
     /**
