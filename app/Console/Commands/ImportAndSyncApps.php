@@ -2,7 +2,9 @@
 
 namespace himekawa\Console\Commands;
 
+use ksmz\json\Json;
 use himekawa\WatchedApp;
+use Illuminate\Support\Str;
 use Illuminate\Console\Command;
 
 class ImportAndSyncApps extends Command
@@ -79,12 +81,12 @@ class ImportAndSyncApps extends Command
         }
 
         $numberOfNewApps = count($this->newAppsAdded);
-        $this->line("Added <info>$numberOfNewApps</info> new app(s).");
+        $this->line("Added <info>$numberOfNewApps</info> new " . Str::plural('app', $numberOfNewApps) . ' to the watch list.');
     }
 
     protected function decodeAndCollectApps($rawContent)
     {
-        return collect(json_decode($rawContent)->apps);
+        return collect(Json::decode($rawContent)->apps);
     }
 
     protected function getCurrentlyWatchedApps()
