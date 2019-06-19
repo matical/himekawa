@@ -5,7 +5,9 @@ namespace yuki;
 use himekawa\WatchedApp;
 use yuki\Scrapers\Versioning;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use yuki\Repositories\MetainfoRepository;
+use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class Update
 {
@@ -44,7 +46,14 @@ class Update
         $result = [];
 
         foreach ($this->pluckPackages() as $package) {
-            $result[$package] = $this->metainfo->getPackageInfo($package);
+            try {
+                $fetched = $this->metainfo->getPackageInfo($package);
+            } catch (ProcessFailedException $exception) {
+                Log::warning('Failed to download metainfo for ' . $package);
+                continue;
+            }
+
+            $result[$package] = $fetched;
             sleep($this->delay);
         }
 
