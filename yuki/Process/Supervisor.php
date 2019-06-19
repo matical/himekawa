@@ -72,6 +72,17 @@ class Supervisor
     }
 
     /**
+     * @param int|float|null $timeout The timeout in seconds
+     * @return self
+     */
+    public function setTimeout($timeout)
+    {
+        $this->process->setTimeout($timeout);
+
+        return $this;
+    }
+
+    /**
      * Use a custom serializer for process output.
      *
      * @param \Closure $serializer
