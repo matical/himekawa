@@ -9,19 +9,25 @@ use Spatie\SlashCommand\Handlers\SignatureHandler;
 
 class SchedulerManager extends SignatureHandler
 {
+    /** @var string */
     protected $signature = '* scheduler {state?}';
 
+    /** @var string */
     protected $description = 'Display or change scheduler state';
+
+    /** @var string */
+    protected $cacheKey;
 
     /**
      * Handle the given request.
      *
      * @param \Spatie\SlashCommand\Request $request
-     *
      * @return \Spatie\SlashCommand\Response
      */
     public function handle(Request $request): Response
     {
+        $this->cacheKey = config('himekawa.scheduler.disabled_cache_key');
+
         if ($state = $this->getArgument('state')) {
             $this->changeState($state);
 
@@ -31,17 +37,30 @@ class SchedulerManager extends SignatureHandler
         return $this->respondToSlack("Scheduler is *{$this->schedulerState()}*.");
     }
 
-    protected function schedulerState()
+    /**
+     * Return the scheduler's current state.
+     *
+     * @return string
+     */
+    protected function schedulerState(): string
     {
         return Cache::has('scheduler-disabled') ? 'disabled' : 'enabled';
     }
 
-    protected function changeState($state)
+    /**
+     * Change the scheduler's current state.
+     *
+     * @param string $state
+     */
+    protected function changeState(string $state): void
     {
-        if ($state === 'enable') {
-            Cache::forget(config('himekawa.scheduler.disabled_cache_key'));
-        } elseif ($state === 'disable') {
-            Cache::forever(config('himekawa.scheduler.disabled_cache_key'), true);
+        switch ($state) {
+            case 'enable':
+                Cache::forget(config('himekawa.scheduler.disabled_cache_key'));
+                break;
+            case 'disable':
+                Cache::forever(config('himekawa.scheduler.disabled_cache_key'), true);
+                break;
         }
     }
 }
