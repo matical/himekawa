@@ -50,7 +50,7 @@ class Kernel extends ConsoleKernel
      */
     protected function disabledByCache()
     {
-        return Cache::has(config('himekawa.scheduler.cache_key'));
+        return Cache::has(config('himekawa.scheduler.disabled_cache_key'));
     }
 
     /**

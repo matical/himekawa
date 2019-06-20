@@ -39,9 +39,9 @@ class SchedulerManager extends SignatureHandler
     protected function changeState($state)
     {
         if ($state === 'enable') {
-            Cache::forget(config('himekawa.scheduler.cache_key'));
+            Cache::forget(config('himekawa.scheduler.disabled_cache_key'));
         } elseif ($state === 'disable') {
-            Cache::forever(config('himekawa.scheduler.cache_key'), true);
+            Cache::forever(config('himekawa.scheduler.disabled_cache_key'), true);
         }
     }
 }
