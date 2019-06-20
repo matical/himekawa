@@ -6,6 +6,7 @@ use ksmz\json\Json;
 use himekawa\WatchedApp;
 use Illuminate\Support\Str;
 use Illuminate\Console\Command;
+use Illuminate\Support\Collection;
 
 class ImportAndSyncApps extends Command
 {
@@ -53,9 +54,9 @@ class ImportAndSyncApps extends Command
      */
     public function handle()
     {
-        $apps = $this->decodeAndCollectApps($this->rawContents);
-        $plucked = $apps->pluck('package_name');
-        $missingApps = $plucked->diff($this->getCurrentlyWatchedApps());
+        $appsToWatch = $this->decodeAndCollectApps($this->rawContents)
+                            ->pluck('package_name');
+        $missingApps = $appsToWatch->diff($this->getCurrentlyWatchedApps());
 
         if ($missingApps->isEmpty()) {
             $this->info('No new apps to import.');
@@ -65,9 +66,10 @@ class ImportAndSyncApps extends Command
 
         $this->line(' New Apps Detected');
         $this->info(' -----------------');
-        foreach ($missingApps as $app) {
-            $this->line(' ' . $app);
-        }
+
+        $missingApps->each(function ($missing) {
+            $this->line(' ' . $missing);
+        });
 
         if (! $this->confirm('Do you wish to add these new packages to the watchlist?')) {
             return;
@@ -77,27 +79,38 @@ class ImportAndSyncApps extends Command
         $this->output->newLine();
 
         foreach ($missingApps as $app) {
-            $this->newAppsAdded[] = $this->appToAdd($app);
+            $this->newAppsAdded[] = $this->watchApp($app);
         }
 
         $numberOfNewApps = count($this->newAppsAdded);
         $this->line("Added <info>$numberOfNewApps</info> new " . Str::plural('app', $numberOfNewApps) . ' to the watch list.');
     }
 
-    protected function decodeAndCollectApps($rawContent)
+    /**
+     * @param string $rawContent
+     * @return \Illuminate\Support\Collection
+     */
+    protected function decodeAndCollectApps(string $rawContent): Collection
     {
         return collect(Json::decode($rawContent)->apps);
     }
 
-    protected function getCurrentlyWatchedApps()
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    protected function getCurrentlyWatchedApps(): Collection
     {
         return WatchedApp::pluck('package_name');
     }
 
-    protected function appToAdd($appsToAdd)
+    /**
+     * @param $packageName
+     * @return \himekawa\WatchedApp
+     */
+    protected function watchApp($packageName): WatchedApp
     {
         $package = $this->decodeAndCollectApps($this->rawContents)
-                        ->firstWhere('package_name', $appsToAdd);
+                        ->firstWhere('package_name', $packageName);
 
         return tap(new WatchedApp(), function (WatchedApp $watchedApp) use ($package) {
             $watchedApp->name = $package->name;
