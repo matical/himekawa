@@ -94,7 +94,7 @@ class CheckForAppUpdates extends Command
 
         retry(2, function () {
             $this->appMetadata = $this->update->allApkMetadata();
-        }, 5000);
+        }, 10000);
 
         $this->appsRequiringUpdates = $this->update->checkForUpdates($this->appMetadata);
         LastRun::markLastCheck();
