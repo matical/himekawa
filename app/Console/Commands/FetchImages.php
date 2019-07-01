@@ -74,7 +74,7 @@ class FetchImages extends Command
         if ($this->option('dont-optimize')) {
             return;
         }
-        
+
         $this->runOptimizeCommand();
     }
 
