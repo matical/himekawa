@@ -71,9 +71,11 @@ class FetchImages extends Command
         $imagesToDownload = $this->peekImages(WatchedApp::pluck('package_name'));
         $this->fetchImages($imagesToDownload);
 
-        if (! $this->option('dont-optimize')) {
-            $this->runOptimizeCommand();
+        if ($this->option('dont-optimize')) {
+            return;
         }
+        
+        $this->runOptimizeCommand();
     }
 
     /**
