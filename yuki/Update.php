@@ -26,7 +26,7 @@ class Update
      *
      * @var int
      */
-    protected $delay = 8;
+    protected $delay = 15;
 
     /**
      * Update constructor.
