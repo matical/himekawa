@@ -26,7 +26,7 @@ class Update
      *
      * @var int
      */
-    protected $delay = 15;
+    protected $delay;
 
     /**
      * Update constructor.
@@ -38,6 +38,7 @@ class Update
     {
         $this->metainfo = $metainfo;
         $this->versioning = $versioning;
+        $this->delay = config('googleplay.delay');
     }
 
     /**
