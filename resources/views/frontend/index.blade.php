@@ -21,6 +21,6 @@
         <br>
         <span>Exceptions last week: <span class="muted">{{ app('yuki\Repositories\ExceptionRepository')->numberOfExceptions() }}</span></span>
         <br>
-        <span>hime#{{ git()->hash() }} (r{{ git()->revision() }})</span>
+        <span>hime {{ git()->prettyVersion() }}</span>
     </div>
 @endsection
