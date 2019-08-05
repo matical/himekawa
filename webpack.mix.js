@@ -2,14 +2,7 @@ let mix = require('laravel-mix');
 
 mix.copy('resources/images/*.png', 'public/images')
    .js('resources/js/app.js', 'public/js')
-   .sass('resources/sass/app.scss', 'public/css')
-   .options({
-       postCss: [
-           require('postcss-custom-properties')({
-               preserve: false,
-           }),
-       ],
-   });
+   .sass('resources/sass/app.scss', 'public/css');
 
 
 mix.disableNotifications();
