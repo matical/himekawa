@@ -4,7 +4,7 @@ namespace himekawa\Console\Commands;
 
 use Illuminate\Console\Command;
 
-class BoostrapHime extends Command
+class BootstrapHime extends Command
 {
     /**
      * The name and signature of the console command.
@@ -44,7 +44,7 @@ class BoostrapHime extends Command
             return 0 === $this->callSilent('migrate');
         });
 
-        $this->task('Import Apps', function () {
+        $this->task('Import App watchlist', function () {
             $this->output->newLine();
             $this->call('apk:import');
         });
