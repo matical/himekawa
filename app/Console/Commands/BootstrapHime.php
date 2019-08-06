@@ -44,20 +44,22 @@ class BootstrapHime extends Command
             return 0 === $this->callSilent('migrate');
         });
 
-        $this->task('Import App watchlist', function () {
-            $this->output->newLine();
-            $this->call('apk:import');
+        $this->task('Import APK watchlist', function () {
+            $this->callSilent('apk:import');
         });
+
+
     }
 
     public function createEnvIfNeeded()
     {
-        if (! file_exists('.env')) {
-            copy('.env.example', '.env');
-            $this->callSilent('key:generate');
+        if (file_exists('.env')) {
+            return;
         }
 
-        $this->line('Created a new <info>.env</info>');
+        copy('.env.example', '.env');
+        $this->callSilent('key:generate');
+        $this->line('New <info>.env</info> file created.');
     }
 
     /**
@@ -67,7 +69,7 @@ class BootstrapHime extends Command
      * @return bool
      * @throws \Exception
      */
-    public function task(string $title, $task = null, $loadingText = 'loading...')
+    protected function task(string $title, $task = null, $loadingText = 'loading...')
     {
         $this->output->write("$title: <comment>{$loadingText}</comment>");
 
