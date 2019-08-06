@@ -47,8 +47,6 @@ class BootstrapHime extends Command
         $this->task('Import APK watchlist', function () {
             $this->callSilent('apk:import');
         });
-
-
     }
 
     public function createEnvIfNeeded()
