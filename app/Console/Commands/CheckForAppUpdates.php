@@ -24,8 +24,9 @@ class CheckForAppUpdates extends Command
      *
      * @var string
      */
-    protected $signature = 'apk:update
-                            {--N|no-notifications : Ensure no notifications will be dispatched }';
+    protected $signature = "apk:update
+                            {--N|no-notifications : Ensure no notifications will be dispatched }
+                            {--dry-run : Don't download anything, only list available updates }";
 
     /**
      * The console command description.
@@ -97,6 +98,12 @@ class CheckForAppUpdates extends Command
         }, 10000);
 
         $this->appsRequiringUpdates = $this->update->checkForUpdates($this->appMetadata);
+
+        if ($this->option('dry-run')) {
+            dump($this->appsRequiringUpdates);
+            exit(1);
+        }
+
         LastRun::markLastCheck();
 
         if (empty($this->appsRequiringUpdates)) {
