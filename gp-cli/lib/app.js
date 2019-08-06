@@ -8,7 +8,8 @@ function unescape(str) {
 }
 
 function decodeDigest(str) {
-    return new Buffer(unescape(str), 'base64').toString('hex');
+    return Buffer.from(unescape(str), 'base64')
+                 .toString('hex');
 }
 
 function signatureToSha1(sig) {
@@ -29,8 +30,8 @@ module.exports = function getAppInfo(api, pkg, vc) {
             email: d.details.appDetails.developerEmail,
             minDownloadCount: Number(
                 d.details.appDetails.numDownloads
-                    .replace(/,|\+/g, '')
-                    .replace('downloads', '')
+                 .replace(/,|\+/g, '')
+                 .replace('downloads', '')
             ),
             name: d.title,
             packageName: pkg,
