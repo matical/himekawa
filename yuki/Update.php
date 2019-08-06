@@ -55,7 +55,6 @@ class Update
                 $fetched = $this->metainfo->getPackageInfo($package);
             } catch (ProcessFailedException $exception) {
                 Log::warning("Failed to fetch metainfo for $package");
-                report($exception);
                 continue;
             }
 
