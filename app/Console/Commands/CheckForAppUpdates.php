@@ -86,7 +86,6 @@ class CheckForAppUpdates extends Command
      */
     public function handle()
     {
-        dd($this->output->isVerbose());
         $this->line('Checking for updates...');
         info('Running APK scheduler');
 
