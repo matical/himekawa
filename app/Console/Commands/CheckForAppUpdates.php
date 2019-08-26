@@ -93,10 +93,7 @@ class CheckForAppUpdates extends Command
             $this->fetchAndSetToken();
         }, 5000);
 
-        retry(2, function () {
-            $this->appMetadata = $this->update->allApkMetadata($this->output->isVerbose());
-        }, 10000);
-
+        $this->appMetadata = $this->update->allApkMetadata($this->output->isVerbose());
         $this->appsRequiringUpdates = $this->update->checkForUpdates($this->appMetadata);
 
         if ($this->option('dry-run')) {
