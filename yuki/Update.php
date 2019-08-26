@@ -44,9 +44,10 @@ class Update
     /**
      * Fetch metadata based on the watch list.
      *
+     * @param bool $verbose Control exception reporting
      * @return array|null An array containing all app metadata, indexed by the package name
      */
-    public function allApkMetadata(): array
+    public function allApkMetadata(bool $verbose = false): array
     {
         $result = [];
 
@@ -55,6 +56,9 @@ class Update
                 $fetched = $this->metainfo->getPackageInfo($package);
             } catch (ProcessFailedException $exception) {
                 Log::warning("Failed to fetch metainfo for $package");
+                if ($verbose) {
+                    report($exception);
+                }
                 continue;
             }
 

@@ -86,6 +86,7 @@ class CheckForAppUpdates extends Command
      */
     public function handle()
     {
+        dd($this->output->isVerbose());
         $this->line('Checking for updates...');
         info('Running APK scheduler');
 
@@ -94,7 +95,7 @@ class CheckForAppUpdates extends Command
         }, 5000);
 
         retry(2, function () {
-            $this->appMetadata = $this->update->allApkMetadata();
+            $this->appMetadata = $this->update->allApkMetadata($this->output->isVerbose());
         }, 10000);
 
         $this->appsRequiringUpdates = $this->update->checkForUpdates($this->appMetadata);
