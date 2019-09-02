@@ -142,6 +142,8 @@ class FetchImages extends Command
 
     protected function runOptimizeCommand()
     {
+        $this->output->newLine();
+        
         $path = config('filesystems.disks.images.root');
 
         // Process will automatically kill/cleanup optipng if this (apk:fetch-images) gets ctrl-c'd
