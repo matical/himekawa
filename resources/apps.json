@@ -77,6 +77,12 @@
             "slug": "priconne",
             "original_title": "プリンセスコネクト！Re:Dive",
             "package_name": "jp.co.cygames.princessconnectredive"
+        },
+        {
+            "name": "Starlight Spot",
+            "slug": "deresupo",
+            "original_title": "アイドルマスター シンデレラガールズ スターライトスポット",
+            "package_name": "com.bandainamcoent.cgstarlightspot"
         }
     ]
 }
