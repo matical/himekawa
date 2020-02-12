@@ -2,10 +2,10 @@
 
 namespace yuki\Repositories;
 
-use himekawa\AvailableApp;
 use himekawa\WatchedApp;
-use Illuminate\Support\Facades\Storage;
 use yuki\Badging\Badging;
+use himekawa\AvailableApp;
+use Illuminate\Support\Facades\Storage;
 
 class AvailableAppsRepository
 {

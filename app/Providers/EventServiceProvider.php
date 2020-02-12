@@ -2,12 +2,12 @@
 
 namespace himekawa\Providers;
 
+use Illuminate\Support\Facades\Event;
 use himekawa\Events\Scheduler\AppsUpdated;
 use himekawa\Listeners\Scheduler\FlushAppCache;
-use himekawa\Listeners\Scheduler\MarkSchedulerLastSuccessfulRun;
 use himekawa\Listeners\Scheduler\NotifyByTelegram;
+use himekawa\Listeners\Scheduler\MarkSchedulerLastSuccessfulRun;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Event;
 
 class EventServiceProvider extends ServiceProvider
 {

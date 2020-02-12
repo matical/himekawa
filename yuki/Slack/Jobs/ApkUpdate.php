@@ -3,8 +3,8 @@
 namespace yuki\Slack\Jobs;
 
 use Illuminate\Support\Facades\Artisan;
-use Spatie\SlashCommand\Jobs\SlashCommandResponseJob;
 use Symfony\Component\Console\Output\BufferedOutput;
+use Spatie\SlashCommand\Jobs\SlashCommandResponseJob;
 
 class ApkUpdate extends SlashCommandResponseJob
 {

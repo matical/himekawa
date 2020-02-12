@@ -2,9 +2,9 @@
 
 namespace himekawa\Console;
 
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use Illuminate\Support\Facades\Cache;
 
 class Kernel extends ConsoleKernel
 {

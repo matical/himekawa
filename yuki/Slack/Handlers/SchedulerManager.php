@@ -2,10 +2,10 @@
 
 namespace yuki\Slack\Handlers;
 
-use Illuminate\Support\Facades\Cache;
-use Spatie\SlashCommand\Handlers\SignatureHandler;
 use Spatie\SlashCommand\Request;
 use Spatie\SlashCommand\Response;
+use Illuminate\Support\Facades\Cache;
+use Spatie\SlashCommand\Handlers\SignatureHandler;
 
 class SchedulerManager extends SignatureHandler
 {

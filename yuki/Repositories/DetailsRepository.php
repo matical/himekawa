@@ -2,8 +2,8 @@
 
 namespace yuki\Repositories;
 
-use Illuminate\Support\Facades\Cache;
 use yuki\Scrapers\Details;
+use Illuminate\Support\Facades\Cache;
 
 class DetailsRepository
 {

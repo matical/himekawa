@@ -2,11 +2,11 @@
 
 namespace himekawa;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Cache;
+use yuki\Facades\Apk;
 use Spatie\Feed\Feedable;
 use Spatie\Feed\FeedItem;
-use yuki\Facades\Apk;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Database\Eloquent\Model;
 
 class AvailableApp extends Model implements Feedable
 {

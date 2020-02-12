@@ -1,10 +1,10 @@
 <?php
 
+use yuki\Version;
 use Carbon\Carbon;
+use yuki\Facades\Apk;
 use Carbon\CarbonImmutable;
 use yuki\Announce\Announcement;
-use yuki\Facades\Apk;
-use yuki\Version;
 
 if (! function_exists('apkDirectory')) {
     /**
