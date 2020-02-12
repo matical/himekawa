@@ -131,9 +131,7 @@ class ListAvailableApks extends Command
      */
     protected function filter(Collection $apps)
     {
-        return $apps->map(function ($apk) {
-            return $this->only($apk);
-        });
+        return $apps->map(fn ($apk) => $this->only($apk));
     }
 
     /**

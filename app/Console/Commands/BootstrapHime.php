@@ -40,9 +40,7 @@ class BootstrapHime extends Command
     {
         $this->createEnvIfNeeded();
 
-        $this->task('Migrate DB', function () {
-            return 0 === $this->callSilent('migrate');
-        });
+        $this->task('Migrate DB', fn () => 0 === $this->callSilent('migrate'));
 
         $this->task('Import APK watchlist', function () {
             $this->callSilent('apk:import');

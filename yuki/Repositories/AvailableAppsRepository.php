@@ -47,10 +47,8 @@ class AvailableAppsRepository
      */
     public function cachedAllWithWatched()
     {
-        return $this->taggedCached('apps', 'available-apps:all-watched', function () {
-            return AvailableApp::with('watchedBy')
-                               ->get();
-        });
+        return $this->taggedCached('apps', 'available-apps:all-watched', fn () => AvailableApp::with('watchedBy')
+                                                                                         ->get());
     }
 
     /**
@@ -122,9 +120,7 @@ class AvailableAppsRepository
      */
     public function deleteFiles($watchedApps, $package)
     {
-        $filesToDelete = $watchedApps->map(function ($item) use ($package) {
-            return buildApkFilename($package, $item->version_code);
-        });
+        $filesToDelete = $watchedApps->map(fn ($item) => buildApkFilename($package, $item->version_code));
 
         foreach ($filesToDelete as $file) {
             Storage::delete($package . DIRECTORY_SEPARATOR . $file);

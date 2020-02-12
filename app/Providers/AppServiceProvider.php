@@ -42,8 +42,6 @@ class AppServiceProvider extends ServiceProvider
 
     protected function registerBladeDirectives()
     {
-        Blade::directive('rand', function ($randomValues) {
-            return "<?php echo e(array_random({$randomValues})) ?>";
-        });
+        Blade::directive('rand', fn ($randomValues) => "<?php echo e(array_random({$randomValues})) ?>");
     }
 }

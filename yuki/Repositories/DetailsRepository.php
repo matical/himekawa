@@ -32,9 +32,7 @@ class DetailsRepository
      */
     public function getDetailsInfo($package)
     {
-        return Cache::remember("apk-details:{$package}", $this->cacheExpiry, function () use ($package) {
-            return $this->fetchDetails($package);
-        });
+        return Cache::remember("apk-details:{$package}", $this->cacheExpiry, fn () => $this->fetchDetails($package));
     }
 
     /**

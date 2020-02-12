@@ -13,9 +13,7 @@ class WatchedAppsRepository
      */
     public function allApps()
     {
-        return $this->taggedCached('apps', 'watched-apps:all', function () {
-            return WatchedApp::all();
-        });
+        return $this->taggedCached('apps', 'watched-apps:all', fn () => WatchedApp::all());
     }
 
     /**
@@ -23,9 +21,7 @@ class WatchedAppsRepository
      */
     public function allAppsWithApks()
     {
-        return $this->taggedCached('apps', 'watched-apps:all-available', function () {
-            return WatchedApp::with('availableApps')->get();
-        });
+        return $this->taggedCached('apps', 'watched-apps:all-available', fn () => WatchedApp::with('availableApps')->get());
     }
 
     /**
@@ -34,9 +30,7 @@ class WatchedAppsRepository
      */
     public function find($id)
     {
-        return $this->taggedCached('apps', "watched-apps:$id", function () use ($id) {
-            return WatchedApp::findOrFail($id);
-        });
+        return $this->taggedCached('apps', "watched-apps:$id", fn () => WatchedApp::findOrFail($id));
     }
 
     /**
@@ -45,9 +39,7 @@ class WatchedAppsRepository
      */
     public function findBySlug($slug)
     {
-        return $this->taggedCached('apps', "watched-apps:$slug", function () use ($slug) {
-            return WatchedApp::where('slug', $slug)
-                             ->first();
-        });
+        return $this->taggedCached('apps', "watched-apps:$slug", fn () => WatchedApp::where('slug', $slug)
+                                                                               ->first());
     }
 }

@@ -107,11 +107,13 @@ class AvailableApp extends Model implements Feedable
     public static function getFeedItems()
     {
         return Cache::tags('apps')
-                    ->remember('available-apps:all-watched', config('googleplay.metainfo_cache_ttl'), function () {
-                        return self::with('watchedBy')
-                                   ->latest()
-                                   ->limit(20)
-                                   ->get();
-                    });
+                    ->remember(
+                        'available-apps:all-watched',
+                        config('googleplay.metainfo_cache_ttl'),
+                        fn () => self::with('watchedBy')
+                                    ->latest()
+                                    ->limit(20)
+                                    ->get()
+                    );
     }
 }

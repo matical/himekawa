@@ -17,9 +17,7 @@ class Version
 
     public function prettyVersion(): ?string
     {
-        return $this->cached($this->currentVersionKey, function () {
-            return $this->exec('git describe --tags');
-        });
+        return $this->cached($this->currentVersionKey, fn () => $this->exec('git describe --tags'));
     }
 
     /**
@@ -39,8 +37,6 @@ class Version
     protected function cached(string $key, Closure $callback)
     {
         return Cache::tags('metadata')
-                    ->remember($key, config('googleplay.metainfo_cache_ttl'), function () use ($callback) {
-                        return $callback();
-                    });
+                    ->remember($key, config('googleplay.metainfo_cache_ttl'), fn () => $callback());
     }
 }

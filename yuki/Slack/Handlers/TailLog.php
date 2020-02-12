@@ -40,9 +40,7 @@ class TailLog extends SignatureHandler
     protected function findLatestLogFile(string $directory)
     {
         $logFile = collect(File::allFiles($directory))
-            ->sortByDesc(function (SplFileInfo $file) {
-                return $file->getMTime();
-            })
+            ->sortByDesc(fn (SplFileInfo $file) => $file->getMTime())
             ->first();
 
         return $logFile

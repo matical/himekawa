@@ -14,9 +14,7 @@ trait CachesAccess
      */
     protected function cached(string $key, Closure $callback)
     {
-        return Cache::remember($key, config('googleplay.metainfo_cache_ttl'), function () use ($callback) {
-            return $callback();
-        });
+        return Cache::remember($key, config('googleplay.metainfo_cache_ttl'), fn () => $callback());
     }
 
     /**
@@ -27,8 +25,6 @@ trait CachesAccess
      */
     protected function taggedCached($tags, string $key, Closure $callback)
     {
-        return Cache::tags($tags)->remember($key, config('googleplay.metainfo_cache_ttl'), function () use ($callback) {
-            return $callback();
-        });
+        return Cache::tags($tags)->remember($key, config('googleplay.metainfo_cache_ttl'), fn () => $callback());
     }
 }
