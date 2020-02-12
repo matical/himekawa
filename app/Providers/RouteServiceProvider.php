@@ -21,6 +21,9 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected $apiNamespace = 'himekawa\Http\Controllers\Api';
 
+    /** @var string */
+    public const HOME = '/home';
+
     /**
      * Define your route model bindings, pattern filters, etc.
      *

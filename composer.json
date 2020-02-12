@@ -7,31 +7,29 @@
     "license": "BSD-2-Clause",
     "type": "project",
     "require": {
-        "php": ">=7.2",
+        "php": "^7.2",
         "doctrine/dbal": "^2.6",
-        "fideloper/proxy": "~4.0",
-        "jacobbennett/laravel-http2serverpush": "^2.0",
+        "fideloper/proxy": "^4.0",
+        "jacobbennett/laravel-http2serverpush": "^4.0",
         "ksmz/json": "^0.1",
         "ksmz/nana-laravel": "0.*",
-        "laravel-notification-channels/telegram": "^0.0.5",
-        "laravel/framework": "5.8.*",
+        "laravel-notification-channels/telegram": "^0.1.1",
+        "laravel/framework": "^6.2",
         "laravel/telescope": "^2.0",
-        "laravel/tinker": "~1.0",
+        "laravel/tinker": "^2.0",
         "predis/predis": "^1.1",
-        "spatie/laravel-feed": "^2.0",
-        "spatie/laravel-slack-slash-command": "^1.6",
+        "spatie/laravel-feed": "2.4.3",
+        "spatie/laravel-slack-slash-command": "^1.9",
         "symfony/polyfill-php73": "^1.8"
     },
     "require-dev": {
-        "barryvdh/laravel-debugbar": "^3.1",
-        "barryvdh/laravel-ide-helper": "^2.4",
-        "beyondcode/laravel-dump-server": "^1.1",
-        "beyondcode/laravel-tinker-server": "^1.0",
-        "filp/whoops": "^2.0",
+        "barryvdh/laravel-debugbar": "^3.2",
+        "barryvdh/laravel-ide-helper": "^2.6",
+        "facade/ignition": "^1.4",
         "fzaninotto/faker": "^1.4",
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^3.0",
-        "phpunit/phpunit": "^7.5"
+        "phpunit/phpunit": "^8.0"
     },
     "autoload": {
         "classmap": [
