@@ -83,6 +83,12 @@
             "slug": "deresupo",
             "original_title": "アイドルマスター シンデレラガールズ スターライトスポット",
             "package_name": "com.bandainamcoent.cgstarlightspot"
+        },
+        {
+            "name": "Arknights",
+            "slug": "ark",
+            "original_title": "アークナイツ",
+            "package_name": "com.YoStarJP.Arknights"
         }
     ]
 }
