@@ -8,12 +8,12 @@
 <p align="center">** incomplete **</p>
 
 # Dependencies
-* PHP >7.2 with [L5.8's Requirements (extensions)](https://laravel.com/docs/5.8#installation)
+* PHP >=7.4 with [L6.0's Requirements (extensions)](https://laravel.com/docs/6.0#installation)
+* Node >=v8*
 * Composer + Yarn
 * Redis
 * Any DB supported by [Eloquent](https://laravel.com/docs/5.8/database#introduction)
     - MariaDB, Postgres and SQLite should all work just fine
-* [node-google-play-cli](https://github.com/dweinstein/node-google-play-cli)
 * `aapt` (Android Asset Packaging Too)
     - Available standalone on most distros, check your package manager
 
@@ -22,12 +22,16 @@
 * `composer install` - Install PHP dependencies
 * `yarn` - Install frontend assets
 * `yarn run prod` - Compile frontend assets
-* `cp .env.example .env`
-    - Fill in your secrets here. Fields should be pretty self explanatory.
+* `cp .env.example .env` or `.env.example.streamline` - See [below](#filling-in-env)
 * `php artisan key:generate`
 * `php artisan migrate`
-* `php artisan apk:import` - Populates the watch list with apps from `resources/apps.json`
+* `php artisan apk:import` 
 * Check out the [GSF generation guide](https://github.com/matical/himekawa/blob/master/docs/GsfGenerationGuideForWeebApps.md) for filling in the 3 fields.
+
+#### Filling in .env
+You can choose to use `.env.example.streamline` if you wish to avoid databases and redis configuration. Note, you'll probably need the sqlite pdo extension if it isn't installed yet.
+* `BASE_DIR` - Fully qualified path to where you've installed this project.
+* `GOOGLE_LOGIN`, `GOOGLE_PASSWORD`, `ANDROID_ID`
 
 ### Scheduler
 Two important tasks are scheduler in Laravel's console kernel.
@@ -40,3 +44,16 @@ If nothing goes wrong, this app is basically requires zero intervention. But tim
 ```sh
 * * * * * php /path/to/project/artisan schedule:run >> /dev/null 2>&1
 ```
+
+## Installing Apps
+Multiple DB engines are supported, so watched apps are synced and configured manually through [`resources/apps.json`](https://github.com/matical/himekawa/blob/master/resources/apps.json).
+
+* `name` - Friendly name, shown on main page.
+* `slug` - Used by short links (i.e. https://apk.ksmz.moe/deresute)
+* `original_title` - Original game title in Japanese
+* `package_name` - Raw package name from google play
+
+Once configured, run `apk:import` to sync with the DB.
+
+### JP region specifics and workarounds
+In general, you don't need a JP IP and/or a VPN once you've "downloaded" the region locked app at least once.
