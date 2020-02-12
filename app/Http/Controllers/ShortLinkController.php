@@ -2,8 +2,8 @@
 
 namespace himekawa\Http\Controllers;
 
-use yuki\Repositories\WatchedAppsRepository;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use yuki\Repositories\WatchedAppsRepository;
 
 class ShortLinkController extends Controller
 {

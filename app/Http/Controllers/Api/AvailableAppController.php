@@ -2,9 +2,9 @@
 
 namespace himekawa\Http\Controllers\Api;
 
-use yuki\Repositories\WatchedAppsRepository;
-use himekawa\Http\Resources\WatchedAppResource;
 use himekawa\Http\Controllers\Api\BaseApiController as Controller;
+use himekawa\Http\Resources\WatchedAppResource;
+use yuki\Repositories\WatchedAppsRepository;
 
 class AvailableAppController extends Controller
 {

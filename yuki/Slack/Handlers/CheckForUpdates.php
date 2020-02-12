@@ -2,10 +2,10 @@
 
 namespace yuki\Slack\Handlers;
 
-use yuki\Slack\Jobs\ApkUpdate;
+use Spatie\SlashCommand\Handlers\SignatureHandler;
 use Spatie\SlashCommand\Request;
 use Spatie\SlashCommand\Response;
-use Spatie\SlashCommand\Handlers\SignatureHandler;
+use yuki\Slack\Jobs\ApkUpdate;
 
 class CheckForUpdates extends SignatureHandler
 {

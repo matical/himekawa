@@ -3,8 +3,8 @@
 namespace yuki\Command;
 
 use Illuminate\Console\Command;
-use yuki\Repositories\WatchedAppsRepository;
 use yuki\Repositories\AvailableAppsRepository;
+use yuki\Repositories\WatchedAppsRepository;
 
 abstract class BaseCommand extends Command
 {

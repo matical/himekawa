@@ -2,12 +2,12 @@
 
 namespace himekawa\Providers;
 
-use yuki\Foundation\Apk;
-use yuki\Scheduler\LastRun;
-use Spatie\Feed\Helpers\Path;
-use Spatie\Feed\Http\FeedController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Spatie\Feed\Helpers\Path;
+use Spatie\Feed\Http\FeedController;
+use yuki\Foundation\Apk;
+use yuki\Scheduler\LastRun;
 
 class HimeServiceProvider extends ServiceProvider
 {

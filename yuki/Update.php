@@ -3,11 +3,11 @@
 namespace yuki;
 
 use himekawa\WatchedApp;
-use yuki\Scrapers\Versioning;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
-use yuki\Repositories\MetainfoRepository;
 use Symfony\Component\Process\Exception\ProcessFailedException;
+use yuki\Repositories\MetainfoRepository;
+use yuki\Scrapers\Versioning;
 
 class Update
 {

@@ -2,8 +2,8 @@
 
 namespace yuki\Repositories;
 
-use yuki\Scrapers\Metainfo;
 use Illuminate\Support\Facades\Cache;
+use yuki\Scrapers\Metainfo;
 
 class MetainfoRepository
 {
