@@ -2,11 +2,11 @@
 
 namespace himekawa\Console\Commands;
 
-use himekawa\WatchedApp;
 use himekawa\AvailableApp;
-use yuki\Command\Apk\Stats;
+use himekawa\WatchedApp;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
+use yuki\Command\Apk\Stats;
 
 class ListAvailableApks extends Command
 {

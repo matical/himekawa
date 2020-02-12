@@ -3,13 +3,13 @@
 namespace himekawa\Console\Commands;
 
 use himekawa\WatchedApp;
-use Illuminate\Support\Str;
 use Illuminate\Console\Command;
+use Illuminate\Support\Str;
 use ksmz\NanaLaravel\NanaManager;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
 use yuki\Command\HasPrettyProgressBars;
 use yuki\Repositories\DetailsRepository;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class FetchImages extends Command
 {

@@ -2,18 +2,18 @@
 
 namespace himekawa\Console\Commands;
 
-use yuki\Update;
-use yuki\Facades\LastRun;
-use Illuminate\Support\Str;
-use yuki\Scrapers\Download;
-use Illuminate\Console\Command;
-use yuki\Exceptions\PackageException;
-use Symfony\Component\Process\Process;
-use yuki\Command\HasPrettyProgressBars;
 use himekawa\Events\Scheduler\AppsUpdated;
-use yuki\Repositories\AvailableAppsRepository;
+use Illuminate\Console\Command;
+use Illuminate\Support\Str;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\Process;
+use yuki\Command\HasPrettyProgressBars;
+use yuki\Exceptions\PackageException;
+use yuki\Facades\LastRun;
+use yuki\Repositories\AvailableAppsRepository;
+use yuki\Scrapers\Download;
+use yuki\Update;
 
 class CheckForAppUpdates extends Command
 {

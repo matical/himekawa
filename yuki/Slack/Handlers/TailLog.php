@@ -2,12 +2,12 @@
 
 namespace yuki\Slack\Handlers;
 
-use SplFileInfo;
+use Illuminate\Support\Facades\File;
+use Spatie\SlashCommand\Attachment;
+use Spatie\SlashCommand\Handlers\SignatureHandler;
 use Spatie\SlashCommand\Request;
 use Spatie\SlashCommand\Response;
-use Spatie\SlashCommand\Attachment;
-use Illuminate\Support\Facades\File;
-use Spatie\SlashCommand\Handlers\SignatureHandler;
+use SplFileInfo;
 
 class TailLog extends SignatureHandler
 {

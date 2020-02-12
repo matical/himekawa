@@ -2,9 +2,9 @@
 
 namespace himekawa\Console\Commands;
 
-use yuki\Update;
 use Illuminate\Console\Command;
 use yuki\Repositories\AvailableAppsRepository;
+use yuki\Update;
 
 class PruneOldApps extends Command
 {

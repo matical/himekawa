@@ -3,8 +3,8 @@
 namespace yuki\Scheduler;
 
 use Carbon\CarbonImmutable;
-use Illuminate\Support\Arr;
 use Illuminate\Cache\Repository as CacheRepository;
+use Illuminate\Support\Arr;
 
 class LastRun
 {

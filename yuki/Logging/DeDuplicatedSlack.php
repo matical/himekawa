@@ -2,13 +2,13 @@
 
 namespace yuki\Logging;
 
-use InvalidArgumentException;
-use Monolog\Logger as Monolog;
-use Monolog\Formatter\LineFormatter;
-use Monolog\Handler\HandlerInterface;
 use Illuminate\Foundation\Application;
-use Monolog\Handler\SlackWebhookHandler;
+use InvalidArgumentException;
+use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\DeduplicationHandler;
+use Monolog\Handler\HandlerInterface;
+use Monolog\Handler\SlackWebhookHandler;
+use Monolog\Logger as Monolog;
 
 class DeDuplicatedSlack
 {
