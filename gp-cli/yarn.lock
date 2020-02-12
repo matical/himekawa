@@ -285,7 +285,7 @@ google-play-proto@^1.3.1:
   resolved "https://registry.yarnpkg.com/google-play-proto/-/google-play-proto-1.3.1.tgz#fdf0aa2a8cafca59a7b74f95fb43a0585ace8716"
   integrity sha512-a+4hSvr4YTIZ6RLl6iT1pEI1UZcCgY4g+bix4xMTbUr8PWpv3KuakZhdXEGKXlVRcubPh5uyU2n12ypDlp247w==
 
-gpapi@^4.4.1-0:
+gpapi@^4.5:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/gpapi/-/gpapi-4.5.0.tgz#5aa4658c7b1e4d1f1fc3545bb25f2566b87c29e7"
   integrity sha512-p8UTfkZGv/D9Mxw2C6eFbPVVGlQfMItOFIyzgrdj233+NANMCxk5h2yNG7VUMsPgyxOjZVDeMV3EFyOMLkWuLQ==
