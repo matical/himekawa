@@ -3,10 +3,10 @@
 namespace himekawa\Exceptions;
 
 use Exception;
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Illuminate\Foundation\Http\Exceptions\MaintenanceModeException;
 use Psr\Log\LoggerInterface;
 use yuki\Repositories\ExceptionRepository;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Foundation\Http\Exceptions\MaintenanceModeException;
 
 class Handler extends ExceptionHandler
 {

@@ -2,9 +2,9 @@
 
 namespace himekawa\Listeners\Scheduler;
 
-use himekawa\Events\Scheduler\AppsUpdated;
-use himekawa\Notifications\ApkDownloaded;
 use himekawa\User;
+use himekawa\Notifications\ApkDownloaded;
+use himekawa\Events\Scheduler\AppsUpdated;
 
 class NotifyByTelegram
 {

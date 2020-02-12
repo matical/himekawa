@@ -2,12 +2,12 @@
 
 namespace yuki\Slack\Handlers;
 
-use Spatie\SlashCommand\Attachment;
-use Spatie\SlashCommand\AttachmentField;
-use Spatie\SlashCommand\Handlers\SignatureHandler;
 use Spatie\SlashCommand\Request;
 use Spatie\SlashCommand\Response;
+use Spatie\SlashCommand\Attachment;
+use Spatie\SlashCommand\AttachmentField;
 use yuki\Command\Apk\Stats as StatsRepository;
+use Spatie\SlashCommand\Handlers\SignatureHandler;
 
 class Stats extends SignatureHandler
 {

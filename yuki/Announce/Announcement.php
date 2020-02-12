@@ -2,9 +2,9 @@
 
 namespace yuki\Announce;
 
-use Illuminate\Contracts\Cache\Repository;
-use Illuminate\Support\Facades\Cache;
 use Parsedown;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Contracts\Cache\Repository;
 
 class Announcement
 {

@@ -2,11 +2,11 @@
 
 namespace himekawa\Console\Commands;
 
+use ksmz\json\Json;
 use himekawa\WatchedApp;
+use Illuminate\Support\Str;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
-use ksmz\json\Json;
 
 class ImportAndSyncApps extends Command
 {
