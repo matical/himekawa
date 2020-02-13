@@ -9,6 +9,7 @@
     "require": {
         "php": ">=7.4",
         "doctrine/dbal": "^2.6",
+        "erusev/parsedown": "^1.7",
         "fideloper/proxy": "^4.0",
         "jacobbennett/laravel-http2serverpush": "^4.0",
         "ksmz/json": "^0.1",
