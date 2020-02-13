@@ -28,9 +28,15 @@ class HimeServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(Apk::class, fn () => new Apk(config('googleplay')));
+        $this->app->bind(
+            Apk::class,
+            fn () => new Apk(config('googleplay'))
+        );
 
-        $this->app->bind(LastRun::class, fn () => new LastRun(config('himekawa'), $this->app->make('cache.store')));
+        $this->app->bind(
+            LastRun::class,
+            fn () => new LastRun(config('himekawa'), $this->app->make('cache.store'))
+        );
 
         $this->app->alias(Apk::class, 'apk');
         $this->app->alias(LastRun::class, 'lastRun');
