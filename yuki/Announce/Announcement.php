@@ -3,7 +3,6 @@
 namespace yuki\Announce;
 
 use Parsedown;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Contracts\Cache\Repository;
 
 class Announcement
@@ -53,6 +52,9 @@ class Announcement
         return $this->cache()->has($this->cacheKey);
     }
 
+    /**
+     * @return mixed
+     */
     public function announcedOn()
     {
         return $this->cache()->get('announced-on');
@@ -63,20 +65,28 @@ class Announcement
      */
     public function get(): string
     {
-        return $this->cache()->get($this->cacheKey, '');
+        return $this->cache()
+                    ->get($this->cacheKey, '');
     }
 
     /**
      * @param string $announcement
+     * @return bool
      */
     public function store(string $announcement)
     {
-        $this->cache()->forever($this->cacheKey, $announcement);
+        return $this->cache()
+                    ->forever($this->cacheKey, $announcement);
     }
 
+    /**
+     * @return mixed
+     */
     public function rendered()
     {
-        return $this->cache()->remember($this->cacheKey . '-rendered', $this->expiry, fn () => (new Parsedown())->text($this->get()));
+        return $this->cache()->remember($this->cacheKey . '-rendered', $this->expiry,
+            fn() => (new Parsedown())->text($this->get())
+        );
     }
 
     /**
@@ -87,13 +97,19 @@ class Announcement
         $this->cache()->flush();
     }
 
+    /**
+     * @return \Illuminate\Cache\TaggedCache
+     */
     protected function cache()
     {
         return $this->cache->tags('announcement');
     }
 
+    /**
+     * @return bool
+     */
     protected function announced()
     {
-        $this->cache()->forever('announced-on', now());
+        return $this->cache()->forever('announced-on', now());
     }
 }
