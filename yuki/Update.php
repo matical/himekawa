@@ -77,8 +77,8 @@ class Update
      */
     public function checkForUpdates($appMetadata): ?array
     {
-        return array_filter($appMetadata, // Queue up the apps that have updates pending
-        fn ($app) => $this->versioning->areUpdatesAvailableFor($app->packageName, $app->versionCode));
+        // Queue up the apps that have updates pending
+        return array_filter($appMetadata, fn ($app) => $this->versioning->areUpdatesAvailableFor($app->packageName, $app->versionCode));
     }
 
     /**

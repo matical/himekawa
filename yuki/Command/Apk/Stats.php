@@ -13,7 +13,9 @@ class Stats
      */
     public function totalSizeOfDirectory(): string
     {
-        return humanReadableSize($this->allFiles()->reduce(fn ($total, $current) => $total + Storage::size($current), 0));
+        return humanReadableSize(
+            $this->allFiles()->reduce(fn ($total, $current) => $total + Storage::size($current), 0)
+        );
     }
 
     /**
@@ -29,7 +31,10 @@ class Stats
      */
     public function allFiles(): Collection
     {
-        return collect($this->disk()->allFiles())->filter(fn ($file) => ! (strpos($file, '.') === 0));
+        return collect($this->disk()->allFiles())
+            ->filter(
+                fn ($file) => ! (strpos($file, '.') === 0)
+            );
     }
 
     public function summary()

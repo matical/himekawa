@@ -84,7 +84,9 @@ class Announcement
      */
     public function rendered()
     {
-        return $this->cache()->remember($this->cacheKey . '-rendered', $this->expiry,
+        return $this->cache()->remember(
+            $this->cacheKey . '-rendered',
+            $this->expiry,
             fn () => (new Parsedown())->text($this->get())
         );
     }
