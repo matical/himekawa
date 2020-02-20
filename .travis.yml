@@ -1,9 +1,9 @@
 language: php
-sudo: false
+dist: xenial
 php:
 - '7.4'
 services:
-- redis-server
+- redis
 addons:
   mariadb: '10.2'
 cache:
