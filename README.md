@@ -9,12 +9,12 @@
 
 # Dependencies
 * PHP >=7.4 with [L6.0's Requirements (extensions)](https://laravel.com/docs/6.0#installation)
-* Node >=v8*
+* Node >8.17, <10
 * Composer + Yarn
 * Redis
 * Any DB supported by [Eloquent](https://laravel.com/docs/5.8/database#introduction)
     - MariaDB, Postgres and SQLite should all work just fine
-* `aapt` (Android Asset Packaging Too)
+* `aapt` (Android Asset Packaging Tool)
     - Available standalone on most distros, check your package manager
 
 ### Installing
@@ -29,9 +29,16 @@
 * Check out the [GSF generation guide](https://github.com/matical/himekawa/blob/master/docs/GsfGenerationGuideForWeebApps.md) for filling in the 3 fields.
 
 #### Filling in .env
-You can choose to use `.env.example.streamline` if you wish to avoid databases and redis configuration. Note, you'll probably need the sqlite pdo extension if it isn't installed yet.
+You can choose to use `.env.example.streamline` if you wish to avoid databases configuration. Note, you'll probably need the sqlite pdo extension if it isn't installed yet.
 * `BASE_DIR` - Fully qualified path to where you've installed this project.
 * `GOOGLE_LOGIN`, `GOOGLE_PASSWORD`, `ANDROID_ID`
+
+You'll also need to run `touch database/database.sqlite` to create the initial file.
+
+#### Redis Setup
+Generally, all you'll need to do is run `<package_manager> install redis-server`. So long as it's running, there isn't any configuration you'll need to do.
+
+If you do know what you're doing, you can set the credentials in `.env`.
 
 ### Scheduler
 Two important tasks are scheduler in Laravel's console kernel.
