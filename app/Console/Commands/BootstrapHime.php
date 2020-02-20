@@ -2,6 +2,7 @@
 
 namespace himekawa\Console\Commands;
 
+use Illuminate\Support\Str;
 use Illuminate\Console\Command;
 
 class BootstrapHime extends Command
@@ -18,7 +19,18 @@ class BootstrapHime extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'First time setup';
+
+    /**
+     * Mapping of supported DB drivers.
+     *
+     * @var array
+     */
+    protected $availableDatabases = [
+        'MariaDB/MySQL' => 'mysql',
+        'Postgres'      => 'pgsql',
+        'Sqlite'        => 'sqlite',
+    ];
 
     /**
      * Create a new command instance.
@@ -38,62 +50,96 @@ class BootstrapHime extends Command
      */
     public function handle()
     {
-        $this->createEnvIfNeeded();
+        if (base_path(file_exists('.env'))) {
+            $this->warn('An .env file already exists! (Remove it if you wish to re-run this setup)');
 
-        $this->task('Migrate DB', fn () => 0 === $this->callSilent('migrate'));
-
-        $this->task('Import APK watchlist', function () {
-            $this->callSilent('apk:import');
-        });
-    }
-
-    public function createEnvIfNeeded()
-    {
-        if (file_exists('.env')) {
             return;
         }
 
-        copy('.env.example', '.env');
-        $this->callSilent('key:generate');
+        $this->createStandardEnv();
+        $this->finalizeEnvCreation();
+
+        $this->call('migrate');
+
+        if ($this->confirm('Import APKs from resources/apps.json now?')) {
+            $this->callSilent('apk:import');
+        }
+    }
+
+    public function createStandardEnv()
+    {
+        // Default to sqlite
+        $driver = $this->choice('Which DB would you like to use?', $this->getAvailableDatabaseDrivers(), 2);
+        $this->line("Using <info>$driver</info> as DB.");
+        $database = $this->availableDatabases[$driver];
+
+        $database === 'sqlite' ? $this->initSqlite() : $this->initTraditionalDatabase($database);
+    }
+
+    protected function finalizeEnvCreation()
+    {
+        $this->call('key:generate');
         $this->line('New <info>.env</info> file created.');
     }
 
-    /**
-     * @param string        $title
-     * @param \Closure|null $task
-     * @param string        $loadingText
-     * @return bool
-     * @throws \Exception
-     */
-    protected function task(string $title, $task = null, $loadingText = 'loading...')
+    protected function initSqlite()
     {
-        $this->output->write("$title: <comment>{$loadingText}</comment>");
+        $dbPath = database_path('database.sqlite');
 
-        if ($task === null) {
-            $result = true;
-        } else {
-            try {
-                $result = $task() === false ? false : true;
-            } catch (\Exception $taskException) {
-                $result = false;
+        if (! file_exists($dbPath)) {
+            exec("touch $dbPath");
+            $this->line("Created a new sqlite DB at $dbPath");
+        }
+    }
+
+    /**
+     * @param string $driver Name of the driver in config/database.php
+     * @return false|int
+     */
+    protected function initTraditionalDatabase(string $driver)
+    {
+        $userConfig = [];
+
+        // Start at line 10, replacing 'DB_CONNECTION' first.
+        $userConfig[9] = "DB_CONNECTION={$driver}";
+        $userConfig[10] = "DB_DATABASE={$this->ask('DB Name', 'himekawa_dev')}";
+        $userConfig[11] = "DB_HOST={$this->ask('Host', '127.0.0.1')}";
+        $userConfig[12] = "DB_PORT={$this->ask('Port', '5432')}";
+        $userConfig[13] = "DB_USERNAME={$this->ask('Username', 'root')}";
+        $userConfig[14] = "DB_PASSWORD={$this->secret('Password', '')}";
+
+        foreach ($userConfig as $config) {
+            // Redact password
+            if (Str::contains($config, 'DB_PASSWORD')) {
+                continue;
             }
+            $this->line($config);
         }
 
-        if ($this->output->isDecorated()) { // Determines if we can use escape sequences
-            $this->output->write("\x0D");
-            $this->output->write("\x1B[2K");
-        } else {
-            $this->output->writeln(''); // Make sure we first close the previous line
+        $this->exitWhenInDoubt('Does this look right?');
+
+        $updatedConfig = array_replace($this->getConfigFile(), $userConfig);
+
+        return file_put_contents('.env', implode("\n", $updatedConfig));
+    }
+
+    protected function getConfigFile(string $file = '.env.example')
+    {
+        return explode("\n", file_get_contents($file));
+    }
+
+    /**
+     * @return array
+     */
+    protected function getAvailableDatabaseDrivers()
+    {
+        return array_keys($this->availableDatabases);
+    }
+
+    protected function exitWhenInDoubt(string $question)
+    {
+        if (! $this->confirm($question)) {
+            exit(1);
         }
-
-        $this->output->writeln(
-            "$title: " . ($result ? '<info>✔</info>' : '<error>failed</error>')
-        );
-
-        if (isset($taskException)) {
-            throw $taskException;
-        }
-
-        return $result;
     }
 }
