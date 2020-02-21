@@ -2,8 +2,8 @@
 
 namespace himekawa\Console\Commands;
 
-use Illuminate\Support\Str;
 use Illuminate\Console\Command;
+use yuki\Command\Installation\Config;
 
 class BootstrapHime extends Command
 {
@@ -33,13 +33,19 @@ class BootstrapHime extends Command
     ];
 
     /**
+     * @var \yuki\Command\Installation\Config
+     */
+    protected $config;
+
+    /**
      * Create a new command instance.
      *
-     * @return void
+     * @param \yuki\Command\Installation\Config $config
      */
-    public function __construct()
+    public function __construct(Config $config)
     {
         parent::__construct();
+        $this->config = $config;
     }
 
     /**
@@ -50,13 +56,13 @@ class BootstrapHime extends Command
      */
     public function handle()
     {
-        if (base_path(file_exists('.env'))) {
-            $this->warn('An .env file already exists! (Remove it if you wish to re-run this setup)');
+//        if (base_path(file_exists('.env'))) {
+//            $this->warn('An .env file already exists! (Remove it if you wish to re-run this setup)');
+//
+//            return;
+//        }
 
-            return;
-        }
-
-        $this->createStandardEnv();
+        $this->createDatabase();
         $this->finalizeEnvCreation();
 
         $this->call('migrate');
@@ -66,13 +72,12 @@ class BootstrapHime extends Command
         }
     }
 
-    public function createStandardEnv()
+    public function createDatabase()
     {
         // Default to sqlite
         $driver = $this->choice('Which DB would you like to use?', $this->getAvailableDatabaseDrivers(), 2);
         $this->line("Using <info>$driver</info> as DB.");
         $database = $this->availableDatabases[$driver];
-
         $database === 'sqlite' ? $this->initSqlite() : $this->initTraditionalDatabase($database);
     }
 
@@ -98,29 +103,21 @@ class BootstrapHime extends Command
      */
     protected function initTraditionalDatabase(string $driver)
     {
-        $userConfig = [];
+        $this->config->merge(10, 'DB_CONNECTION', $driver)
+                     ->merge(11, 'DB_DATABASE', $this->ask('DB Name', 'himekawa_dev'))
+                     ->merge(12, 'DB_HOST', $this->ask('Host', '127.0.0.1'))
+                     ->merge(13, 'DB_PORT', $this->ask('Port', '5432'))
+                     ->merge(14, 'DB_USERNAME', $this->ask('Username', 'root'))
+                     ->merge(15, 'DB_PASSWORD', $this->secret('Password', ''));
 
-        // Start at line 10, replacing 'DB_CONNECTION' first.
-        $userConfig[9] = "DB_CONNECTION={$driver}";
-        $userConfig[10] = "DB_DATABASE={$this->ask('DB Name', 'himekawa_dev')}";
-        $userConfig[11] = "DB_HOST={$this->ask('Host', '127.0.0.1')}";
-        $userConfig[12] = "DB_PORT={$this->ask('Port', '5432')}";
-        $userConfig[13] = "DB_USERNAME={$this->ask('Username', 'root')}";
-        $userConfig[14] = "DB_PASSWORD={$this->secret('Password', '')}";
-
-        foreach ($userConfig as $config) {
-            // Redact password
-            if (Str::contains($config, 'DB_PASSWORD')) {
-                continue;
-            }
-            $this->line($config);
-        }
+        $this->config->changes()
+                     ->except(14) // DB_PASSWORD
+                     ->each(fn ($change) => $this->line($change));
 
         $this->exitWhenInDoubt('Does this look right?');
 
-        $updatedConfig = array_replace($this->getConfigFile(), $userConfig);
-
-        return file_put_contents('.env', implode("\n", $updatedConfig));
+        return $this->config->commit()
+                            ->save('.env');
     }
 
     protected function getConfigFile(string $file = '.env.example')
@@ -139,6 +136,7 @@ class BootstrapHime extends Command
     protected function exitWhenInDoubt(string $question)
     {
         if (! $this->confirm($question)) {
+            $this->warn('Aborted.');
             exit(1);
         }
     }
