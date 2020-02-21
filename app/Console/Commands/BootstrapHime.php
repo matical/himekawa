@@ -56,11 +56,11 @@ class BootstrapHime extends Command
      */
     public function handle()
     {
-//        if (base_path(file_exists('.env'))) {
-//            $this->warn('An .env file already exists! (Remove it if you wish to re-run this setup)');
-//
-//            return;
-//        }
+        if (base_path(file_exists('.env'))) {
+            $this->warn('An .env file already exists! (Remove it if you wish to re-run this setup)');
+
+            return;
+        }
 
         $this->createDatabase();
         $this->finalizeEnvCreation();
