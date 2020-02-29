@@ -1,6 +1,5 @@
 <?php
 
-use himekawa\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
