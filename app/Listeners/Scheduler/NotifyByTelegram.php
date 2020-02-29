@@ -2,9 +2,9 @@
 
 namespace himekawa\Listeners\Scheduler;
 
-use himekawa\User;
 use himekawa\Notifications\ApkDownloaded;
 use himekawa\Events\Scheduler\AppsUpdated;
+use Illuminate\Support\Facades\Notification;
 
 class NotifyByTelegram
 {
@@ -32,7 +32,8 @@ class NotifyByTelegram
     public function handle(AppsUpdated $event)
     {
         if ($this->notificationsEnabled && ! $event->noNotifications) {
-            User::find(1)->notifyNow(new ApkDownloaded($event->appsUpdated));
+            Notification::route('telegram', env('TELEGRAM_BOT_ROUTE'))
+                        ->notifyNow(new ApkDownloaded($event->appsUpdated));
         }
     }
 }
