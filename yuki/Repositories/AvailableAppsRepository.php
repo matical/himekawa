@@ -93,19 +93,6 @@ class AvailableAppsRepository
     }
 
     /**
-     * @param                      $toKeep
-     * @param \himekawa\WatchedApp $package
-     * @return \Illuminate\Support\Collection
-     */
-    public function getOldAppsById($toKeep, WatchedApp $package)
-    {
-        return $package->availableApps()
-                       ->skip($toKeep)
-                       ->take(PHP_INT_MAX)
-                       ->pluck('id');
-    }
-
-    /**
      * @param \Illuminate\Support\Collection $id
      * @return int
      */
