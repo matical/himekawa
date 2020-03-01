@@ -67,19 +67,22 @@ class PruneOldApps extends Command
         $this->log('Checking for old apps to prune.');
 
         foreach ($this->update->allApkMetadata() as $package) {
-            $watched = $this->availableApps->findPackage($package->packageName);
-            $old = $this->availableApps->getOldApps($this->maxAppsAllowed, $watched);
+            $packageName = $package->packageName;
 
-            $this->availableApps->deleteFiles($old, $package->packageName);
+            $watched = $this->availableApps->findPackage($packageName);
+            $oldApps = $this->availableApps->getOldApps($this->maxAppsAllowed, $watched);
 
-            $oldAppsById = $this->availableApps->getOldAppsById($this->maxAppsAllowed, $watched);
-
-            if (count($oldAppsById) < 1) {
+            if ($oldApps->isEmpty()) {
                 continue;
             }
 
-            $appsDeleted = $this->availableApps->deleteEntries($oldAppsById);
-            $this->log("Deleted $appsDeleted apps for {$package->packageName}");
+            // Delete physical files
+            $this->availableApps->deleteFiles($oldApps, $packageName);
+
+            // Delete DB entries
+            $numberOfDeletedApps = $this->availableApps->deleteEntries($oldApps->pluck('id'));
+
+            $this->log("Deleted $numberOfDeletedApps app(s) for {$packageName}");
         }
     }
 
