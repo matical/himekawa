@@ -3,7 +3,6 @@
 namespace himekawa\Providers;
 
 use Illuminate\Support\Facades\URL;
-use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
