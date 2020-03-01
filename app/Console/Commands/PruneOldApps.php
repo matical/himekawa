@@ -25,7 +25,7 @@ class PruneOldApps extends Command
     /**
      * @var \yuki\Repositories\AvailableAppsRepository
      */
-    protected $apps;
+    protected $availableApps;
 
     /**
      * @var int
@@ -53,7 +53,7 @@ class PruneOldApps extends Command
         parent::__construct();
 
         $this->update = $update;
-        $this->apps = $availableAppsRepository;
+        $this->availableApps = $availableAppsRepository;
         $this->maxAppsAllowed = config('himekawa.max_apps');
     }
 
@@ -64,25 +64,28 @@ class PruneOldApps extends Command
      */
     public function handle()
     {
-        info('Checking for old apps to prune.');
-        $allPackages = $this->update->allApkMetadata();
+        $this->log('Checking for old apps to prune.');
 
-        foreach ($allPackages as $package) {
-            $watchedApp = $this->apps->findPackage($package->packageName);
+        foreach ($this->update->allApkMetadata() as $package) {
+            $watched = $this->availableApps->findPackage($package->packageName);
+            $old = $this->availableApps->getOldApps($this->maxAppsAllowed, $watched);
 
-            $oldApps = $this->apps->getOldApps($this->maxAppsAllowed, $watchedApp);
-            $this->apps->deleteFiles($oldApps, $package->packageName);
+            $this->availableApps->deleteFiles($old, $package->packageName);
 
-            $oldAppsById = $this->apps->getOldAppsById($this->maxAppsAllowed, $watchedApp);
+            $oldAppsById = $this->availableApps->getOldAppsById($this->maxAppsAllowed, $watched);
 
             if (count($oldAppsById) < 1) {
                 continue;
             }
 
-            $appsDeleted = $this->apps->deleteEntries($oldAppsById->toArray());
-
-            $this->info("Deleted $appsDeleted apps for {$package->packageName}");
-            info("Deleted $appsDeleted apps for {$package->packageName}");
+            $appsDeleted = $this->availableApps->deleteEntries($oldAppsById->toArray());
+            $this->log("Deleted $appsDeleted apps for {$package->packageName}");
         }
+    }
+
+    public function log($message)
+    {
+        $this->info($message);
+        logger()->info($message);
     }
 }
