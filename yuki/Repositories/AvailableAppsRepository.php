@@ -106,7 +106,7 @@ class AvailableAppsRepository
     }
 
     /**
-     * @param array $id
+     * @param \Illuminate\Support\Collection $id
      * @return int
      */
     public function deleteEntries($id)

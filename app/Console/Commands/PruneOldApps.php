@@ -78,7 +78,7 @@ class PruneOldApps extends Command
                 continue;
             }
 
-            $appsDeleted = $this->availableApps->deleteEntries($oldAppsById->toArray());
+            $appsDeleted = $this->availableApps->deleteEntries($oldAppsById);
             $this->log("Deleted $appsDeleted apps for {$package->packageName}");
         }
     }
