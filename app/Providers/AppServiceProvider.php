@@ -15,8 +15,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->registerBladeDirectives();
-
         if ($this->app->environment('production')) {
             URL::forceScheme('https');
         }
@@ -38,10 +36,5 @@ class AppServiceProvider extends ServiceProvider
             // Only use http2 push in prod since it breaks `yarn run hot`
             $this->app->router->pushMiddlewareToGroup('web', \JacobBennett\Http2ServerPush\Middleware\AddHttp2ServerPush::class);
         }
-    }
-
-    protected function registerBladeDirectives()
-    {
-        Blade::directive('rand', fn ($randomValues) => "<?php echo e(array_random({$randomValues})) ?>");
     }
 }
