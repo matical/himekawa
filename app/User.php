@@ -7,8 +7,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use Notifiable;
-
     /**
      * The attributes that are mass assignable.
      *
@@ -30,14 +28,4 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
-
-    /**
-     * Route notifications for the telegram channel.
-     *
-     * @return int
-     */
-    public function routeNotificationForTelegram()
-    {
-        return $this->telegram_token;
-    }
 }
