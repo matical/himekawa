@@ -6,6 +6,7 @@ use himekawa\WatchedApp;
 use yuki\Badging\Badging;
 use himekawa\AvailableApp;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Collection;
 
 class AvailableAppsRepository
 {
@@ -96,22 +97,29 @@ class AvailableAppsRepository
      * @param \Illuminate\Support\Collection $id
      * @return int
      */
-    public function deleteEntries($id)
+    public function deleteEntries($id): int
     {
         return AvailableApp::destroy($id);
     }
 
     /**
-     * @param \Illuminate\Database\Eloquent\Collection $watchedApps
-     * @param $package
+     * Deletes both physical files and DB entries.
+     *
+     * @param \Illuminate\Database\Eloquent\Collection $watchedApps Collection of WatchedApp
+     * @param string                                   $package     Name of the package
+     * @return int Number of files deleted
      */
-    public function deleteFiles($watchedApps, $package)
+    public function deleteFiles(Collection $watchedApps, $package): int
     {
+        // Delete physical files
         $filesToDelete = $watchedApps->map(fn ($item) => buildApkFilename($package, $item->version_code));
 
         foreach ($filesToDelete as $file) {
             Storage::delete($package . DIRECTORY_SEPARATOR . $file);
         }
+
+        // Delete DB entries
+        return $this->deleteEntries($watchedApps->pluck('id'));
     }
 
     /**

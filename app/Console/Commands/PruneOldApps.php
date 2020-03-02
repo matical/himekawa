@@ -76,11 +76,7 @@ class PruneOldApps extends Command
                 continue;
             }
 
-            // Delete physical files
-            $this->availableApps->deleteFiles($oldApps, $packageName);
-
-            // Delete DB entries
-            $numberOfDeletedApps = $this->availableApps->deleteEntries($oldApps->pluck('id'));
+            $numberOfDeletedApps = $this->availableApps->deleteFiles($oldApps, $packageName);
 
             $this->log("Deleted $numberOfDeletedApps app(s) for {$packageName}");
         }
