@@ -122,6 +122,7 @@ class CheckForAppUpdates extends Command
      * Download required updates.
      *
      * @param $appsRequiringUpdates
+     * @throws \yuki\Exceptions\PackageException
      */
     protected function downloadRequiredUpdates(array $appsRequiringUpdates)
     {
@@ -165,6 +166,7 @@ class CheckForAppUpdates extends Command
     /**
      * @param $app
      * @return \himekawa\AvailableApp
+     * @throws \yuki\Exceptions\PackageException
      */
     protected function getAvailableApp($app)
     {
