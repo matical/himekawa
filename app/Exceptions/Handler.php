@@ -3,6 +3,7 @@
 namespace himekawa\Exceptions;
 
 use Exception;
+use Throwable;
 use Psr\Log\LoggerInterface;
 use yuki\Repositories\ExceptionRepository;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
@@ -34,12 +35,12 @@ class Handler extends ExceptionHandler
      *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
      *
-     * @param \Exception $e
+     * @param \Throwable $e
      * @return void
      *
-     * @throws \Exception
+     * @throws \Throwable
      */
-    public function report(Exception $e)
+    public function report(Throwable $e)
     {
         if ($this->shouldntReport($e)) {
             return;
@@ -70,12 +71,12 @@ class Handler extends ExceptionHandler
      * Render an exception into an HTTP response.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \Exception               $exception
+     * @param \Throwable               $exception
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @throws \Exception
      */
-    public function render($request, Exception $exception)
+    public function render($request, Throwable $exception)
     {
         return parent::render($request, $exception);
     }

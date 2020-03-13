@@ -14,11 +14,12 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middleware = [
+        \himekawa\Http\Middleware\TrustProxies::class,
+//        \Fruitcake\Cors\HandleCors::class,
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \himekawa\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
-        \himekawa\Http\Middleware\TrustProxies::class,
     ];
 
     /**
@@ -28,18 +29,12 @@ class Kernel extends HttpKernel
      */
     protected $middlewareGroups = [
         'web' => [
-            //            \himekawa\Http\Middleware\EncryptCookies::class,
-            //            \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
-            //            \Illuminate\Session\Middleware\StartSession::class,
-            //            \Illuminate\Session\Middleware\AuthenticateSession::class,
-            //            \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-            //            \himekawa\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
 
         'api' => [
             'throttle:30,1',
-            'bindings',
+            \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
     ];
 
@@ -51,29 +46,12 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
-        'auth'       => \Illuminate\Auth\Middleware\Authenticate::class,
-        'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
-        'bindings'   => \Illuminate\Routing\Middleware\SubstituteBindings::class,
-        'cache'      => \Illuminate\Http\Middleware\SetCacheHeaders::class,
-        'weak.cache' => \himekawa\Http\Middleware\WeakEtagCache::class,
-        'can'        => \Illuminate\Auth\Middleware\Authorize::class,
-        'guest'      => \himekawa\Http\Middleware\RedirectIfAuthenticated::class,
-        'throttle'   => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-    ];
-
-    /**
-     * The priority-sorted list of middleware.
-     *
-     * This forces non-global middleware to always be in the given order.
-     *
-     * @var array
-     */
-    protected $middlewarePriority = [
-        \Illuminate\Session\Middleware\StartSession::class,
-        \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-        \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        \Illuminate\Session\Middleware\AuthenticateSession::class,
-        \Illuminate\Routing\Middleware\SubstituteBindings::class,
-        \Illuminate\Auth\Middleware\Authorize::class,
+        'auth.basic'       => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
+        'bindings'         => \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        'cache.headers'    => \Illuminate\Http\Middleware\SetCacheHeaders::class,
+        'can'              => \Illuminate\Auth\Middleware\Authorize::class,
+        'guest'            => \himekawa\Http\Middleware\RedirectIfAuthenticated::class,
+        'throttle'         => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'weak.cache'       => \himekawa\Http\Middleware\WeakEtagCache::class,
     ];
 }
