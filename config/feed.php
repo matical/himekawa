@@ -17,7 +17,15 @@ return [
             // The feed will be available on this url.
             'url'   => '/feed',
 
-            'title' => 'APK Releases for himekawa (' . config('app.url') . ')',
+            'title'       => 'APK Releases for himekawa (' . config('app.url') . ')',
+            'description' => 'APK releases.',
+            'language'    => 'en-US',
+
+            // The view that will render the feed.
+            'view'        => 'feed::atom',
+
+            // The type to be used in the <link> tag
+            'type'        => 'application/atom+xml',
         ],
     ],
 
