@@ -4,6 +4,7 @@ namespace himekawa\Providers;
 
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
+use himekawa\Http\Middleware\HttpTwoPushMiddleware;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -14,6 +15,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        if ($this->app->environment(['production', 'testing'])) {
+            // Only use http2 push in prod since it breaks `yarn run hot`
+            $this->app['router']->pushMiddlewareToGroup('web', HttpTwoPushMiddleware::class);
+        }
+
         if ($this->app->environment('production')) {
             URL::forceScheme('https');
         }
@@ -29,11 +35,6 @@ class AppServiceProvider extends ServiceProvider
         if ($this->app->isLocal()) {
             $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
             $this->app->register(TelescopeServiceProvider::class);
-        }
-
-        if ($this->app->environment('production')) {
-            // Only use http2 push in prod since it breaks `yarn run hot`
-            $this->app->router->pushMiddlewareToGroup('web', \JacobBennett\Http2ServerPush\Middleware\AddHttp2ServerPush::class);
         }
     }
 }
