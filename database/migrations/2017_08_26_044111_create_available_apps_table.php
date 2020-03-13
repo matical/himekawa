@@ -14,19 +14,16 @@ class CreateAvailableAppsTable extends Migration
     public function up()
     {
         Schema::create('available_apps', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('app_id')
-                  ->unsigned();
+            $table->id();
+            $table->foreignId('app_id')
+                  ->constrained()
+                  ->on('watched_apps');
             $table->integer('version_code');
             $table->string('version_name');
             $table->integer('size');
             $table->string('hash');
 
             $table->timestamps();
-
-            $table->foreign('app_id')
-                  ->references('id')
-                  ->on('watched_apps');
 
             $table->index('created_at');
         });

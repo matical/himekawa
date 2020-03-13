@@ -14,14 +14,13 @@ class CreateBadgingsTable extends Migration
     public function up()
     {
         Schema::create('badgings', function (Blueprint $table) {
-            $table->unsignedInteger('available_app_id')
-                  ->primary();
-            $table->text('raw_badging');
-
-            $table->foreign('available_app_id')
-                  ->references('id')
+            $table->foreignId('available_app_id')
+                  ->constrained()
+                  ->primary()
                   ->on('available_apps')
                   ->onDelete('cascade');
+
+            $table->text('raw_badging');
         });
     }
 
