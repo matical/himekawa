@@ -58,6 +58,8 @@ class Download
      * @param int    $versionCode
      * @param string $hash
      * @return self
+     *
+     * @throws \yuki\Exceptions\PackageException
      */
     public function build($packageName, $versionCode, $hash)
     {

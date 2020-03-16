@@ -3,7 +3,6 @@
 namespace yuki\Exceptions;
 
 use Exception;
-use Throwable;
 use yuki\Facades\Apk;
 
 class PackageException extends Exception implements ExceptionInterface
@@ -23,18 +22,14 @@ class PackageException extends Exception implements ExceptionInterface
     /**
      * PackageAlreadyExistsException constructor.
      *
-     * @param string          $message
-     * @param int             $code
-     * @param \Throwable|null $previous
-     * @param string          $package
-     * @param int             $versionCode
+     * @param string $message
+     * @param string $package
+     * @param int    $versionCode
      */
-    public function __construct(string $message, int $code, ?Throwable $previous, $package, $versionCode)
+    public function __construct(string $message, $package, $versionCode)
     {
         $this->package = $package;
         $this->versionCode = $versionCode;
-
-        parent::__construct($message, $code, $previous);
     }
 
     /**
@@ -44,6 +39,6 @@ class PackageException extends Exception implements ExceptionInterface
      */
     public static function AlreadyExists($package, $version)
     {
-        return new static(Apk::resolveApkFilename($package, $version) . ' already exists.', 0, null, $package, $version);
+        return new static(sprintf('%s already exists.', Apk::resolveApkFilename($package, $version)), $package, $version);
     }
 }
