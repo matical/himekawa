@@ -26,6 +26,7 @@
 * `php artisan key:generate`
 * `php artisan migrate`
 * `php artisan apk:import` 
+* `php artisan storage:link`
 * Check out the [GSF generation guide](https://github.com/matical/himekawa/blob/master/docs/GsfGenerationGuideForWeebApps.md) for filling in the 3 fields.
 
 #### Filling in .env
