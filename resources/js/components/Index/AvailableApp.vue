@@ -32,7 +32,7 @@ import apk from './Apk';
 export default {
     props: ['app'],
     components: {
-        apk: apk,
+        apk,
     },
     data() {
         return {

@@ -1,6 +1,6 @@
 <template>
     <md-list>
-        <app-item v-for="app in availableApps" :key="app.id" :app="app"></app-item>
+        <available-app v-for="app in apps" :key="app.id" :app="app"></available-app>
     </md-list>
 </template>
 
@@ -10,7 +10,15 @@ import availableApp from './AvailableApp';
 export default {
     props: ['availableApps'],
     components: {
-        'app-item': availableApp,
+       availableApp,
     },
+    data() {
+        return {
+            apps: {},
+        }
+    },
+    created() {
+        this.apps = this.availableApps.filter(app => app.available_apps.length > 0);
+    }
 };
 </script>
