@@ -12,6 +12,7 @@ cache:
   - node_modules
   - vendor
 before_install:
+- git fetch --tags
 - nvm install v8.17
 - composer require php-coveralls/php-coveralls
 before_script:
