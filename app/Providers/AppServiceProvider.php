@@ -15,13 +15,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if ($this->app->environment(['production', 'testing'])) {
-            // Only use http2 push in prod since it breaks `yarn run hot`
-            $this->app['router']->pushMiddlewareToGroup('web', HttpTwoPushMiddleware::class);
-        }
-
         if ($this->app->environment('production')) {
             URL::forceScheme('https');
+
+            // Only use http2 push in prod since it breaks `yarn run hot`
+            $this->app['router']->pushMiddlewareToGroup('web', HttpTwoPushMiddleware::class);
         }
     }
 
