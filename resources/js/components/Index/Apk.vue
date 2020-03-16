@@ -2,16 +2,21 @@
     <md-list-item class="md-inset md-layout">
         <div class="md-layout md-layout-item md-xsmall-size-85 md-size-70 md-alignment-center-left truncated">
             <span :class="{ tags: true, latest: index === 0 }">v{{ apk.version_name }}</span>
-            <span @click="toggleHashVisibility" title="Click to show hash" class="md-layout md-alignment-center-left">{{ title }}</span>
+            <span @click="toggleHashVisibility" title="Click to show hash" class="md-layout md-alignment-center-left">{{
+                title
+            }}</span>
         </div>
         <div class="md-layout md-layout-item md-xsmall-size-15 md-size-30 md-alignment-center-right">
-            <md-button :class="{
+            <md-button
+                :class="{
                     'md-raised': true,
                     'md-accent': true,
-                    'download__old': index !== 0,
-                    'himekawa': index === 0
+                    download__old: index !== 0,
+                    himekawa: index === 0,
                 }"
-                       :href="url" :md-ripple="false">
+                :href="url"
+                :md-ripple="false"
+            >
                 <md-icon>file_download</md-icon>
                 <span class="md-xsmall-hide">{{ apk.size | humanBytes }}</span>
             </md-button>

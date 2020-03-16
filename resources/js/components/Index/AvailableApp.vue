@@ -1,25 +1,26 @@
 <template>
     <md-list-item md-expand :md-ripple="false" @md-expanded="hovered = true" @md-collapsed="hovered = false">
         <md-avatar>
-            <img :src="app.image">
+            <img :src="app.image" />
         </md-avatar>
         <div class="md-list-item-text">
             <span>{{ app.name }}</span>
             <span class="md-small-hide muted">v{{ latestApp.version_name }}</span>
             <span>
-                    <span :class="{recent: isRecent(latestApp.created_at)}">{{ diffDate(latestApp.created_at) }}</span>
-                    <transition name="fade">
-                        <span v-if="hovered" class="muted">({{ latestApp.created_at | prettyDate }})</span>
-                    </transition>
+                <span :class="{ recent: isRecent(latestApp.created_at) }"> {{ diffDate(latestApp.created_at) }}</span>
+                <transition name="fade">
+                    <span v-if="hovered" class="muted">({{ latestApp.created_at | prettyDate }})</span>
+                </transition>
             </span>
         </div>
 
         <md-list slot="md-expand">
-            <apk v-for="(apk, index) in app.available_apps"
-                 :key="apk.version_code"
-                 :apk="apk"
-                 :package-name="app.package_name"
-                 :index="index"
+            <apk
+                v-for="(apk, index) in app.available_apps"
+                :key="apk.version_code"
+                :apk="apk"
+                :package-name="app.package_name"
+                :index="index"
             ></apk>
         </md-list>
     </md-list-item>
