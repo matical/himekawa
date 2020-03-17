@@ -6,13 +6,14 @@ services:
 - redis
 addons:
   mariadb: '10.2'
+git:
+  depth: false
 cache:
   yarn: true
   directories:
   - node_modules
   - vendor
 before_install:
-- git fetch --tags
 - nvm install v8.17
 - composer require php-coveralls/php-coveralls
 before_script:
