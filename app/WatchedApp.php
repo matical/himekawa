@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class WatchedApp extends Model
 {
     protected $casts = [
-        'updated_at' => 'datetime:Y-m-d\TH:i:sP',
+        'updated_at'           => 'datetime:Y-m-d\TH:i:sP',
+        'use_split'            => 'boolean',
+        'use_additional_files' => 'boolean',
     ];
 
     protected $appends = [

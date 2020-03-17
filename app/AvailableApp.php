@@ -10,10 +10,22 @@ use Illuminate\Database\Eloquent\Model;
 
 class AvailableApp extends Model implements Feedable
 {
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
     protected $casts = [
-        'created_at' => 'datetime:Y-m-d\TH:i:sP',
+        'created_at'    => 'datetime:Y-m-d\TH:i:sP',
+        'is_split'      => 'boolean',
+        'is_additional' => 'boolean',
     ];
 
+    /**
+     * The relationships that should be touched on save.
+     *
+     * @var array
+     */
     protected $touches = [
         'watchedBy',
     ];
@@ -27,6 +39,8 @@ class AvailableApp extends Model implements Feedable
         'size',
         'hash',
         'raw_badging',
+        'is_split',
+        'is_additional',
     ];
 
     /**
@@ -110,7 +124,7 @@ class AvailableApp extends Model implements Feedable
                     ->remember(
                         'available-apps:all-watched',
                         config('googleplay.metainfo_cache_ttl'),
-                        fn () => self::with('watchedBy')
+                        fn() => self::with('watchedBy')
                                     ->latest()
                                     ->limit(20)
                                     ->get()

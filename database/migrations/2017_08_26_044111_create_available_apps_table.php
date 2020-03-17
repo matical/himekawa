@@ -22,6 +22,10 @@ class CreateAvailableAppsTable extends Migration
             $table->string('version_name');
             $table->integer('size');
             $table->string('hash');
+            $table->boolean('is_split')
+                  ->nullable();
+            $table->boolean('is_additional')
+                  ->nullable();
 
             $table->timestamps();
 
