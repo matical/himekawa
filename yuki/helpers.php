@@ -1,10 +1,10 @@
 <?php
 
-use yuki\Version;
 use Carbon\Carbon;
 use yuki\Facades\Apk;
+use yuki\Foundation\Git;
 use Carbon\CarbonImmutable;
-use yuki\Announce\Announcement;
+use yuki\Foundation\Announcer;
 
 if (! function_exists('apkDirectory')) {
     /**
@@ -44,11 +44,11 @@ if (! function_exists('apkPath')) {
 
 if (! function_exists('git')) {
     /**
-     * @return \yuki\Version
+     * @return \yuki\Foundation\Git
      */
     function git()
     {
-        return new Version();
+        return new Git();
     }
 }
 
@@ -65,11 +65,11 @@ if (! function_exists('timestamp_format')) {
 
 if (! function_exists('announcement')) {
     /**
-     * @return \yuki\Announce\Announcement
+     * @return \yuki\Foundation\Announcer
      */
     function announcement()
     {
-        return app(Announcement::class);
+        return app(Announcer::class);
     }
 }
 

@@ -1,15 +1,14 @@
 <?php
 
-namespace yuki;
+namespace yuki\Scrapers;
 
 use himekawa\WatchedApp;
-use yuki\Scrapers\Versioning;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use yuki\Repositories\MetainfoRepository;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
-class Update
+class UpdateManager
 {
     /**
      * @var \yuki\Repositories\MetainfoRepository

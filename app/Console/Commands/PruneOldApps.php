@@ -2,8 +2,8 @@
 
 namespace himekawa\Console\Commands;
 
-use yuki\Update;
 use Illuminate\Console\Command;
+use yuki\Scrapers\UpdateManager;
 use yuki\Repositories\AvailableAppsRepository;
 
 class PruneOldApps extends Command
@@ -38,17 +38,17 @@ class PruneOldApps extends Command
     protected $appsDeleted;
 
     /**
-     * @var \yuki\Update
+     * @var \yuki\Scrapers\UpdateManager
      */
     protected $update;
 
     /**
      * Create a new command instance.
      *
-     * @param \yuki\Update                               $update
+     * @param \yuki\Scrapers\UpdateManager               $update
      * @param \yuki\Repositories\AvailableAppsRepository $availableAppsRepository
      */
-    public function __construct(Update $update, AvailableAppsRepository $availableAppsRepository)
+    public function __construct(UpdateManager $update, AvailableAppsRepository $availableAppsRepository)
     {
         parent::__construct();
 

@@ -1,11 +1,11 @@
 <?php
 
-namespace yuki\Announce;
+namespace yuki\Foundation;
 
 use Parsedown;
 use Illuminate\Contracts\Cache\Repository;
 
-class Announcement
+class Announcer
 {
     /**
      * @var \Illuminate\Cache\Repository

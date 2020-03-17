@@ -2,11 +2,11 @@
 
 namespace himekawa\Console\Commands;
 
-use yuki\Update;
 use yuki\Facades\LastRun;
 use Illuminate\Support\Str;
 use yuki\Scrapers\Download;
 use Illuminate\Console\Command;
+use yuki\Scrapers\UpdateManager;
 use yuki\Exceptions\PackageException;
 use Symfony\Component\Process\Process;
 use yuki\Command\HasPrettyProgressBars;
@@ -58,7 +58,7 @@ class CheckForAppUpdates extends Command
     protected $availableApps;
 
     /**
-     * @var \yuki\Update
+     * @var \yuki\Scrapers\UpdateManager
      */
     protected $update;
 
@@ -66,10 +66,10 @@ class CheckForAppUpdates extends Command
      * Create a new command instance.
      *
      * @param \yuki\Scrapers\Download                    $download
-     * @param \yuki\Update                               $update
+     * @param \yuki\Scrapers\UpdateManager               $update
      * @param \yuki\Repositories\AvailableAppsRepository $availableApps
      */
-    public function __construct(Download $download, Update $update, AvailableAppsRepository $availableApps)
+    public function __construct(Download $download, UpdateManager $update, AvailableAppsRepository $availableApps)
     {
         parent::__construct();
 

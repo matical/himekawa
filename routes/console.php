@@ -1,9 +1,9 @@
 <?php
 
-use yuki\Announce\Announcement;
+use yuki\Foundation\Announcer;
 use yuki\Command\TerminalEditorBuffer;
 
-Artisan::command('announce', function (Announcement $announcement, TerminalEditorBuffer $buffer) {
+Artisan::command('announce', function (Announcer $announcement, TerminalEditorBuffer $buffer) {
     $output = $announcement->available()
         ? $buffer->initial($announcement->get())
                  ->prompt()
@@ -21,7 +21,7 @@ Artisan::command('announce', function (Announcement $announcement, TerminalEdito
     $this->info('Announcement added.');
 })->describe('Creates an announcement');
 
-Artisan::command('announce:clear', function (Announcement $announcement) {
+Artisan::command('announce:clear', function (Announcer $announcement) {
     $announcement->clear();
     $this->info('Announcements cleared.');
 })->describe('Clear all announcements');

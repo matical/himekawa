@@ -1,15 +1,13 @@
 <?php
 
-namespace yuki;
+namespace yuki\Foundation;
 
 use Closure;
 use Illuminate\Support\Facades\Cache;
 
-class Version
+class Git
 {
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $minutes = 60;
 
     /** @var string */
