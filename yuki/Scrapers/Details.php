@@ -2,56 +2,40 @@
 
 namespace yuki\Scrapers;
 
-use yuki\Process\Supervisor;
+use yuki\Process\NodeSupervisor;
 
 class Details
 {
     /**
-     * @var \stdClass
+     * @param string $package
+     * @return string
+     * @throws \yuki\Exceptions\NodeException
      */
-    protected $output;
-
-    /**
-     * @var \yuki\Process\Supervisor
-     */
-    protected $supervisor;
-
-    /**
-     * @param $package
-     * @return self
-     */
-    public function build($package)
+    public function run(string $package)
     {
-        $this->supervisor = new Supervisor($this->formatCommand($package));
-
-        return $this;
+        return NodeSupervisor::command($this->getCommand($package))
+                         ->execute()
+                         ->getOutput();
     }
 
     /**
-     * @return self
-     */
-    public function run()
-    {
-        $this->output = $this->supervisor->execute()
-                                         ->getOutput();
-
-        return $this;
-    }
-
-    /**
+     * Name of the command.
+     *
      * @return string
      */
-    public function getDetails()
+    protected function prefix()
     {
-        return $this->output;
+        return config('himekawa.commands.gp-details');
     }
 
     /**
-     * @param $package
+     * Final command to be executed to fetch details.
+     *
+     * @param string $package
      * @return string
      */
-    protected function formatCommand($package): string
+    protected function getCommand(string $package): string
     {
-        return config('himekawa.commands.gp-details') . " $package";
+        return "{$this->prefix()} $package";
     }
 }

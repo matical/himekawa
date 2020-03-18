@@ -41,8 +41,6 @@ class DetailsRepository
      */
     public function fetchDetails(string $package)
     {
-        return $this->details->build($package)
-                             ->run()
-                             ->getDetails();
+        return $this->details->run($package);
     }
 }

@@ -33,6 +33,11 @@ class Supervisor
         $this->process = Process::fromShellCommandline($command, $directory);
     }
 
+    public static function command($command, $directory = null)
+    {
+        return new static($command, $directory);
+    }
+
     /**
      * @return \yuki\Process\Supervisor
      */
