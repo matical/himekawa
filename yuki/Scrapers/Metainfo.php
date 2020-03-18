@@ -25,7 +25,7 @@ class Metainfo
     }
 
     /**
-     * @return \StdClass
+     * @return \stdClass
      */
     public function fetch()
     {
@@ -36,7 +36,7 @@ class Metainfo
 
     /**
      * @param string $output
-     * @return \StdClass
+     * @return \stdClass
      */
     protected function decodeResult(string $output)
     {
