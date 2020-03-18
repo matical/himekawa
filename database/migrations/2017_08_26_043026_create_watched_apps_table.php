@@ -19,9 +19,11 @@ class CreateWatchedAppsTable extends Migration
             $table->string('slug');
             $table->string('original_title');
             $table->string('package_name');
+            $table->timestamp('disabled')
+                  ->nullable();
             $table->boolean('use_split')
                   ->nullable();
-            $table->boolean('use_additional_files')
+            $table->boolean('use_additional')
                   ->nullable();
 
             $table->timestamps();

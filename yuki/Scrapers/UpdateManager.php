@@ -85,6 +85,7 @@ class UpdateManager
      */
     protected function pluckPackages(): Collection
     {
-        return WatchedApp::pluck('package_name');
+        return WatchedApp::whereNull('disabled')
+                         ->pluck('package_name');
     }
 }
