@@ -44,11 +44,11 @@ class UpdateManager
      * Fetch metadata based on the watch list.
      *
      * @param bool $verbose Control exception reporting
-     * @return array|null An array containing all app metadata, indexed by the package name
+     * @return \Illuminate\Support\Collection|null A collection containing all app metadata, indexed by the package name
      */
-    public function allApkMetadata(bool $verbose = false): array
+    public function allApkMetadata(bool $verbose = false): Collection
     {
-        $result = [];
+        $result = collect();
 
         foreach ($this->pluckPackages() as $package) {
             try {
@@ -71,13 +71,12 @@ class UpdateManager
     /**
      * Check if there are any updates available.
      *
-     * @param array $appMetadata
-     * @return array|null An array of apps that require updates
+     * @param \Illuminate\Support\Collection $appMetadata
+     * @return \Illuminate\Support\Collection A collection of apps that require updates
      */
-    public function checkForUpdates($appMetadata): ?array
+    public function checkForUpdates(Collection $appMetadata): Collection
     {
-        // Queue up the apps that have updates pending
-        return array_filter($appMetadata, fn ($app) => $this->versioning->areUpdatesAvailableFor($app->packageName, $app->versionCode));
+        return $appMetadata->filter(fn ($app) => $this->versioning->areUpdatesAvailableFor($app->packageName, $app->versionCode));
     }
 
     /**
