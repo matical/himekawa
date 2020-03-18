@@ -12,6 +12,7 @@ class VersioningTest extends TestCase
     use DatabaseMigrations;
 
     protected $watched;
+
     protected $available;
 
     /** @test */
