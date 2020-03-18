@@ -94,6 +94,7 @@ class CheckForAppUpdates extends Command
         }, 5000);
 
         $this->appMetadata = $this->update->allApkMetadata($this->output->isVerbose());
+        // Queue up the apps that have updates pending
         $this->appsRequiringUpdates = $this->update->checkForUpdates($this->appMetadata);
 
         if ($this->option('dry-run')) {

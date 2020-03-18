@@ -2,6 +2,7 @@
 
 namespace yuki\Scrapers;
 
+use himekawa\AvailableApp;
 use yuki\Repositories\AvailableAppsRepository;
 
 class Versioning
@@ -26,22 +27,30 @@ class Versioning
      * @param int    $latestPlaystoreVersionCode Version code of the latest app available on the Play Store
      * @return bool Whether updates are available
      */
-    public function areUpdatesAvailableFor($packageName, $latestPlaystoreVersionCode)
+    public function areUpdatesAvailableFor($packageName, $latestPlaystoreVersionCode): bool
     {
-        $package = $this->availableApps->findPackage($packageName);
+        $latestLocalVersion = $this->getLatestLocalApp($packageName);
 
         // If there are no "available" apps for that particular package, it'll be marked as
         // available for update.
-        if (is_null($package->latestApp())) {
+        if ($latestLocalVersion === null) {
             return true;
         }
 
-        $latestLocalVersionCode = $package->latestApp()->version_code;
-
-        if ($latestPlaystoreVersionCode > $latestLocalVersionCode) {
+        if ($latestPlaystoreVersionCode > $latestLocalVersion->version_code) {
             return true;
         }
 
         return false;
+    }
+
+    /**
+     * @param string $package
+     * @return \himekawa\AvailableApp|null
+     */
+    protected function getLatestLocalApp(string $package): ?AvailableApp
+    {
+        return $this->availableApps->findPackage($package)
+                                   ->latestApp();
     }
 }
