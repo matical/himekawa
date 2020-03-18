@@ -32,14 +32,14 @@ class MetainfoRepository
      */
     public function getPackageInfo($package)
     {
-        return Cache::remember("apk-metainfo:{$package}", $this->cacheExpiry, fn () => $this->retrievePackage($package));
+        return Cache::remember("apk-metainfo:{$package}", $this->cacheExpiry, fn () => $this->getPackage($package));
     }
 
     /**
      * @param string $package
      * @return mixed
      */
-    protected function retrievePackage(string $package)
+    protected function getPackage(string $package)
     {
         return $this->metainfo->package($package)
                               ->fetch();
