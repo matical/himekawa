@@ -44,15 +44,6 @@ class AvailableAppsRepository
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
-    public function cachedAllWithWatched()
-    {
-        return $this->taggedCached('apps', 'available-apps:all-watched', fn () => AvailableApp::with('watchedBy')
-                                                                                         ->get());
-    }
-
-    /**
      * @param string $packageName
      * @return \himekawa\AvailableApp
      */
