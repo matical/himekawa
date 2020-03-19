@@ -40,6 +40,8 @@ class Supervisor
 
     /**
      * @return \yuki\Process\Supervisor
+     * @throws \Symfony\Component\Process\Exception\ProcessFailedException
+     * @throws \Symfony\Component\Process\Exception\ProcessTimedOutException
      */
     public function execute()
     {
