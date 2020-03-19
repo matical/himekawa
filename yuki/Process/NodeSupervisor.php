@@ -18,5 +18,11 @@ class NodeSupervisor extends Supervisor
         } catch (ProcessFailedException $exception) {
             throw NodeException::FailedToExecute($exception);
         }
+
+        if ($this->hasOutput) {
+            $this->output = $this->serializeOutput($this->process->getOutput());
+        }
+
+        return $this;
     }
 }
