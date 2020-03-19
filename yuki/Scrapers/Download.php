@@ -80,8 +80,8 @@ class Download
         }
 
         // Checks if a folder with the respective package name exists already
-        if (! Storage::exists($packageName)) {
-            Storage::makeDirectory($packageName);
+        if (! $this->storage()->exists($packageName)) {
+            $this->storage()->makeDirectory($packageName);
         }
 
         $this->supervisor = $this->buildSupervisor(
@@ -157,7 +157,7 @@ class Download
      */
     protected function fileAlreadyExists(): bool
     {
-        return Storage::exists(
+        return $this->storage()->exists(
             sprintf('%s/%s', $this->packageName, $this->buildApkFilename())
         );
     }
@@ -202,8 +202,16 @@ class Download
      */
     protected function deleteDownload($packageName, $apkFilename): void
     {
-        if (Storage::delete("$packageName/$apkFilename")) {
+        if ($this->storage()->delete("$packageName/$apkFilename")) {
             Log::info("Deleted faulty download: $apkFilename");
         }
+    }
+
+    /**
+     * @return \Illuminate\Contracts\Filesystem\Filesystem|\Illuminate\Filesystem\FilesystemAdapter
+     */
+    protected function storage()
+    {
+        return Storage::disk('apks');
     }
 }
