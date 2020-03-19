@@ -135,7 +135,7 @@ class CheckForAppUpdates extends Command
             $bar->advance();
 
             try {
-                $appsUpdated[] = $this->getAvailableApp($app);
+                $appsUpdated[] = $this->downloadApp($app);
             } catch (PackageException $exception) {
                 $bar->setMessage("An APK already exists for {$exception->package}.");
             } catch (ProcessFailedException $exception) {
@@ -143,7 +143,7 @@ class CheckForAppUpdates extends Command
                     $this->info('Refreshing token...');
                     $this->fetchAndSetToken();
 
-                    $appsUpdated[] = $this->getAvailableApp($app);
+                    $appsUpdated[] = $this->downloadApp($app);
                 }
             }
         }
@@ -169,7 +169,7 @@ class CheckForAppUpdates extends Command
      * @return \himekawa\AvailableApp
      * @throws \yuki\Exceptions\PackageException
      */
-    protected function getAvailableApp($app)
+    protected function downloadApp($app)
     {
         return $this->download->build($app->packageName, $app->versionCode, $app->sha1)
                               ->run()
