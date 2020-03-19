@@ -84,11 +84,7 @@ class Download
             $this->storage()->makeDirectory($packageName);
         }
 
-        $this->supervisor = $this->buildSupervisor(
-            $this->packageName,
-            $this->buildApkFilename(),
-            $this->buildApkDirectory()
-        );
+        $this->supervisor = $this->buildSupervisor($this->packageName);
 
         return $this;
     }
@@ -100,24 +96,18 @@ class Download
     {
         try {
             $this->supervisor->execute();
-
-            $this->verifyFileIntegrity($this->packageName, $this->hash);
-        } catch (FailedToVerifyHashException $exception) {
-            $this->deleteDownload($this->packageName, $this->buildApkFilename());
         } catch (ProcessTimedOutException $exception) {
             $this->deleteDownload($this->packageName, $this->buildApkFilename());
             Log::warning("Failed to download {$this->buildApkFilename()}. Process timed out.");
         }
 
-        return $this;
-    }
+        try {
+            $this->verifyFileIntegrity($this->packageName, $this->hash);
+        } catch (FailedToVerifyHashException $exception) {
+            $this->deleteDownload($this->packageName, $this->buildApkFilename());
+        }
 
-    /**
-     * @return string
-     */
-    public function output(): string
-    {
-        return $this->buildApkFilename();
+        return $this;
     }
 
     /**
@@ -125,6 +115,7 @@ class Download
      */
     public function store(): AvailableApp
     {
+        // TODO: Decouple badging and metadata retrieval from availableAppsRepo
         return tap($this->availableApps->create($this->packageName), function ($availableApp) {
             Log::info("Finished download of {$this->packageName} (r{$availableApp->version_code}-v{$availableApp->version_name})");
         });
@@ -148,6 +139,11 @@ class Download
     protected function buildApkDirectory(): string
     {
         return Apk::resolveApkDirectory($this->packageName);
+    }
+
+    protected function buildFullPath()
+    {
+        return $this->buildApkDirectory() . DIRECTORY_SEPARATOR . $this->buildApkFilename();
     }
 
     /**
