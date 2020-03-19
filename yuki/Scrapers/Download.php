@@ -166,15 +166,13 @@ class Download
      * Build and configure the supervisor instance.
      *
      * @param string $packageName
-     * @param string $filename
-     * @param string $directory
      * @return \yuki\Process\Supervisor
      */
-    protected function buildSupervisor($packageName, $filename, $directory): Supervisor
+    protected function buildSupervisor($packageName): Supervisor
     {
-        $command = sprintf('%s %s > %s', config('himekawa.commands.gp-download'), $packageName, $filename);
+        $command = [config('himekawa.commands.gp-download'), $packageName, $this->buildFullPath()];
 
-        return tap(new Supervisor($command, $directory), function (Supervisor $supervisor) {
+        return tap(Supervisor::command($command), function (Supervisor $supervisor) {
             $supervisor->setTimeout(config('googleplay.download_timeout'));
             $supervisor->setOutputAvailability(false);
         });

@@ -24,13 +24,13 @@ class Supervisor
     /**
      * Supervisor constructor.
      *
-     * @param string      $command
+     * @param array       $command
      * @param string|null $directory
      * @throws \Symfony\Component\Process\Exception\RuntimeException
      */
     public function __construct($command, $directory = null)
     {
-        $this->process = Process::fromShellCommandline($command, $directory);
+        $this->process = new Process($command, $directory);
     }
 
     public static function command($command, $directory = null)

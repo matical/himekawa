@@ -14,8 +14,8 @@ class Details
     public function run(string $package)
     {
         return NodeSupervisor::command($this->getCommand($package))
-                         ->execute()
-                         ->getOutput();
+                             ->execute()
+                             ->getOutput();
     }
 
     /**
@@ -32,10 +32,10 @@ class Details
      * Final command to be executed to fetch details.
      *
      * @param string $package
-     * @return string
+     * @return array
      */
-    protected function getCommand(string $package): string
+    protected function getCommand(string $package): array
     {
-        return "{$this->prefix()} $package";
+        return [$this->prefix(), '-p', $package];
     }
 }
