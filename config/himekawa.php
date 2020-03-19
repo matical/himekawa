@@ -10,9 +10,9 @@ return [
         'last-check' => 'scheduler:last-check',
     ],
     'commands'      => [
-        'gp-download'      => env('COMMANDS_GPDOWNLOAD', 'npx gp-download'),
-        'gp-download-meta' => env('COMMANDS_GPDOWNLOADMETA', 'npx gp-download-meta'),
-        'gp-details'       => env('COMMANDS_GPDETAILS', 'npx gp-details'),
+        'gp-download'      => env('COMMANDS_GPDOWNLOAD', 'gp-download'),
+        'gp-download-meta' => env('COMMANDS_GPDOWNLOADMETA', 'gp-download-meta'),
+        'gp-details'       => env('COMMANDS_GPDETAILS', 'gp-details'),
     ],
 
     // Max number of apps to keep when the pruner is running
