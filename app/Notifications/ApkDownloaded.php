@@ -44,8 +44,13 @@ class ApkDownloaded extends Notification
 
         /** @var \himekawa\AvailableApp $updated */
         foreach ($this->appsUpdated as $updated) {
-            $url = $updated->url();
-            $payload .= "[{$updated->watchedBy->name}]($url) v{$updated->version_name} (vc{$updated->version_code})\n";
+            $payload .= sprintf(
+                "[%s](%s) v%s (vc%s)\n",
+                $updated->watchedBy->name,
+                $updated->url(),
+                $updated->version_name,
+                $updated->version_code
+            );
         }
 
         return TelegramMessage::create()
