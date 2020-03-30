@@ -8,10 +8,11 @@ use Illuminate\Support\Facades\Notification;
 
 class NotifyByTelegram
 {
-    /**
-     * @var bool
-     */
+    /** @var bool */
     protected $notificationsEnabled;
+
+    /** @var string */
+    protected $toRoute;
 
     /**
      * Create the event listener.
@@ -20,7 +21,8 @@ class NotifyByTelegram
      */
     public function __construct()
     {
-        $this->notificationsEnabled = config('himekawa.notifications');
+        $this->toRoute = config('himekawa.notifications.to');
+        $this->notificationsEnabled = config('himekawa.notifications.enabled');
     }
 
     /**
@@ -32,8 +34,16 @@ class NotifyByTelegram
     public function handle(AppsUpdated $event)
     {
         if ($this->notificationsEnabled && ! $event->noNotifications) {
-            Notification::route('telegram', env('TELEGRAM_BOT_ROUTE'))
-                        ->notifyNow(new ApkDownloaded($event->appsUpdated));
+            $this->dispatchNotification($event->appsUpdated);
         }
+    }
+
+    /**
+     * @param array $appsUpdated
+     */
+    protected function dispatchNotification(array $appsUpdated): void
+    {
+        Notification::route('telegram', $this->toRoute)
+                    ->notifyNow(new ApkDownloaded($appsUpdated));
     }
 }
