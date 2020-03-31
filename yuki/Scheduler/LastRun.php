@@ -3,25 +3,16 @@
 namespace yuki\Scheduler;
 
 use Carbon\CarbonImmutable;
-use Illuminate\Support\Arr;
-use Illuminate\Cache\Repository as CacheRepository;
+use Illuminate\Support\Facades\Cache;
 
 class LastRun
 {
     /** @var string */
     protected $lastCheckKey;
 
-    /** @var \Illuminate\Cache\Repository */
-    protected $cache;
-
-    /**
-     * @param array                        $config
-     * @param \Illuminate\Cache\Repository $cache
-     */
-    public function __construct(array $config, CacheRepository $cache)
+    public function __construct()
     {
-        $this->lastCheckKey = Arr::get($config, 'cache.last-check');
-        $this->cache = $cache;
+        $this->lastCheckKey = config('himekawa.cache.last-check');
     }
 
     /**
@@ -29,15 +20,16 @@ class LastRun
      */
     public function markLastCheck()
     {
-        $this->cache->forever($this->lastCheckKey, now()->timestamp);
+        $this->cache()->forever($this->lastCheckKey, now()->timestamp);
     }
 
     /**
      * @return \Carbon\CarbonImmutable
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function lastCheck()
     {
-        if ($lastRun = $this->cache->get($this->lastCheckKey)) {
+        if ($lastRun = $this->cache()->get($this->lastCheckKey)) {
             return $this->createFromTimestamp($lastRun);
         }
     }
@@ -49,5 +41,13 @@ class LastRun
     protected function createFromTimestamp($timestamp)
     {
         return CarbonImmutable::createFromTimestamp($timestamp);
+    }
+
+    /**
+     * @return \Illuminate\Contracts\Cache\Repository
+     */
+    protected function cache()
+    {
+        return Cache::driver();
     }
 }

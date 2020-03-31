@@ -33,10 +33,7 @@ class HimeServiceProvider extends ServiceProvider
             fn () => new Apk(config('googleplay'))
         );
 
-        $this->app->bind(
-            LastRun::class,
-            fn () => new LastRun(config('himekawa'), $this->app->make('cache.store'))
-        );
+        $this->app->bind('last-run', LastRun::class);
 
         $this->app->alias(Apk::class, 'apk');
         $this->app->alias(LastRun::class, 'lastRun');
