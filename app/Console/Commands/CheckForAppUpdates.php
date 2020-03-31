@@ -114,7 +114,7 @@ class CheckForAppUpdates extends Command
         $this->line(
             sprintf('Found <comment>%s</comment> app(s) available for update', count($this->appsRequiringUpdates))
         );
-        Log:::info('Updates found.', $this->appsRequiringUpdates);
+        Log::info('Updates found.', $this->appsRequiringUpdates);
 
         $this->downloadRequiredUpdates($this->appsRequiringUpdates);
     }
