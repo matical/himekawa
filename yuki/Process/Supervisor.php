@@ -93,10 +93,13 @@ class Supervisor
      * Use a custom serializer for process output.
      *
      * @param \Closure $serializer
+     * @return self
      */
     public function setSerializer(Closure $serializer)
     {
         $this->serializer = $serializer;
+
+        return $this;
     }
 
     /**
