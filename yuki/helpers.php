@@ -79,7 +79,7 @@ if (! function_exists('lastRun')) {
      */
     function lastRun()
     {
-        return app('lastRun');
+        return app('last-run');
     }
 }
 
