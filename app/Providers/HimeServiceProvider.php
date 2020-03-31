@@ -2,9 +2,11 @@
 
 namespace himekawa\Providers;
 
+use yuki\Import\Ini;
 use yuki\Foundation\Apk;
 use yuki\Scheduler\LastRun;
 use Spatie\Feed\Helpers\Path;
+use yuki\Import\Configurable;
 use Spatie\Feed\Http\FeedController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
@@ -28,15 +30,12 @@ class HimeServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(
-            Apk::class,
-            fn () => new Apk(config('googleplay'))
-        );
+        $this->app->bind(Apk::class, fn () => new Apk());
+        $this->app->alias(Apk::class, 'apk');
 
         $this->app->bind('last-run', LastRun::class);
 
-        $this->app->alias(Apk::class, 'apk');
-        $this->app->alias(LastRun::class, 'lastRun');
+        $this->app->bind(Configurable::class, Ini::class);
 
         $this->registerFeedRoutes();
     }
