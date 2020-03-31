@@ -4,11 +4,11 @@ namespace himekawa\Console\Commands;
 
 use yuki\Facades\LastRun;
 use yuki\Scrapers\Download;
+use yuki\Process\Supervisor;
 use Illuminate\Console\Command;
 use yuki\Scrapers\UpdateManager;
 use Illuminate\Support\Facades\Log;
 use yuki\Exceptions\PackageException;
-use Symfony\Component\Process\Process;
 use yuki\Command\HasPrettyProgressBars;
 use himekawa\Events\Scheduler\AppsUpdated;
 use yuki\Repositories\AvailableAppsRepository;
@@ -152,9 +152,11 @@ class CheckForAppUpdates extends Command
 
     protected function fetchAndSetToken()
     {
-        $process = new Process(['./gp-cli/bin/get-token']);
-        $process->mustRun();
-        $token = trim($process->getOutput());
+        $token = Supervisor::command('./gp-cli/bin/get-token')
+                           ->setSerializer(fn ($output) => trim($output))
+                           ->execute()
+                           ->getOutput();
+
         $this->line("Setting Token: <info>$token</info>", null, OutputInterface::VERBOSITY_VERBOSE);
         putenv("GOOGLE_AUTHTOKEN=$token");
     }
