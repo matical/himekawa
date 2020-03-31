@@ -87,7 +87,7 @@ class CheckForAppUpdates extends Command
     public function handle()
     {
         $this->line('Checking for updates...');
-        info('Running APK scheduler');
+        Log::info('Running APK scheduler');
 
         retry(3, function () {
             $this->fetchAndSetToken();
@@ -106,7 +106,7 @@ class CheckForAppUpdates extends Command
 
         if (empty($this->appsRequiringUpdates)) {
             $this->info("There's no apps that require updates.");
-            info('No apps require updates');
+            Log::info('No apps require updates');
 
             return;
         }
@@ -114,7 +114,7 @@ class CheckForAppUpdates extends Command
         $this->line(
             sprintf('Found <comment>%s</comment> app(s) available for update', count($this->appsRequiringUpdates))
         );
-        info('Updates found.', $this->appsRequiringUpdates);
+        Log:::info('Updates found.', $this->appsRequiringUpdates);
 
         $this->downloadRequiredUpdates($this->appsRequiringUpdates);
     }
