@@ -11,12 +11,9 @@ class Apk
      */
     protected $config;
 
-    /**
-     * @param array $config
-     */
-    public function __construct(array $config)
+    public function __construct()
     {
-        $this->config = $config;
+        $this->config = config('googleplay');
     }
 
     /**
