@@ -35,7 +35,7 @@ class Supervisor
 
     public static function command($command, $directory = null)
     {
-        return new static($command, $directory);
+        return new static((array) $command, $directory);
     }
 
     /**
