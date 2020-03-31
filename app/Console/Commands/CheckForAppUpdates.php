@@ -3,10 +3,10 @@
 namespace himekawa\Console\Commands;
 
 use yuki\Facades\LastRun;
-use Illuminate\Support\Str;
 use yuki\Scrapers\Download;
 use Illuminate\Console\Command;
 use yuki\Scrapers\UpdateManager;
+use Illuminate\Support\Facades\Log;
 use yuki\Exceptions\PackageException;
 use Symfony\Component\Process\Process;
 use yuki\Command\HasPrettyProgressBars;
@@ -123,7 +123,6 @@ class CheckForAppUpdates extends Command
      * Download required updates.
      *
      * @param $appsRequiringUpdates
-     * @throws \yuki\Exceptions\PackageException
      */
     protected function downloadRequiredUpdates(array $appsRequiringUpdates)
     {
@@ -139,12 +138,8 @@ class CheckForAppUpdates extends Command
             } catch (PackageException $exception) {
                 $bar->setMessage("An APK already exists for {$exception->package}.");
             } catch (ProcessFailedException $exception) {
-                if (Str::contains($exception->getMessage(), 'DF-DFERH-01')) {
-                    $this->info('Refreshing token...');
-                    $this->fetchAndSetToken();
-
-                    $appsUpdated[] = $this->downloadApp($app);
-                }
+                // No need to log
+                $this->warn("Failed to download {$app->packageName}");
             }
         }
 
