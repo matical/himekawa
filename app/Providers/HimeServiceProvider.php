@@ -30,9 +30,7 @@ class HimeServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(Apk::class, fn () => new Apk());
-        $this->app->alias(Apk::class, 'apk');
-
+        $this->app->bind('apk', Apk::class);
         $this->app->bind('last-run', LastRun::class);
 
         $this->app->bind(Configurable::class, Ini::class);
