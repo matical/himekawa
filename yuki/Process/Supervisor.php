@@ -21,9 +21,10 @@ class Supervisor
     /** @var \Closure */
     protected $serializer;
 
+    /** @var bool */
+    protected $disableSerializer = false;
+
     /**
-     * Supervisor constructor.
-     *
      * @param array       $command
      * @param string|null $directory
      * @throws \Symfony\Component\Process\Exception\RuntimeException
@@ -33,9 +34,29 @@ class Supervisor
         $this->process = new Process($command, $directory);
     }
 
+    /**
+     * @param string|array $command
+     * @param string|null  $directory
+     * @return static
+     */
     public static function command($command, $directory = null)
     {
         return new static((array) $command, $directory);
+    }
+
+    /**
+     * Run the command and return results immediately.
+     *
+     * @param string|array $command
+     * @param string|null  $directory
+     * @return string
+     */
+    public static function runNow($command, $directory = null)
+    {
+        return self::command($command, $directory)
+                   ->dontSerialize()
+                   ->execute()
+                   ->getOutput();
     }
 
     /**
@@ -103,6 +124,18 @@ class Supervisor
     }
 
     /**
+     * Disable output serialization.
+     *
+     * @return self
+     */
+    public function dontSerialize()
+    {
+        $this->disableSerializer = true;
+
+        return $this;
+    }
+
+    /**
      * Serialize the process output. Defaults to json.
      *
      * @param $output
@@ -110,6 +143,10 @@ class Supervisor
      */
     protected function serializeOutput($output)
     {
+        if ($this->disableSerializer) {
+            return $output;
+        }
+
         if ($this->serializer) {
             return ($this->serializer)($output);
         }
