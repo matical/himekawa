@@ -2,14 +2,15 @@
 
 namespace yuki\Badging;
 
-use Symfony\Component\Process\Process;
+use yuki\Process\Supervisor;
+use yuki\Scrapers\Store\StoreApp;
 
 class Badging
 {
     /**
      * @var array
      */
-    protected $package = [];
+    protected $parsed = [];
 
     /**
      * @var \Symfony\Component\Process\Process
@@ -32,15 +33,13 @@ class Badging
     }
 
     /**
-     * @param $packageName
-     * @param $package
+     * @param \yuki\Scrapers\Store\StoreApp $storeApp
      * @return self
      */
-    public function package($packageName, $package)
+    public function package(StoreApp $storeApp)
     {
-        $this->process = $this->createNewProcess($packageName, $package);
-        $this->run();
-        $this->package = $this->parser->parse($this->dumpOutput);
+        $this->dumpOutput = Supervisor::runNow(['aapt', 'dump', 'badging', $storeApp->fullPath()]);
+        $this->parsed = $this->parser->parse($this->dumpOutput);
 
         return $this;
     }
@@ -50,9 +49,9 @@ class Badging
      *
      * @return array
      */
-    public function getPackage()
+    public function parsed()
     {
-        return $this->package;
+        return $this->parsed;
     }
 
     /**
@@ -61,27 +60,5 @@ class Badging
     public function getRawBadging()
     {
         return $this->dumpOutput;
-    }
-
-    /**
-     * @param $packageName
-     * @param $package
-     * @return \Symfony\Component\Process\Process
-     */
-    protected function createNewProcess($packageName, $package)
-    {
-        return Process::fromShellCommandline("aapt dump badging $package", apkDirectory($packageName));
-    }
-
-    /**
-     * @return self
-     */
-    protected function run()
-    {
-        $this->process->mustRun();
-
-        $this->dumpOutput = $this->process->getOutput();
-
-        return $this;
     }
 }
