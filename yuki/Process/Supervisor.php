@@ -53,10 +53,10 @@ class Supervisor
      */
     public static function runNow($command, $directory = null)
     {
-        return self::command($command, $directory)
-                   ->dontSerialize()
-                   ->execute()
-                   ->getOutput();
+        return static::command($command, $directory)
+                     ->dontSerialize()
+                     ->execute()
+                     ->getOutput();
     }
 
     /**
