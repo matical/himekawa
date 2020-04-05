@@ -35,7 +35,7 @@ class AvailableAppsRepository
 
     /**
      * @param string $package
-     * @return \himekawa\WatchedApp|null
+     * @return \himekawa\WatchedApp|null|mixed
      */
     public function findPackage($package)
     {
@@ -44,23 +44,21 @@ class AvailableAppsRepository
     }
 
     /**
-     * @param string $packageName
+     * @param \yuki\Scrapers\Store\StoreApp $storeApp
      * @return \himekawa\AvailableApp
      */
-    public function create($packageName)
+    public function create($storeApp)
     {
-        $package = WatchedApp::where('package_name', $packageName)
+        $package = WatchedApp::where('package_name', $storeApp->getPackageName())
                              ->first();
 
-        $metadata = $this->metainfo->getPackageInfo($packageName);
-
-        $badging = $this->getBadging($packageName, $metadata);
+        $badging = $this->badging->parsed();
 
         $newApp = $package->availableApps()->create([
-            'version_code' => $metadata->versionCode,
+            'version_code' => $storeApp->getVersionCode(),
             'version_name' => $badging['versionName'],
-            'size'         => $metadata->size,
-            'hash'         => $metadata->sha1,
+            'size'         => $storeApp->expectedSizeInBytes(),
+            'hash'         => $storeApp->expectedHash(),
         ]);
 
         return tap($newApp, function (AvailableApp $newApp) {
@@ -96,38 +94,17 @@ class AvailableAppsRepository
     /**
      * Deletes both physical files and DB entries.
      *
-     * @param \Illuminate\Database\Eloquent\Collection $watchedApps Collection of WatchedApp
-     * @param string                                   $package     Name of the package
+     * @param \Illuminate\Database\Eloquent\Collection $availableApps Collection of available apps
+     * @param string                                   $package       Name of the package
      * @return int Number of files deleted
      */
-    public function deleteFiles(Collection $watchedApps, $package): int
+    public function deleteFiles(Collection $availableApps, $package): int
     {
         // Delete physical files
-        $filesToDelete = $watchedApps->map(fn ($item) => buildApkFilename($package, $item->version_code));
-
-        foreach ($filesToDelete as $file) {
-            Storage::delete($package . DIRECTORY_SEPARATOR . $file);
-        }
+        $filesToDelete = $availableApps->map(fn (AvailableApp $item) => buildApkFilename($package, $item->version_code));
+        $filesToDelete->each(fn ($file)                              => Storage::delete("$package/$file"));
 
         // Delete DB entries
-        return $this->deleteEntries($watchedApps->pluck('id'));
-    }
-
-    /**
-     * @param $packageName
-     * @param $metadata
-     * @return array
-     */
-    protected function getBadging($packageName, $metadata): array
-    {
-        $badging = $this->badging->package(
-            $packageName,
-            buildApkFilename(
-                $packageName,
-                $metadata->versionCode
-            )
-        )->getPackage();
-
-        return $badging;
+        return $this->deleteEntries($availableApps->pluck('id'));
     }
 }
