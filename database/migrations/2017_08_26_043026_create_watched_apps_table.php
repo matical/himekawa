@@ -16,7 +16,8 @@ class CreateWatchedAppsTable extends Migration
         Schema::create('watched_apps', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('slug');
+            $table->string('slug')
+                  ->unique();
             $table->string('original_title');
             $table->string('package_name');
             $table->timestamp('disabled')
