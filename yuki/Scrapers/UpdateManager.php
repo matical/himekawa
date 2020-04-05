@@ -3,6 +3,7 @@
 namespace yuki\Scrapers;
 
 use himekawa\WatchedApp;
+use yuki\Scrapers\Store\StoreApp;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use yuki\Repositories\MetainfoRepository;
@@ -16,11 +17,6 @@ class UpdateManager
     protected $metainfo;
 
     /**
-     * @var \yuki\Scrapers\Versioning
-     */
-    protected $versioning;
-
-    /**
      * Delay in seconds.
      *
      * @var int
@@ -28,15 +24,11 @@ class UpdateManager
     protected $delay;
 
     /**
-     * Update constructor.
-     *
      * @param \yuki\Repositories\MetainfoRepository $metainfo
-     * @param \yuki\Scrapers\Versioning             $versioning
      */
-    public function __construct(MetainfoRepository $metainfo, Versioning $versioning)
+    public function __construct(MetainfoRepository $metainfo)
     {
         $this->metainfo = $metainfo;
-        $this->versioning = $versioning;
         $this->delay = config('googleplay.delay');
     }
 
@@ -50,7 +42,7 @@ class UpdateManager
     {
         $result = collect();
 
-        foreach ($this->pluckPackages() as $package) {
+        foreach ($this->watchedPackages() as $package) {
             try {
                 $fetched = $this->metainfo->getPackageInfo($package);
             } catch (ProcessFailedException $exception) {
@@ -61,7 +53,7 @@ class UpdateManager
                 continue;
             }
 
-            $result[$package] = $fetched;
+            $result[$package] = StoreApp::createFromPayload($fetched);
             sleep($this->delay);
         }
 
@@ -76,13 +68,13 @@ class UpdateManager
      */
     public function checkForUpdates(Collection $appMetadata): Collection
     {
-        return $appMetadata->filter(fn ($app) => $this->versioning->areUpdatesAvailableFor($app->packageName, $app->versionCode));
+        return $appMetadata->filter(fn (StoreApp $app) => $app->canBeUpdated());
     }
 
     /**
      * @return \Illuminate\Support\Collection
      */
-    protected function pluckPackages(): Collection
+    protected function watchedPackages(): Collection
     {
         return WatchedApp::whereNull('disabled')
                          ->pluck('package_name');
