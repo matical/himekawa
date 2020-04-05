@@ -33,11 +33,6 @@ class PruneOldApps extends Command
     protected $maxAppsAllowed;
 
     /**
-     * @var int
-     */
-    protected $appsDeleted;
-
-    /**
      * @var \yuki\Scrapers\UpdateManager
      */
     protected $update;
@@ -66,17 +61,18 @@ class PruneOldApps extends Command
     {
         $this->log('Checking for old apps to prune.');
 
-        foreach ($this->update->allApkMetadata() as $package) {
-            $packageName = $package->packageName;
+        /** @var \yuki\Scrapers\Store\StoreApp $storeApp */
+        foreach ($this->update->allApkMetadata() as $storeApp) {
+            $packageName = $storeApp->getPackageName();
 
             $watched = $this->availableApps->findPackage($packageName);
-            $oldApps = $this->availableApps->getOldApps($this->maxAppsAllowed, $watched);
+            $oldAvailableApps = $this->availableApps->getOldApps($this->maxAppsAllowed, $watched);
 
-            if ($oldApps->isEmpty()) {
+            if ($oldAvailableApps->isEmpty()) {
                 continue;
             }
 
-            $numberOfDeletedApps = $this->availableApps->deleteFiles($oldApps, $packageName);
+            $numberOfDeletedApps = $this->availableApps->deleteFiles($oldAvailableApps, $packageName);
 
             $this->log("Deleted $numberOfDeletedApps app(s) for {$packageName}");
         }
