@@ -21,7 +21,7 @@ class Versioning
     }
 
     /**
-     * Check if a particular package requires any updates.
+     * Check if a local package requires any updates.
      *
      * @param string $packageName                Package identifier
      * @param int    $latestPlaystoreVersionCode Version code of the latest app available on the Play Store
