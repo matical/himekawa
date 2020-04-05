@@ -7,11 +7,11 @@ use yuki\Scrapers\Download;
 use yuki\Process\Supervisor;
 use Illuminate\Console\Command;
 use yuki\Scrapers\UpdateManager;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use yuki\Exceptions\PackageException;
 use yuki\Command\HasPrettyProgressBars;
 use himekawa\Events\Scheduler\AppsUpdated;
-use yuki\Repositories\AvailableAppsRepository;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
@@ -43,19 +43,14 @@ class CheckForAppUpdates extends Command
     /**
      * Array of apps with available updates.
      *
-     * @var array
+     * @var \Illuminate\Support\Collection
      */
-    protected $appsRequiringUpdates = [];
+    protected $appsRequiringUpdates;
 
     /**
      * @var \yuki\Scrapers\Download
      */
     protected $download;
-
-    /**
-     * @var \yuki\Repositories\AvailableAppsRepository
-     */
-    protected $availableApps;
 
     /**
      * @var \yuki\Scrapers\UpdateManager
@@ -65,17 +60,15 @@ class CheckForAppUpdates extends Command
     /**
      * Create a new command instance.
      *
-     * @param \yuki\Scrapers\Download                    $download
-     * @param \yuki\Scrapers\UpdateManager               $update
-     * @param \yuki\Repositories\AvailableAppsRepository $availableApps
+     * @param \yuki\Scrapers\Download      $download
+     * @param \yuki\Scrapers\UpdateManager $update
      */
-    public function __construct(Download $download, UpdateManager $update, AvailableAppsRepository $availableApps)
+    public function __construct(Download $download, UpdateManager $update)
     {
         parent::__construct();
 
         $this->download = $download;
         $this->update = $update;
-        $this->availableApps = $availableApps;
     }
 
     /**
@@ -98,21 +91,21 @@ class CheckForAppUpdates extends Command
         $this->appsRequiringUpdates = $this->update->checkForUpdates($this->appMetadata);
 
         if ($this->option('dry-run')) {
-            dump($this->appsRequiringUpdates);
+            $this->appsRequiringUpdates->dump();
             exit(1);
         }
 
         LastRun::markLastCheck();
 
-        if (empty($this->appsRequiringUpdates)) {
+        if ($this->appsRequiringUpdates->isEmpty()) {
             $this->info("There's no apps that require updates.");
             Log::info('No apps require updates');
 
-            return;
+            return 0;
         }
 
         $this->line(
-            sprintf('Found <comment>%s</comment> app(s) available for update', count($this->appsRequiringUpdates))
+            sprintf('Found <comment>%s</comment> app(s) available for update', $this->appsRequiringUpdates->count())
         );
         Log::info('Updates found.', $this->appsRequiringUpdates);
 
