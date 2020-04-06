@@ -5,6 +5,7 @@ namespace yuki\Repositories;
 use himekawa\WatchedApp;
 use yuki\Badging\Badging;
 use himekawa\AvailableApp;
+use yuki\Scrapers\Store\StoreApp;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -14,9 +15,6 @@ class AvailableAppsRepository
 
     /** @var \yuki\Badging\Badging */
     protected $badging;
-
-    /** @var \yuki\Scrapers\Versioning */
-    protected $versioning;
 
     /** @var \yuki\Repositories\MetainfoRepository */
     protected $metainfo;
@@ -45,6 +43,15 @@ class AvailableAppsRepository
 
     /**
      * @param \yuki\Scrapers\Store\StoreApp $storeApp
+     * @return \himekawa\WatchedApp|mixed|null
+     */
+    public function findWithStoreApp(StoreApp $storeApp)
+    {
+        return $this->findPackage($storeApp->getPackageName());
+    }
+
+    /**
+     * @param \yuki\Scrapers\Store\StoreApp $storeApp
      * @return \himekawa\AvailableApp
      */
     public function create($storeApp)
@@ -54,6 +61,7 @@ class AvailableAppsRepository
 
         $badging = $this->badging->parsed();
 
+        /** @var AvailableApp $newApp */
         $newApp = $package->availableApps()->create([
             'version_code' => $storeApp->getVersionCode(),
             'version_name' => $badging['versionName'],
@@ -61,11 +69,9 @@ class AvailableAppsRepository
             'hash'         => $storeApp->expectedHash(),
         ]);
 
-        return tap($newApp, function (AvailableApp $newApp) {
-            $newApp->badging()->create([
-                'raw_badging' => $this->badging->getRawBadging(),
-            ]);
-        });
+        $newApp->badging()->create(['raw_badging' => $this->badging->getRawBadging()]);
+
+        return $newApp;
     }
 
     /**
@@ -83,15 +89,6 @@ class AvailableAppsRepository
     }
 
     /**
-     * @param \Illuminate\Support\Collection $id
-     * @return int
-     */
-    public function deleteEntries($id): int
-    {
-        return AvailableApp::destroy($id);
-    }
-
-    /**
      * Deletes both physical files and DB entries.
      *
      * @param \Illuminate\Database\Eloquent\Collection $availableApps Collection of available apps
@@ -101,10 +98,19 @@ class AvailableAppsRepository
     public function deleteFiles(Collection $availableApps, $package): int
     {
         // Delete physical files
-        $filesToDelete = $availableApps->map(fn (AvailableApp $item) => buildApkFilename($package, $item->version_code));
-        $filesToDelete->each(fn ($file)                              => Storage::delete("$package/$file"));
+        $availableApps->map(fn (AvailableApp $item) => "{$package}/{$item->filename}")
+                      ->each(fn (string $file)      => Storage::delete($file)); // Autofails on deletion failure
 
         // Delete DB entries
         return $this->deleteEntries($availableApps->pluck('id'));
+    }
+
+    /**
+     * @param \Illuminate\Support\Collection $id
+     * @return int
+     */
+    public function deleteEntries($id): int
+    {
+        return AvailableApp::destroy($id);
     }
 }

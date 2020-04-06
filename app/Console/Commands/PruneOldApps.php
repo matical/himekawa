@@ -23,6 +23,11 @@ class PruneOldApps extends Command
     protected $description = 'Cleanup outdated APKs.';
 
     /**
+     * @var \yuki\Scrapers\UpdateManager
+     */
+    protected $updater;
+
+    /**
      * @var \yuki\Repositories\AvailableAppsRepository
      */
     protected $availableApps;
@@ -31,11 +36,6 @@ class PruneOldApps extends Command
      * @var int
      */
     protected $maxAppsAllowed;
-
-    /**
-     * @var \yuki\Scrapers\UpdateManager
-     */
-    protected $update;
 
     /**
      * Create a new command instance.
@@ -47,7 +47,7 @@ class PruneOldApps extends Command
     {
         parent::__construct();
 
-        $this->update = $update;
+        $this->updater = $update;
         $this->availableApps = $availableAppsRepository;
         $this->maxAppsAllowed = config('himekawa.max_apps');
     }
@@ -62,18 +62,17 @@ class PruneOldApps extends Command
         $this->log('Checking for old apps to prune.');
 
         /** @var \yuki\Scrapers\Store\StoreApp $storeApp */
-        foreach ($this->update->allApkMetadata() as $storeApp) {
-            $packageName = $storeApp->getPackageName();
-
-            $watched = $this->availableApps->findPackage($packageName);
+        foreach ($this->updater->allApkMetadata() as $storeApp) {
+            $watched = $this->availableApps->findWithStoreApp($storeApp);
             $oldAvailableApps = $this->availableApps->getOldApps($this->maxAppsAllowed, $watched);
 
             if ($oldAvailableApps->isEmpty()) {
                 continue;
             }
 
-            $numberOfDeletedApps = $this->availableApps->deleteFiles($oldAvailableApps, $packageName);
+            $packageName = $storeApp->getPackageName();
 
+            $numberOfDeletedApps = $this->availableApps->deleteFiles($oldAvailableApps, $packageName);
             $this->log("Deleted $numberOfDeletedApps app(s) for {$packageName}");
         }
     }
