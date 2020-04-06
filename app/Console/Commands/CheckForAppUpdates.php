@@ -115,24 +115,26 @@ class CheckForAppUpdates extends Command
     /**
      * Download required updates.
      *
-     * @param $appsRequiringUpdates
+     * @param \Illuminate\Support\Collection $appsRequiringUpdates
+     * @throws \Exception
      */
-    protected function downloadRequiredUpdates(array $appsRequiringUpdates)
+    protected function downloadRequiredUpdates(Collection $appsRequiringUpdates)
     {
         $appsUpdated = [];
         $bar = $this->newProgressBar($appsRequiringUpdates);
 
-        foreach ($appsRequiringUpdates as $app) {
-            $bar->setMessage("Downloading {$app->packageName}");
+        /** @var \yuki\Scrapers\Store\StoreApp $storeApp */
+        foreach ($appsRequiringUpdates as $storeApp) {
+            $bar->setMessage("Downloading {$storeApp->getPackageName()}");
             $bar->advance();
 
             try {
-                $appsUpdated[] = $this->downloadApp($app);
+                $appsUpdated[] = $this->retrieveStoreApp($storeApp);
             } catch (PackageException $exception) {
                 $bar->setMessage("An APK already exists for {$exception->package}.");
             } catch (ProcessFailedException $exception) {
                 // No need to log
-                $this->warn("Failed to download {$app->packageName}");
+                $this->warn("Failed to download {$storeApp->getPackageName()}");
             }
         }
 
@@ -155,14 +157,13 @@ class CheckForAppUpdates extends Command
     }
 
     /**
-     * @param $app
+     * @param $storeApp
      * @return \himekawa\AvailableApp
-     * @throws \yuki\Exceptions\PackageException
+     * @throws \Exception
      */
-    protected function downloadApp($app)
+    protected function retrieveStoreApp($storeApp)
     {
-        return $this->download->build($app->packageName, $app->versionCode, $app->sha1)
-                              ->run()
-                              ->store();
+        return $this->download->withApp($storeApp)
+                              ->fetch();
     }
 }
