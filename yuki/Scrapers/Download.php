@@ -2,109 +2,46 @@
 
 namespace yuki\Scrapers;
 
-use yuki\Facades\Apk;
 use himekawa\AvailableApp;
 use yuki\Process\Supervisor;
+use yuki\Scrapers\Store\StoreApp;
 use Illuminate\Support\Facades\Log;
 use yuki\Exceptions\PackageException;
 use Illuminate\Support\Facades\Storage;
 use yuki\Repositories\AvailableAppsRepository;
-use yuki\Exceptions\FailedToVerifyHashException;
 use Symfony\Component\Process\Exception\ProcessTimedOutException;
 
 class Download
 {
-    /**
-     * @var \yuki\Process\Supervisor
-     */
-    protected $supervisor;
+    protected AvailableAppsRepository $availableApps;
 
-    /**
-     * Package identifier of the app to be downloaded.
-     *
-     * @var string
-     */
-    protected $packageName;
+    protected StoreApp $storeApp;
 
-    /**
-     * Version code of the app to be downloaded.
-     *
-     * @var int
-     */
-    protected $versionCode;
-
-    /**
-     * SHA1 hash of the app to be downloaded.
-     *
-     * @var string
-     */
-    protected $hash;
-
-    /**
-     * @var \yuki\Repositories\AvailableAppsRepository
-     */
-    protected $availableApps;
-
-    /**
-     * @param \yuki\Repositories\AvailableAppsRepository $availableAppsRepository
-     */
     public function __construct(AvailableAppsRepository $availableAppsRepository)
     {
         $this->availableApps = $availableAppsRepository;
     }
 
     /**
-     * @param string $packageName
-     * @param int    $versionCode
-     * @param string $hash
+     * @param \yuki\Scrapers\Store\StoreApp $storeApp
      * @return self
      *
      * @throws \yuki\Exceptions\PackageException
      */
-    public function build($packageName, $versionCode, $hash)
+    public function withApp(StoreApp $storeApp)
     {
-        $this->packageName = $packageName;
-        $this->versionCode = $versionCode;
-        $this->hash = $hash;
+        $this->storeApp = $storeApp;
 
-        if ($this->fileAlreadyExists()) {
-            try {
-                // If there's an empty file from a previous failed download
-                $this->verifyFileIntegrity($this->packageName, $this->hash);
-            } catch (FailedToVerifyHashException $exception) {
-                // TODO: Separate this so download can continue on the same apk:update run.
-                $this->deleteDownload($packageName, $this->buildApkFilename());
-            } finally {
-                throw PackageException::AlreadyExists($this->packageName, $this->versionCode);
-            }
+        // Since *something* exists at the path, we attempt to clean it up first
+        if ($this->storeApp->exists()) {
+            $this->cleanUpDirtyArtifacts();
         }
+
+        $packageName = $this->storeApp->getPackageName();
 
         // Checks if a folder with the respective package name exists already
         if (! $this->storage()->exists($packageName)) {
             $this->storage()->makeDirectory($packageName);
-        }
-
-        $this->supervisor = $this->buildSupervisor($this->packageName);
-
-        return $this;
-    }
-
-    /**
-     * @return self
-     */
-    public function run()
-    {
-        try {
-            $this->supervisor->execute();
-        } catch (ProcessTimedOutException $exception) {
-            $this->deleteDownload($this->packageName, $this->buildApkFilename());
-            Log::warning("Failed to download {$this->buildApkFilename()}. Process timed out.");
-        }
-
-        try {
-            $this->verifyFileIntegrity($this->packageName, $this->hash);
-        } catch (FailedToVerifyHashException $exception) {
-            $this->deleteDownload($this->packageName, $this->buildApkFilename());
         }
 
         return $this;
@@ -112,95 +49,75 @@ class Download
 
     /**
      * @return \himekawa\AvailableApp
+     * @throws \Exception
+     */
+    public function fetch()
+    {
+        try {
+            $this->buildSupervisor()->execute();
+        } catch (ProcessTimedOutException $exception) {
+            $this->storeApp->deleteDownload();
+            Log::warning("Failed to download {$this->storeApp->getPackageName()}. Process timed out.");
+        }
+
+        if (! $this->storeApp->verifyHash()) {
+            $this->storeApp->deleteDownload();
+            Log::warning("Deleted {$this->storeApp->filename()}. Failed to verify hash.");
+        }
+
+        Log::info("Verified hash for {$this->storeApp->getPackageName()} (SHA1: {$this->storeApp->expectedHash()})");
+
+        return $this->store();
+    }
+
+    /**
+     * @return \himekawa\AvailableApp
      */
     public function store(): AvailableApp
     {
-        // TODO: Decouple badging and metadata retrieval from availableAppsRepo
-        return tap($this->availableApps->create($this->packageName), function ($availableApp) {
-            Log::info("Finished download of {$this->packageName} (r{$availableApp->version_code}-v{$availableApp->version_name})");
+        return tap($this->availableApps->create($this->storeApp), function (AvailableApp $availableApp) {
+            Log::info(sprintf(
+                'Finished download of %s (r%s-v%s)',
+                $this->storeApp->getPackageName(),
+                $availableApp->version_code,
+                $availableApp->version_name
+            ));
         });
     }
 
     /**
-     * Build the "target" apk file.
-     *
-     * @return string
-     */
-    protected function buildApkFilename(): string
-    {
-        return Apk::resolveApkFilename($this->packageName, $this->versionCode);
-    }
-
-    /**
-     * Build the apk directory.
-     *
-     * @return string
-     */
-    protected function buildApkDirectory(): string
-    {
-        return Apk::resolveApkDirectory($this->packageName);
-    }
-
-    protected function buildFullPath()
-    {
-        return $this->buildApkDirectory() . DIRECTORY_SEPARATOR . $this->buildApkFilename();
-    }
-
-    /**
-     * Check if an APK already exists at that location.
-     *
      * @return bool
+     * @throws \yuki\Exceptions\PackageException
+     * @throws \Exception
      */
-    protected function fileAlreadyExists(): bool
+    protected function cleanUpDirtyArtifacts()
     {
-        return $this->storage()->exists(
-            sprintf('%s/%s', $this->packageName, $this->buildApkFilename())
-        );
+        // If there's an empty file from a previous failed download
+        if ($this->storeApp->verifyHash()) {
+            throw PackageException::AlreadyExists($this->storeApp);
+        }
+
+        // Probably a faulty download
+        return $this->storeApp->deleteDownload();
     }
 
     /**
      * Build and configure the supervisor instance.
      *
-     * @param string $packageName
      * @return \yuki\Process\Supervisor
      */
-    protected function buildSupervisor($packageName): Supervisor
+    protected function buildSupervisor(): Supervisor
     {
-        $command = [config('himekawa.commands.gp-download'), $packageName, $this->buildFullPath()];
+        $command = [
+            config('himekawa.commands.gp-download'),
+            $this->storeApp->getPackageName(),
+            $this->storeApp->fullPath(),
+        ];
 
         return tap(Supervisor::command($command), function (Supervisor $supervisor) {
             $supervisor->setTimeout(config('googleplay.download_timeout'));
             $supervisor->setOutputAvailability(false);
         });
-    }
-
-    /**
-     * @param string $packageName
-     * @param string $expectedHash
-     *
-     * @throws \yuki\Exceptions\FailedToVerifyHashException
-     */
-    protected function verifyFileIntegrity($packageName, $expectedHash): void
-    {
-        $packagePath = apkDirectory($packageName, $this->versionCode);
-        $hashOfLocalPackage = sha1_file($packagePath);
-
-        if ($hashOfLocalPackage !== $expectedHash) {
-            throw new FailedToVerifyHashException($packageName, $this->buildApkFilename(), $hashOfLocalPackage, $expectedHash);
-        }
-
-        Log::info("Verified hash for $packageName (SHA1: $expectedHash)");
-    }
-
-    /**
-     * @param string $packageName
-     * @param string $apkFilename
-     */
-    protected function deleteDownload($packageName, $apkFilename): void
-    {
-        if ($this->storage()->delete("$packageName/$apkFilename")) {
-            Log::info("Deleted faulty download: $apkFilename");
-        }
     }
 
     /**
