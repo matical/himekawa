@@ -4,7 +4,7 @@ namespace yuki\Exceptions;
 
 use Exception;
 use Throwable;
-use yuki\Facades\Apk;
+use yuki\Scrapers\Store\StoreApp;
 
 class PackageException extends Exception implements ExceptionInterface
 {
@@ -38,14 +38,13 @@ class PackageException extends Exception implements ExceptionInterface
     }
 
     /**
-     * @param $package
-     * @param $version
+     * @param \yuki\Scrapers\Store\StoreApp $storeApp
      * @return static
      */
-    public static function AlreadyExists($package, $version)
+    public static function AlreadyExists(StoreApp $storeApp)
     {
-        $message = sprintf('%s already exists.', Apk::resolveApkFilename($package, $version));
+        $message = sprintf('%s already exists.', $storeApp->relativePath());
 
-        return new static($message, 0, null, $package, $version);
+        return new static($message, 0, null, $storeApp->getPackageName(), $storeApp->getVersionCode());
     }
 }
