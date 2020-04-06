@@ -31,13 +31,19 @@ class StoreApp
         $this->sizeInBytes = $sizeInBytes;
     }
 
+    /**
+     * Create a new instance from a JSON payload.
+     *
+     * @param $raw
+     * @return static
+     */
     public static function createFromPayload($raw)
     {
         $properties = ['packageName', 'versionCode', 'sha1', 'size'];
 
         foreach ($properties as $property) {
             if (! property_exists($raw, $property)) {
-                throw new InvalidArgumentException("Invalid body: '{$property}' is missing from payload.");
+                throw new InvalidArgumentException("Invalid metadata: '{$property}' is missing from payload.");
             }
         }
 
@@ -75,7 +81,7 @@ class StoreApp
     }
 
     /**
-     * Path relative to the APK directory.
+     * Path relative to the APK directory (for flysystem use).
      *
      * @return string
      */
@@ -85,7 +91,7 @@ class StoreApp
     }
 
     /**
-     * Fully qualified filename.
+     * Fully qualified filename to the APK.
      *
      * @return string
      */
@@ -95,6 +101,8 @@ class StoreApp
     }
 
     /**
+     * Checks the downloaded file's hash matches the reported hash.
+     *
      * @return bool
      * @throws \Exception
      */
@@ -103,30 +111,51 @@ class StoreApp
         $downloadedHash = sha1_file($this->fullPath());
 
         if (! $downloadedHash) {
-            throw new \Exception('No file');
+            // TODO: Use different exception
+            throw new \Exception('No file to hash');
         }
 
         return $this->storeHash === $downloadedHash;
     }
 
-    public function canBeUpdated()
+    /**
+     * Check if the package requires any updates.
+     *
+     * @return bool
+     */
+    public function canBeUpdated(): bool
     {
         return app(Versioning::class)->areUpdatesAvailableFor($this->packageName, $this->versionCode);
     }
 
-    public function exists()
+    /**
+     * @return bool
+     */
+    public function exists(): bool
     {
         return $this->storage()->exists($this->relativePath());
     }
 
+    /**
+     * Attempt to delete corresponding local file.
+     *
+     * @return bool
+     * @throws \Exception
+     */
     public function deleteDownload()
     {
         if (! $this->exists()) {
+            throw new \Exception('No local file to delete.');
         }
 
         return $this->storage()->delete($this->relativePath());
     }
 
+    /**
+     * Get the storage instance.
+     *
+     * @return \Illuminate\Contracts\Filesystem\Filesystem|\Illuminate\Filesystem\FilesystemAdapter
+     */
     protected function storage()
     {
         return Storage::disk('apks');
