@@ -26,6 +26,9 @@ return [
         'apps_to_import' => resource_path('apps.json'),
     ],
 
+    /**
+     *  Supported foramts: ini, json.
+     */
     'import'    => [
         'format' => 'ini',
     ],
