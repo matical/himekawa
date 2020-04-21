@@ -30,9 +30,7 @@ import apk from './Apk';
 
 export default {
     props: ['app'],
-    components: {
-        apk,
-    },
+    components: { apk },
     data() {
         return {
             hovered: false,
