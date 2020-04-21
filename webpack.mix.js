@@ -17,17 +17,6 @@ if (! mix.inProduction()) {
     }).sourceMaps();
 }
 
-mix.webpackConfig(webpack => {
-    return {
-        plugins: [
-            new webpack.IgnorePlugin({
-                resourceRegExp: /^\.\/locale$/,
-                contextRegExp: /moment$/,
-            }),
-        ],
-    };
-});
-
 mix.browserSync({
     proxy: {
         target: 'localhost:8000',
