@@ -35,9 +35,24 @@ class ImportManager
      */
     public function parse(): self
     {
-        $this->configuration = collect($this->driver->serialize($this->filename));
+        $serialized = $this->driver->serialize($this->filename);
+
+        $this->configuration = collect($serialized)->map(function ($value, $key) {
+            $value['name'] = $key;
+
+            return $value;
+        });
 
         return $this;
+    }
+
+    public function package($name, $split = false)
+    {
+        if ($split) {
+            return $this->onlySplits()->firstWhere('package', $name);
+        }
+
+        return $this->onlySingle()->firstWhere('package', $name);
     }
 
     public function all(): Collection
@@ -47,11 +62,13 @@ class ImportManager
 
     public function onlySplits(): Collection
     {
-        return $this->configuration->filter(fn ($app) => array_key_exists('split', $app));
+        return $this->configuration->filter(fn ($app) => array_key_exists('split', $app) && $app['split'] === true);
     }
 
     public function onlySingle(): Collection
     {
-        return $this->configuration->reject(fn ($app) => array_key_exists('split', $app));
+        // Instead of using onlySplits checks, but with reject, we want to be explicit
+        // If the splits field isn't provided, we assume they're singles
+        return $this->configuration->filter(fn ($app) => ! array_key_exists('split', $app) || $app['split'] === false);
     }
 }

@@ -2,11 +2,12 @@
 
 namespace himekawa\Console\Commands;
 
-use ksmz\json\Json;
 use himekawa\WatchedApp;
 use Illuminate\Support\Str;
+use yuki\Import\ImportManager;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class ImportAndSyncApps extends Command
 {
@@ -24,62 +25,83 @@ class ImportAndSyncApps extends Command
      */
     protected $description = 'Sync APK watch list if required.';
 
-    /**
-     * @var string
-     */
-    protected $apkListLocation;
-
     /** @var string */
-    protected $rawContents;
+    protected $apkListLocation;
 
     /** @var array */
     protected $newAppsAdded = [];
 
+    protected ImportManager $import;
+
     /**
      * Create a new command instance.
      *
-     * @return void
+     * @param \yuki\Import\ImportManager $import
      */
-    public function __construct()
+    public function __construct(ImportManager $import)
     {
         parent::__construct();
         $this->apkListLocation = config('himekawa.paths.apps_to_import');
-        $this->rawContents = file_get_contents($this->apkListLocation);
+        $this->import = $import;
     }
 
     /**
      * Execute the console command.
      *
      * @return mixed
+     * @throws \Throwable
      */
     public function handle()
     {
-        $appsToWatch = $this->decodeAndCollectApps($this->rawContents)
-                            ->pluck('package_name');
-        $missingApps = $appsToWatch->diff($this->getCurrentlyWatchedApps());
+        $this->import->parse();
 
-        if ($missingApps->isEmpty()) {
+        $missingSingleApps = $this->import->onlySingle()
+                                          ->pluck('package')
+                                          ->diff($this->getCurrentlyWatchedApps());
+
+        $missingSplitApps = $this->import->onlySplits()
+                                         ->pluck('package')
+                                         ->diff($this->getCurrentlyWatchedApps(true));
+
+        if ($missingSingleApps->isEmpty() || $missingSplitApps->isEmpty()) {
             $this->info('No new apps to import.');
 
-            return;
+            return 0;
         }
 
         $this->line(' New Apps Detected');
         $this->info(' -----------------');
 
-        $missingApps->each(function ($missing) {
-            $this->line(' ' . $missing);
-        });
+        $this->output->newLine();
+        $this->info('[Single]');
+        $missingSingleApps->each(fn ($missing) => $this->line(" {$missing}"));
+
+        $this->output->newLine();
+        $this->info('[Split]');
+        $missingSplitApps->each(fn ($missing) => $this->line(" {$missing}"));
 
         if (! $this->confirm('Do you wish to add these new packages to the watchlist?')) {
-            return;
+            return 0;
         }
 
         $this->info('Adding new apps...');
         $this->output->newLine();
 
-        foreach ($missingApps as $app) {
-            $this->newAppsAdded[] = $this->watchApp($app);
+        try {
+            DB::transaction(function () use ($missingSplitApps, $missingSingleApps) {
+                foreach ($missingSingleApps as $app) {
+                    $this->newAppsAdded[] = $this->watchApp($app);
+                }
+
+                foreach ($missingSplitApps as $app) {
+                    $this->newAppsAdded[] = $this->watchApp($app, true);
+                }
+            });
+        } catch (\Exception $exception) {
+            $this->warn("Something went wrong, no changes were made.\n\n");
+            $this->warn($exception->getMessage());
+
+            return 1;
         }
 
         $numberOfNewApps = count($this->newAppsAdded);
@@ -87,38 +109,34 @@ class ImportAndSyncApps extends Command
     }
 
     /**
-     * @param string $rawContent
+     * @param bool $split
      * @return \Illuminate\Support\Collection
      */
-    protected function decodeAndCollectApps(string $rawContent): Collection
+    protected function getCurrentlyWatchedApps(bool $split = false): Collection
     {
-        return collect(Json::decode($rawContent)->apps);
+        return WatchedApp::where('use_split', $split)
+                         ->pluck('package_name');
     }
 
     /**
-     * @return \Illuminate\Support\Collection
-     */
-    protected function getCurrentlyWatchedApps(): Collection
-    {
-        return WatchedApp::pluck('package_name');
-    }
-
-    /**
-     * @param $packageName
+     * @param string $packageName
+     * @param bool   $split
      * @return \himekawa\WatchedApp
      */
-    protected function watchApp($packageName): WatchedApp
+    protected function watchApp($packageName, $split = false): WatchedApp
     {
-        $package = $this->decodeAndCollectApps($this->rawContents)
-                        ->firstWhere('package_name', $packageName);
+        $package = $this->import->package($packageName, $split);
 
-        return tap(new WatchedApp(), function (WatchedApp $watchedApp) use ($package) {
-            $watchedApp->name = $package->name;
-            $watchedApp->slug = $package->slug;
-            $watchedApp->original_title = $package->original_title;
-            $watchedApp->package_name = $package->package_name;
+        $watching = new WatchedApp();
 
-            $watchedApp->save();
-        });
+        $watching->name = $package['name'];
+        $watching->slug = $package['slug'];
+        $watching->original_title = $package['original'];
+        $watching->package_name = $package['package'];
+        $watching->use_split = $split;
+
+        $watching->save();
+
+        return $watching;
     }
 }
