@@ -3,92 +3,92 @@
         {
             "name": "Starlight Stage",
             "slug": "deresute",
-            "original_title": "アイドルマスター シンデレラガールズ スターライトステージ",
-            "package_name": "jp.co.bandainamcoent.BNEI0242"
+            "original": "アイドルマスター シンデレラガールズ スターライトステージ",
+            "package": "jp.co.bandainamcoent.BNEI0242"
         },
         {
             "name": "Theater Days",
             "slug": "mirishita",
-            "original_title": "アイドルマスター ミリオンライブ！ シアターデイズ",
-            "package_name": "com.bandainamcoent.imas_millionlive_theaterdays"
+            "original": "アイドルマスター ミリオンライブ！ シアターデイズ",
+            "package": "com.bandainamcoent.imas_millionlive_theaterdays"
         },
         {
             "name": "Live On Stage",
             "slug": "los",
-            "original_title": "アイドルマスター SideM LIVE ON ST@GE！",
-            "package_name": "com.bandainamcoent.imas_SideM_LIVEONSTAGE"
+            "original": "アイドルマスター SideM LIVE ON ST@GE！",
+            "package": "com.bandainamcoent.imas_SideM_LIVEONSTAGE"
         },
         {
             "name": "Shiny Colors",
             "slug": "sc",
-            "original_title": "アイドルマスター シャイニーカラーズ",
-            "package_name": "com.bandainamcoent.shinycolors"
+            "original": "アイドルマスター シャイニーカラーズ",
+            "package": "com.bandainamcoent.shinycolors"
         },
         {
             "name": "Magia Record",
             "slug": "magireco",
-            "original_title": "マギアレコード 魔法少女まどかマギカ外伝",
-            "package_name": "com.aniplex.magireco"
+            "original": "マギアレコード 魔法少女まどかマギカ外伝",
+            "package": "com.aniplex.magireco"
         },
         {
             "name": "Girls Band Party",
             "slug": "gbp",
-            "original_title": "バンドリ！ ガールズバンドパーティ！",
-            "package_name": "jp.co.craftegg.band"
+            "original": "バンドリ！ ガールズバンドパーティ！",
+            "package": "jp.co.craftegg.band"
         },
         {
             "name": "F\/GO",
             "slug": "fgo",
-            "original_title": "Fate\/Grand Order",
-            "package_name": "com.aniplex.fategrandorder"
+            "original": "Fate\/Grand Order",
+            "package": "com.aniplex.fategrandorder"
         },
         {
             "name": "Yuyuyi",
             "slug": "yuyuyui",
-            "original_title": "結城友奈は勇者である 花結いのきらめき",
-            "package_name": "jp.co.altplus.yuyuyui"
+            "original": "結城友奈は勇者である 花結いのきらめき",
+            "package": "jp.co.altplus.yuyuyui"
         },
         {
             "name": "Azur Lane",
             "slug": "azur",
-            "original_title": "アズールレーン",
-            "package_name": "com.YoStarJP.AzurLane"
+            "original": "アズールレーン",
+            "package": "com.YoStarJP.AzurLane"
         },
         {
             "name": "Kemono Friends Pavilion",
             "slug": "kemono",
-            "original_title": "けものフレンズぱびりおん",
-            "package_name": "com.bushiroad.kemofure"
+            "original": "けものフレンズぱびりおん",
+            "package": "com.bushiroad.kemofure"
         },
         {
             "name": "Kirara Fantasia",
             "slug": "fantasia",
-            "original_title": "きららファンタジア",
-            "package_name": "com.aniplex.kirarafantasia"
+            "original": "きららファンタジア",
+            "package": "com.aniplex.kirarafantasia"
         },
         {
             "name": "Tokyo 7th Sisters",
             "slug": "t7s",
-            "original_title": "Tokyo 7th シスターズ - アイドル育成＆本格音ゲー",
-            "package_name": "jp.ne.donuts.t7s"
+            "original": "Tokyo 7th シスターズ - アイドル育成＆本格音ゲー",
+            "package": "jp.ne.donuts.t7s"
         },
         {
             "name": "Princess Connect Re:Dive",
             "slug": "priconne",
-            "original_title": "プリンセスコネクト！Re:Dive",
-            "package_name": "jp.co.cygames.princessconnectredive"
+            "original": "プリンセスコネクト！Re:Dive",
+            "package": "jp.co.cygames.princessconnectredive"
         },
         {
             "name": "Starlight Spot",
             "slug": "deresupo",
-            "original_title": "アイドルマスター シンデレラガールズ スターライトスポット",
-            "package_name": "com.bandainamcoent.cgstarlightspot"
+            "original": "アイドルマスター シンデレラガールズ スターライトスポット",
+            "package": "com.bandainamcoent.cgstarlightspot"
         },
         {
             "name": "Arknights",
             "slug": "ark",
-            "original_title": "アークナイツ",
-            "package_name": "com.YoStarJP.Arknights"
+            "original": "アークナイツ",
+            "package": "com.YoStarJP.Arknights"
         }
     ]
 }
