@@ -22,8 +22,12 @@ return [
     // Max number of apps to keep when the pruner is running
     'max_apps' => env('MAX_APPS', 5),
 
-    'paths'     => [
+    'paths' => [
         'apps_to_import' => resource_path('apps.json'),
+    ],
+
+    'import'    => [
+        'format' => 'ini',
     ],
 
     // Main APK downloader parameters
