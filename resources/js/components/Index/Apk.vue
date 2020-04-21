@@ -2,9 +2,12 @@
     <md-list-item class="md-inset md-layout">
         <div class="md-layout md-layout-item md-xsmall-size-85 md-size-70 md-alignment-center-left truncated">
             <span :class="{ tags: true, latest: index === 0 }">v{{ apk.version_name }}</span>
-            <span @click="toggleHashVisibility" title="Click to show hash" class="md-layout md-alignment-center-left">{{
-                title
-            }}</span>
+            <span
+                @click="toggleHash"
+                title="Click to show hash"
+                class="md-layout md-alignment-center-left"
+                v-text="title"
+            />
         </div>
         <div class="md-layout md-layout-item md-xsmall-size-15 md-size-30 md-alignment-center-right">
             <md-button
@@ -26,10 +29,11 @@
 
 <script>
 export default {
-    props: ['apk', 'index', 'packageName'],
+    props: ['apk', 'packageName'],
 
     data() {
         return {
+            index: this.$vnode.key,
             state: { hash: false },
         };
     },
@@ -47,7 +51,7 @@ export default {
     },
 
     methods: {
-        toggleHashVisibility() {
+        toggleHash() {
             this.state.hash = !this.state.hash;
         },
     },

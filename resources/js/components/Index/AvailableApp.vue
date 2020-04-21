@@ -17,10 +17,9 @@
         <md-list slot="md-expand">
             <apk
                 v-for="(apk, index) in app.available_apps"
-                :key="apk.version_code"
+                :key="index"
                 :apk="apk"
                 :package-name="app.package_name"
-                :index="index"
             ></apk>
         </md-list>
     </md-list-item>
