@@ -2,12 +2,9 @@
 
 namespace himekawa\Providers;
 
-use yuki\Import\Ini;
-use yuki\Import\Json;
 use yuki\Foundation\Apk;
 use yuki\Scheduler\LastRun;
 use Spatie\Feed\Helpers\Path;
-use yuki\Import\ImportManager;
 use Spatie\Feed\Http\FeedController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
@@ -33,18 +30,6 @@ class HimeServiceProvider extends ServiceProvider
     {
         $this->app->bind('apk', Apk::class);
         $this->app->bind('last-run', LastRun::class);
-
-        $this->app->singleton(ImportManager::class, function () {
-            $drivers = [
-                'ini'  => Ini::class,
-                'json' => Json::class,
-            ];
-
-            $resolve = $drivers[config('himekawa.import.format')];
-
-            return new ImportManager($this->app->make($resolve));
-        });
-
         $this->registerFeedRoutes();
     }
 
