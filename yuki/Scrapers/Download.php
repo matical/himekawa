@@ -108,16 +108,19 @@ class Download
      */
     protected function buildSupervisor(): Supervisor
     {
-        $command = [
+        return tap(Supervisor::command($this->getCommand()), function (Supervisor $supervisor) {
+            $supervisor->setTimeout(config('googleplay.download_timeout'));
+            $supervisor->setOutputAvailability(false);
+        });
+    }
+
+    protected function getCommand(): array
+    {
+        return [
             config('himekawa.commands.gp-download'),
             $this->storeApp->getPackageName(),
             $this->storeApp->fullPath(),
         ];
-
-        return tap(Supervisor::command($command), function (Supervisor $supervisor) {
-            $supervisor->setTimeout(config('googleplay.download_timeout'));
-            $supervisor->setOutputAvailability(false);
-        });
     }
 
     /**
