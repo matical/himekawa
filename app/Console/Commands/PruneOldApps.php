@@ -62,7 +62,7 @@ class PruneOldApps extends Command
         $this->log('Checking for old apps to prune.');
 
         /** @var \yuki\Scrapers\Store\StoreApp $storeApp */
-        foreach ($this->updater->allApkMetadata() as $storeApp) {
+        foreach ($this->updater->allSingleMetadata() as $storeApp) {
             $watched = $this->availableApps->findWithStoreApp($storeApp);
             $oldAvailableApps = $this->availableApps->getOldApps($this->maxAppsAllowed, $watched);
 

@@ -38,7 +38,7 @@ class UpdateManager
      * @param bool $verbose Control exception reporting
      * @return \Illuminate\Support\Collection|null A collection containing all app metadata, indexed by the package name
      */
-    public function allApkMetadata(bool $verbose = false): Collection
+    public function allSingleMetadata(bool $verbose = false): Collection
     {
         $result = collect();
 

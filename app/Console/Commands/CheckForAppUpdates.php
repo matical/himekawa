@@ -86,7 +86,7 @@ class CheckForAppUpdates extends Command
             $this->fetchAndSetToken();
         }, 5000);
 
-        $this->appMetadata = $this->update->allApkMetadata($this->output->isVerbose());
+        $this->appMetadata = $this->update->allSingleMetadata($this->output->isVerbose());
         // Queue up the apps that have updates pending
         $this->appsRequiringUpdates = $this->update->checkForUpdates($this->appMetadata);
 
