@@ -41,7 +41,6 @@ class MetainfoRepository
      */
     protected function getPackage(string $package)
     {
-        return $this->metainfo->package($package)
-                              ->fetch();
+        return $this->metainfo->fetch($package);
     }
 }

@@ -2,44 +2,26 @@
 
 namespace yuki\Scrapers;
 
-use ksmz\json\Json;
-use Symfony\Component\Process\Process;
+use yuki\Process\Supervisor;
 
 class Metainfo
 {
     /**
-     * @var \Symfony\Component\Process\Process
-     */
-    protected $process;
-
-    /**
      * @param string $packageName
-     * @return self
-     */
-    public function package(string $packageName)
-    {
-        $command = sprintf('%s %s', config('himekawa.commands.gp-download-meta'), $packageName);
-        $this->process = Process::fromShellCommandline($command);
-
-        return $this;
-    }
-
-    /**
      * @return \stdClass
      */
-    public function fetch()
+    public function fetch(string $packageName)
     {
-        $this->process->mustRun();
-
-        return $this->decodeResult($this->process->getOutput());
+        return Supervisor::command($this->getCommand($packageName))
+                         ->execute()
+                         ->getOutput();
     }
 
-    /**
-     * @param string $output
-     * @return \stdClass
-     */
-    protected function decodeResult(string $output)
+    protected function getCommand(string $packageName): array
     {
-        return Json::decode($output);
+        return [
+            config('himekawa.commands.gp-download-meta'),
+            $packageName,
+        ];
     }
 }
