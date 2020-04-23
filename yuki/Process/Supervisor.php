@@ -12,7 +12,7 @@ class Supervisor
     /** @var \Symfony\Component\Process\Process */
     protected $process;
 
-    /** @var string */
+    /** @var mixed */
     protected $output;
 
     /** @var bool */
@@ -87,7 +87,7 @@ class Supervisor
     }
 
     /**
-     * @return string
+     * @return mixed
      * @throws \RuntimeException
      */
     public function getOutput()
