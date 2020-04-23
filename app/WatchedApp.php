@@ -4,6 +4,7 @@ namespace himekawa;
 
 use Exception;
 use Illuminate\Database\Eloquent\Model;
+use \Illuminate\Database\Eloquent\Builder;
 
 class WatchedApp extends Model
 {
@@ -16,6 +17,29 @@ class WatchedApp extends Model
     protected $appends = [
         'image',
     ];
+
+    protected static function booted()
+    {
+        static::addGlobalScope('disabled', fn (Builder $query) => $query->whereNull('disabled'));
+    }
+
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSingle(Builder $query)
+    {
+        return $query->where('use_split', false);
+    }
+
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSplit(Builder $query)
+    {
+        return $query->where('use_split', true);
+    }
 
     /**
      * Apps available.
