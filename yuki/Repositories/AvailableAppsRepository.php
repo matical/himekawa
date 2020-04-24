@@ -59,17 +59,17 @@ class AvailableAppsRepository
         $package = WatchedApp::where('package_name', $storeApp->getPackageName())
                              ->first();
 
-        $badging = $this->badging->parsed();
+        [$raw, $parsed] = $this->getBadging($storeApp);
 
         /** @var AvailableApp $newApp */
         $newApp = $package->availableApps()->create([
             'version_code' => $storeApp->getVersionCode(),
-            'version_name' => $badging['versionName'],
+            'version_name' => $parsed['versionName'],
             'size'         => $storeApp->expectedSizeInBytes(),
             'hash'         => $storeApp->expectedHash(),
         ]);
 
-        $newApp->badging()->create(['raw_badging' => $this->badging->getRawBadging()]);
+        $newApp->badging()->create(['raw_badging' => $raw]);
 
         return $newApp;
     }
@@ -112,5 +112,15 @@ class AvailableAppsRepository
     public function deleteEntries($id): int
     {
         return AvailableApp::destroy($id);
+    }
+
+    public function getBadging(StoreApp $storeApp)
+    {
+        $this->badging->package($storeApp);
+
+        return [
+            $this->badging->getRawBadging(),
+            $this->badging->parsed(),
+        ];
     }
 }
