@@ -13,11 +13,9 @@ class AvailableAppsRepository
 {
     use CachesAccess;
 
-    /** @var \yuki\Badging\Badging */
-    protected $badging;
+    protected Badging $badging;
 
-    /** @var \yuki\Repositories\MetainfoRepository */
-    protected $metainfo;
+    protected MetainfoRepository $metainfo;
 
     /**
      * AvailableAppsRepository constructor.
@@ -54,10 +52,9 @@ class AvailableAppsRepository
      * @param \yuki\Scrapers\Store\StoreApp $storeApp
      * @return \himekawa\AvailableApp
      */
-    public function create($storeApp)
+    public function create($storeApp): AvailableApp
     {
-        $package = WatchedApp::where('package_name', $storeApp->getPackageName())
-                             ->first();
+        $package = $this->findWithStoreApp($storeApp);
 
         [$raw, $parsed] = $this->getBadging($storeApp);
 
@@ -114,7 +111,13 @@ class AvailableAppsRepository
         return AvailableApp::destroy($id);
     }
 
-    public function getBadging(StoreApp $storeApp)
+    /**
+     * Get badging data for the given storeApp.
+     *
+     * @param \yuki\Scrapers\Store\StoreApp $storeApp
+     * @return array
+     */
+    public function getBadging(StoreApp $storeApp): array
     {
         $this->badging->package($storeApp);
 
