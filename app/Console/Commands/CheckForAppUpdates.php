@@ -145,10 +145,14 @@ class CheckForAppUpdates extends Command
         }
     }
 
+    /**
+     * @throws \Exception
+     */
     protected function fetchAndSetToken()
     {
         $token = Supervisor::command('./gp-cli/bin/get-token')
                            ->setSerializer(fn ($output) => trim($output))
+                           ->retryFor(3, 3000)
                            ->execute()
                            ->getOutput();
 

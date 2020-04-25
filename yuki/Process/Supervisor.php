@@ -9,24 +9,26 @@ use Symfony\Component\Process\Process;
 
 class Supervisor
 {
-    /** @var \Symfony\Component\Process\Process */
-    protected $process;
+    protected Process $process;
 
     /** @var mixed */
     protected $output;
 
-    /** @var bool */
-    protected $hasOutput = true;
-
     /** @var \Closure */
     protected $serializer;
 
-    /** @var bool */
-    protected $disableSerializer = false;
+    protected bool $hasOutput = true;
+
+    protected bool $disableSerializer = false;
+
+    protected int $retryAttempts = 0;
+
+    protected int $retryDelay = 0;
 
     /**
      * @param array       $command
      * @param string|null $directory
+     *
      * @throws \Symfony\Component\Process\Exception\RuntimeException
      */
     public function __construct($command, $directory = null)
@@ -50,6 +52,8 @@ class Supervisor
      * @param string|array $command
      * @param string|null  $directory
      * @return string
+     *
+     * @throws \Exception
      */
     public static function runNow($command, $directory = null)
     {
@@ -60,13 +64,19 @@ class Supervisor
     }
 
     /**
-     * @return \yuki\Process\Supervisor
+     * @return self
+     *
      * @throws \Symfony\Component\Process\Exception\ProcessFailedException
      * @throws \Symfony\Component\Process\Exception\ProcessTimedOutException
+     * @throws \Exception
      */
     public function execute()
     {
-        $this->process->mustRun();
+        if ($this->retryAttempts > 0) {
+            retry($this->retryAttempts, fn () => $this->process->mustRun(), $this->retryDelay);
+        } else {
+            $this->process->mustRun();
+        }
 
         if ($this->hasOutput) {
             $this->output = $this->serializeOutput($this->process->getOutput());
@@ -84,19 +94,6 @@ class Supervisor
         $this->hasOutput = $hasOutput;
 
         return $this;
-    }
-
-    /**
-     * @return mixed
-     * @throws \RuntimeException
-     */
-    public function getOutput()
-    {
-        if ($this->hasOutput) {
-            return $this->output;
-        }
-
-        throw new RuntimeException('No output is available for this command.');
     }
 
     /**
@@ -124,6 +121,19 @@ class Supervisor
     }
 
     /**
+     * @return mixed
+     * @throws \RuntimeException
+     */
+    public function getOutput()
+    {
+        if ($this->hasOutput) {
+            return $this->output;
+        }
+
+        throw new RuntimeException('No output is available for this command.');
+    }
+
+    /**
      * Disable output serialization.
      *
      * @return self
@@ -131,6 +141,19 @@ class Supervisor
     public function dontSerialize()
     {
         $this->disableSerializer = true;
+
+        return $this;
+    }
+
+    /**
+     * @param int $attempts
+     * @param int $delay
+     * @return self
+     */
+    public function retryFor($attempts = 1, $delay = 1000)
+    {
+        $this->retryAttempts = $attempts;
+        $this->retryDelay = $delay;
 
         return $this;
     }
