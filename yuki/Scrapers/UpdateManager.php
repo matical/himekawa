@@ -36,7 +36,7 @@ class UpdateManager
      * Fetch metadata based on the watch list.
      *
      * @param bool $verbose Control exception reporting
-     * @return \Illuminate\Support\Collection|null A collection containing all app metadata, indexed by the package name
+     * @return \Illuminate\Support\Collection|null A collection containing all app metadata, keyed by the package name
      */
     public function allSingleMetadata(bool $verbose = false): Collection
     {
