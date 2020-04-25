@@ -60,7 +60,6 @@ class WatchedApp extends Model
     public function latestApp()
     {
         return $this->availableApps()
-                    ->orderByDesc('version_code')
                     ->first();
     }
 
