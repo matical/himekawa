@@ -36,18 +36,6 @@ class CheckForAppUpdates extends Command
     protected $description = 'Check for available updates.';
 
     /**
-     * @var array An array containing all app metadata, indexed by the package name
-     */
-    protected $appMetadata = [];
-
-    /**
-     * Array of apps with available updates.
-     *
-     * @var \Illuminate\Support\Collection
-     */
-    protected $appsRequiringUpdates;
-
-    /**
      * @var \yuki\Scrapers\Download
      */
     protected $download;
@@ -82,22 +70,21 @@ class CheckForAppUpdates extends Command
         $this->line('Checking for updates...');
         Log::info('Running APK scheduler');
 
-        retry(3, function () {
-            $this->fetchAndSetToken();
-        }, 5000);
+        $this->fetchAndSetToken();
 
-        $this->appMetadata = $this->update->allSingleMetadata($this->output->isVerbose());
+        $appMetadata = $this->update->allSingleMetadata($this->output->isVerbose());
         // Queue up the apps that have updates pending
-        $this->appsRequiringUpdates = $this->update->checkForUpdates($this->appMetadata);
+        $appsRequiringUpdates = $this->update->checkForUpdates($appMetadata);
 
         if ($this->option('dry-run')) {
-            $this->appsRequiringUpdates->dump();
-            exit(1);
+            $appsRequiringUpdates->dump();
+
+            return 1;
         }
 
         LastRun::markLastCheck();
 
-        if ($this->appsRequiringUpdates->isEmpty()) {
+        if ($appsRequiringUpdates->isEmpty()) {
             $this->info("There's no apps that require updates.");
             Log::info('No apps require updates');
 
@@ -105,11 +92,11 @@ class CheckForAppUpdates extends Command
         }
 
         $this->line(
-            sprintf('Found <comment>%s</comment> app(s) available for update', $this->appsRequiringUpdates->count())
+            sprintf('Found <comment>%s</comment> app(s) available for update', $appsRequiringUpdates->count())
         );
-        Log::info('Updates found.', $this->appsRequiringUpdates);
+        Log::info('Updates found.', $appsRequiringUpdates);
 
-        $this->downloadRequiredUpdates($this->appsRequiringUpdates);
+        $this->downloadRequiredUpdates($appsRequiringUpdates);
     }
 
     /**
