@@ -59,8 +59,7 @@ class WatchedApp extends Model
      */
     public function latestApp()
     {
-        return $this->availableApps()
-                    ->first();
+        return $this->availableApps()->first();
     }
 
     /**
