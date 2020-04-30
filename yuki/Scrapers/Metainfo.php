@@ -9,6 +9,7 @@ class Metainfo
     /**
      * @param string $packageName
      * @return \stdClass
+     * @throws \Exception
      */
     public function fetch(string $packageName)
     {
