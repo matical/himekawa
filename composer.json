@@ -21,7 +21,7 @@
         "spatie/laravel-feed": "^2.6",
         "spatie/laravel-slack-slash-command": "^1.10",
         "symfony/dom-crawler": "^5.0",
-        "symfony/yaml": "^5.0"
+        "ext-zip": "*"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",
