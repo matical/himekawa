@@ -29,7 +29,7 @@ class VersioningTest extends TestCase
         $version = app('\yuki\Scrapers\Versioning');
         $packageName = $this->watched->package_name;
 
-        $this->assertTrue($version->areUpdatesAvailableFor('ss', 100));
+        $this->assertTrue($version->areUpdatesAvailableFor($packageName, 100));
 
         $this->createAvailable();
         $this->assertFalse($version->areUpdatesAvailableFor($packageName, 99));
