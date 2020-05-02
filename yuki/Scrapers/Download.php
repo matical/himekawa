@@ -49,15 +49,18 @@ class Download
 
     /**
      * @return \himekawa\AvailableApp
-     * @throws \Exception
+     * @throws \Symfony\Component\Process\Exception\ProcessTimedOutException
+     * @throws \UnexpectedValueException
      */
     public function fetch()
     {
         try {
             $this->buildSupervisor()->execute();
         } catch (ProcessTimedOutException $exception) {
-            $this->storeApp->deleteDownload();
             Log::warning("Failed to download {$this->storeApp->getPackageName()}. Process timed out.");
+            $this->storeApp->deleteDownload();
+            // Just bail immediately since cleanup is already done
+            throw $exception;
         }
 
         if (! $this->storeApp->verifyHash()) {
@@ -88,7 +91,7 @@ class Download
     /**
      * @return bool
      * @throws \yuki\Exceptions\PackageException
-     * @throws \Exception
+     * @throws \yuki\Exceptions\PackageException
      */
     protected function cleanUpDirtyArtifacts()
     {

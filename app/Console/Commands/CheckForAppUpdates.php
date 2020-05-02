@@ -2,6 +2,7 @@
 
 namespace himekawa\Console\Commands;
 
+use Exception;
 use yuki\Facades\LastRun;
 use yuki\Scrapers\Download;
 use yuki\Process\Supervisor;
@@ -119,9 +120,9 @@ class CheckForAppUpdates extends Command
                 $appsUpdated[] = $this->retrieveStoreApp($storeApp);
             } catch (PackageException $exception) {
                 $bar->setMessage("An APK already exists for {$exception->package}.");
-            } catch (ProcessFailedException $exception) {
-                // No need to log
+            } catch (Exception $exception) {
                 $this->warn("Failed to download {$storeApp->getPackageName()}");
+                report($exception);
             }
         }
 
@@ -150,7 +151,8 @@ class CheckForAppUpdates extends Command
     /**
      * @param $storeApp
      * @return \himekawa\AvailableApp
-     * @throws \Exception
+     * @throws \yuki\Exceptions\PackageException
+     * @throws \Symfony\Component\Process\Exception\ProcessTimedOutException
      */
     protected function retrieveStoreApp($storeApp)
     {

@@ -5,6 +5,7 @@ namespace yuki\Scrapers\Store;
 use yuki\Facades\Apk;
 use InvalidArgumentException;
 use yuki\Scrapers\Versioning;
+use UnexpectedValueException;
 use Illuminate\Support\Facades\Storage;
 
 class StoreApp
@@ -104,7 +105,7 @@ class StoreApp
      * Checks the downloaded file's hash matches the reported hash.
      *
      * @return bool
-     * @throws \Exception
+     * @throws \UnexpectedValueException
      */
     public function verifyHash(): bool
     {
@@ -112,7 +113,7 @@ class StoreApp
 
         if (! $downloadedHash) {
             // TODO: Use different exception
-            throw new \Exception('No file to hash');
+            throw new UnexpectedValueException("Failed to create hash for {$this->fullPath()}");
         }
 
         return $this->storeHash === $downloadedHash;
@@ -140,12 +141,12 @@ class StoreApp
      * Attempt to delete corresponding local file.
      *
      * @return bool
-     * @throws \Exception
+     * @throws \UnexpectedValueException
      */
     public function deleteDownload()
     {
         if (! $this->exists()) {
-            throw new \Exception('No local file to delete.');
+            throw new UnexpectedValueException('No local file to delete.');
         }
 
         return $this->storage()->delete($this->relativePath());
