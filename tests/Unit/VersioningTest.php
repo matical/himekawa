@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use himekawa\WatchedApp;
 use himekawa\AvailableApp;
+use yuki\Scrapers\Versioning;
 use yuki\Repositories\AvailableAppsRepository;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
@@ -20,13 +21,13 @@ class VersioningTest extends TestCase
     public function it_properly_determines_if_an_update_is_required()
     {
         $this->createWatched();
-        $this->mock(AvailableAppsRepository::class, function ($mock) {
-            $mock->shouldReceive('findPackage')
-                 ->times(4)
-                 ->andReturn($this->watched);
-        });
 
-        $version = app('\yuki\Scrapers\Versioning');
+        $available = $this->prophesize(AvailableAppsRepository::class);
+        $available->findPackage($this->watched->package_name)
+                  ->shouldBeCalledTimes(4)
+                  ->willReturn($this->watched);
+
+        $version = new Versioning($available->reveal());
         $packageName = $this->watched->package_name;
 
         $this->assertTrue($version->areUpdatesAvailableFor($packageName, 100));
