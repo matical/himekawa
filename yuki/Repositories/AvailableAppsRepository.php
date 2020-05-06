@@ -15,18 +15,14 @@ class AvailableAppsRepository
 
     protected Badging $badging;
 
-    protected MetainfoRepository $metainfo;
-
     /**
      * AvailableAppsRepository constructor.
      *
      * @param \yuki\Badging\Badging                 $badging
-     * @param \yuki\Repositories\MetainfoRepository $metainfo
      */
-    public function __construct(Badging $badging, MetainfoRepository $metainfo)
+    public function __construct(Badging $badging)
     {
         $this->badging = $badging;
-        $this->metainfo = $metainfo;
     }
 
     /**
