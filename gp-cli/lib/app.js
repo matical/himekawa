@@ -19,10 +19,11 @@ function signatureToSha1(sig) {
 module.exports = function getAppInfo(api, pkg, vc) {
     return api.details(pkg).then(function(d) {
         vc = vc || d.details.appDetails.versionCode;
+        var vs = d.details.appDetails.versionString;
         var basicInfo = {
             appCategory: d.details.appDetails.appCategory,
             certificateHash: d.details.appDetails.certificateHash.map(
-                signatureToSha1
+                signatureToSha1,
             ),
             certificateSet: d.details.appDetails.certificateSet.map(x => {
                 return signatureToSha1(x.certificateHash);
@@ -31,7 +32,7 @@ module.exports = function getAppInfo(api, pkg, vc) {
             minDownloadCount: Number(
                 d.details.appDetails.numDownloads
                  .replace(/,|\+/g, '')
-                 .replace('downloads', '')
+                 .replace('downloads', ''),
             ),
             name: d.title,
             packageName: pkg,
@@ -50,8 +51,11 @@ module.exports = function getAppInfo(api, pkg, vc) {
         return api.downloadInfo(pkg, vc).then(function(res) {
             return extend(basicInfo, {
                 sha1: signatureToSha1(res.signature),
+                splitSha1: res.splitDeliveryData[0] ? signatureToSha1(res.splitDeliveryData[0].signature) : null,
                 versionCode: vc,
+                versionString: vs,
                 size: Long.fromValue(res.downloadSize).toNumber(),
+                splitSize: res.splitDeliveryData[0] ? Long.fromValue(res.splitDeliveryData[0].downloadSize).toNumber() : null,
             });
         });
     });

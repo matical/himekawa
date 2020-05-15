@@ -2,21 +2,12 @@
 const decamelize = require('decamelize');
 
 const USER_AGENT =
-    'Android-Finsky/19.1.58-all ' +
-    '(versionCode=81915800,sdk=28,device=ASUS_X00QD,' +
-    'hardware=qcom,product=ZE620KL,' +
-    'buildId=PPR1.180610.009:user)';
-
-const OLD_USER_AGENT =
     'Android-Finsky/6.8.44.F-all%20%5B0%5D%203087104 ' +
     '(api=3,versionCode=80684400,sdk=23,device=bullhead,' +
     'hardware=bullhead,product=bullhead,platformVersionRelease=6.0.1,' +
     'model=Nexus%205X,buildId=MHC19Q,isWideScreen=0)';
 
 const DOWNLOAD_MANAGER_USER_AGENT =
-    'AndroidDownloadManager/9.0.1 (Linux; U; Android 9.0.1; ASUS_X00QD Build/PPR1.180610.009)';
-
-const OLD_DOWNLOAD_MANAGER_UA =
     'AndroidDownloadManager/6.0.1 (Linux; U; Android 6.0.1; Nexus 5X Build/MHC19Q)';
 
 const defaults = {
@@ -30,7 +21,7 @@ const defaults = {
     debug: process.env.DEBUG,
     apiUserAgent: USER_AGENT,
     downloadUserAgent: DOWNLOAD_MANAGER_USER_AGENT,
-    sdkVersion: 28,
+    sdkVersion: 23,
 };
 
 const alias = Object.keys(defaults).reduce((a, k) => {

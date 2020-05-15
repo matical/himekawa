@@ -1,0 +1,46 @@
+#!/usr/bin/env node
+'use strict';
+
+let api = require('../lib/api');
+let argv = require('minimist')(process.argv.slice(2));
+let fs = require('fs');
+
+let packageName = argv._[0] || argv.p;
+let destination = argv._[1] || argv.d;
+
+const bail = err => {
+    console.error(err.toString());
+    process.exit(1);
+};
+
+if (!packageName || !destination) {
+    console.error('Package (-p) and Destination (-d) required');
+    process.exit(1);
+}
+
+api.details(packageName)
+    .then(res => res.details.appDetails.versionCode)
+    .then(versionCode => ({
+        base: api.download(packageName, versionCode),
+        split: api.downloadSplitDeliveryData(packageName, versionCode, 0),
+    }))
+    .then(({ base, split }) => {
+        return Promise.all([
+            new Promise(resolve => {
+                base.then(stream => {
+                    let path = `${destination}_base`;
+                    stream.on('error', bail).pipe(fs.createWriteStream(path).on('finish', () => resolve(path)));
+                });
+            }),
+            new Promise(resolve => {
+                split.then(stream => {
+                    let path = `${destination}_split`;
+                    stream.on('error', bail).pipe(fs.createWriteStream(path).on('finish', () => resolve(path)));
+                });
+            }),
+        ]);
+    })
+    .then(result => {
+        console.log(JSON.stringify(result, null, 2));
+    })
+    .catch(bail);
