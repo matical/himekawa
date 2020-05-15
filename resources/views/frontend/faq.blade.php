@@ -18,6 +18,9 @@
         <h2 class="md-title">Adding APKs</h2>
         <p>As long as it's a weeb (JP region-locked) game, just drop me a message and I'll add it.</p>
 
+        <h2 class="md-title">Large split deliveries (aka where is ak/azur)</h2>
+        <p>Certain games choose to take advantage of GPlay to handle their additional app data. These are usually pretty large (~1GB) and they're a PITA to sideload anyways.</p>
+
         <h2 class="md-title">Contact/Feedback/If something breaks</h2>
         <p>kannazuki/matic@rizon | Discord: あまつか#7851</p>
     </div>
