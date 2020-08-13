@@ -4,7 +4,7 @@ namespace himekawa;
 
 use Exception;
 use Illuminate\Database\Eloquent\Model;
-use \Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Builder;
 
 class WatchedApp extends Model
 {

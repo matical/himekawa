@@ -92,7 +92,7 @@ class AvailableAppsRepository
     {
         // Delete physical files
         $availableApps->map(fn (AvailableApp $item) => "{$package}/{$item->filename}")
-                      ->each(fn (string $file)      => Storage::delete($file)); // Autofails on deletion failure
+                      ->each(fn (string $file) => Storage::delete($file)); // Autofails on deletion failure
 
         // Delete DB entries
         return $this->deleteEntries($availableApps->pluck('id'));
