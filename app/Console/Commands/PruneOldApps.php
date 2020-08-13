@@ -91,6 +91,7 @@ class PruneOldApps extends Command
     }
 
     // TODO: Dedup bottom (duped in CheckForAppUpdates)
+
     /**
      * @return \Illuminate\Support\Collection
      */

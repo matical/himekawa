@@ -4,8 +4,8 @@ namespace yuki\Scrapers\Store;
 
 use yuki\Facades\Apk;
 use InvalidArgumentException;
-use yuki\Scrapers\Versioning;
 use UnexpectedValueException;
+use yuki\Scrapers\Versioning;
 use Illuminate\Support\Facades\Storage;
 
 class StoreApp

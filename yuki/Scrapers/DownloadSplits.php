@@ -38,7 +38,7 @@ class DownloadSplits
             Log::warning("Failed to download {$this->storeApp->getPackageName()}. Process timed out.");
         }
 
-       return $this->buildZip();
+        return $this->buildZip();
     }
 
     /**

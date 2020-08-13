@@ -29,7 +29,7 @@ class Zipper
 
     /**
      * @param string $nameInArchive Name of the file in the archive
-     * @param string $pathToFile Path to the file
+     * @param string $pathToFile    Path to the file
      * @return self
      * @throws \Exception
      */

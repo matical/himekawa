@@ -9,8 +9,8 @@ use yuki\Scrapers\Download;
 use yuki\Process\Supervisor;
 use Illuminate\Console\Command;
 use yuki\Scrapers\UpdateManager;
-use yuki\Scrapers\Store\StoreApp;
 use yuki\Scrapers\DownloadSplits;
+use yuki\Scrapers\Store\StoreApp;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use yuki\Exceptions\PackageException;
@@ -171,11 +171,11 @@ class CheckForAppUpdates extends Command
     {
         $single = $this->getsingles()
                        ->map(fn ($package) => $this->update->singles($package))
-                       ->filter(fn ($app) => $app->canbeupdated());
+                       ->filter(fn ($app)  => $app->canbeupdated());
 
         $split = $this->getsplits()
                       ->map(fn ($package) => $this->update->splits($package))
-                      ->filter(fn ($app) => $app->canbeupdated());
+                      ->filter(fn ($app)  => $app->canbeupdated());
 
         return [$single, $split];
     }
