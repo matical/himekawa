@@ -171,11 +171,11 @@ class CheckForAppUpdates extends Command
     {
         $single = $this->getsingles()
                        ->map(fn ($package) => $this->update->singles($package))
-                       ->filter(fn ($app)  => $app->canbeupdated());
+                       ->filter(fn ($app) => $app->canbeupdated());
 
         $split = $this->getsplits()
                       ->map(fn ($package) => $this->update->splits($package))
-                      ->filter(fn ($app)  => $app->canbeupdated());
+                      ->filter(fn ($app) => $app->canbeupdated());
 
         return [$single, $split];
     }
