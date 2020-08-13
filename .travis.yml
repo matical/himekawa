@@ -15,6 +15,7 @@ cache:
   - vendor
 before_install:
 - echo "memory_limit=2G" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+- export COMPOSER_MEMORY_LIMIT=-1
 - nvm install v8.17
 - composer require php-coveralls/php-coveralls
 before_script:
