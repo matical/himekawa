@@ -3,18 +3,21 @@
 namespace himekawa\Console\Commands;
 
 use Exception;
+use himekawa\WatchedApp;
 use yuki\Facades\LastRun;
 use yuki\Scrapers\Download;
 use yuki\Process\Supervisor;
 use Illuminate\Console\Command;
 use yuki\Scrapers\UpdateManager;
+use yuki\Scrapers\Store\StoreApp;
+use yuki\Scrapers\DownloadSplits;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use yuki\Exceptions\PackageException;
+use yuki\Scrapers\Store\SplitStoreApp;
 use yuki\Command\HasPrettyProgressBars;
 use himekawa\Events\Scheduler\AppsUpdated;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class CheckForAppUpdates extends Command
 {
@@ -73,19 +76,20 @@ class CheckForAppUpdates extends Command
 
         $this->fetchAndSetToken();
 
-        $appMetadata = $this->update->allSingleMetadata($this->output->isVerbose());
         // Queue up the apps that have updates pending
-        $appsRequiringUpdates = $this->update->checkForUpdates($appMetadata);
+        [$singleUpdates, $splitUpdates] = $this->getAvailableUpdates();
 
         if ($this->option('dry-run')) {
-            $appsRequiringUpdates->dump();
+            $singleUpdates->dump();
+            $splitUpdates->dump();
 
-            return 1;
+            return 0;
         }
 
         LastRun::markLastCheck();
 
-        if ($appsRequiringUpdates->isEmpty()) {
+        // TODO: count
+        if ($singleUpdates->isEmpty() && $splitUpdates->isEmpty()) {
             $this->info("There's no apps that require updates.");
             Log::info('No apps require updates');
 
@@ -150,13 +154,45 @@ class CheckForAppUpdates extends Command
 
     /**
      * @param $storeApp
-     * @return \himekawa\AvailableApp
+     * @return \himekawa\AvailableApp|string
      * @throws \yuki\Exceptions\PackageException
      * @throws \Symfony\Component\Process\Exception\ProcessTimedOutException
      */
     protected function retrieveStoreApp($storeApp)
     {
-        return $this->download->withApp($storeApp)
-                              ->fetch();
+        if ($storeApp instanceof StoreApp) {
+            return $this->download->withApp($storeApp)->fetch();
+        } elseif ($storeApp instanceof SplitStoreApp) {
+            return app(DownloadSplits::class)->withApp($storeApp)->fetch();
+        }
+    }
+
+    protected function getAvailableUpdates(): array
+    {
+        $single = $this->getsingles()
+                       ->map(fn ($package) => $this->update->singles($package))
+                       ->filter(fn ($app) => $app->canbeupdated());
+
+        $split = $this->getsplits()
+                      ->map(fn ($package) => $this->update->splits($package))
+                      ->filter(fn ($app) => $app->canbeupdated());
+
+        return [$single, $split];
+    }
+
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    protected function getSingles(): Collection
+    {
+        return WatchedApp::single()->pluck('package_name');
+    }
+
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    protected function getSplits(): Collection
+    {
+        return WatchedApp::split()->pluck('package_name');
     }
 }
