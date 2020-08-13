@@ -5,8 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#d86b0d">
+
     @env('local')
-    <meta name="referrer" content="no-referrer">
+        <meta name="referrer" content="no-referrer">
     @endenv
 
     <meta name="description" content="@yield('meta-description', 'ksmz is mine.')">
