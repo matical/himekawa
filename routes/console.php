@@ -4,12 +4,10 @@ use yuki\Foundation\Announcer;
 use yuki\Command\TerminalEditorBuffer;
 
 Artisan::command('announce', function (Announcer $announcement, TerminalEditorBuffer $buffer) {
-    $output = $announcement->available()
-        ? $buffer->initial($announcement->get())
-                 ->prompt()
-                 ->getOutput()
-        : $buffer->prompt()
-                 ->getOutput();
+    if ($announcement->available()) {
+        $buffer->initial($announcement->get());
+    }
+    $output = $buffer->prompt()->getOutput();
 
     if ($output === $announcement->get()) {
         $this->info('No changes detected.');
