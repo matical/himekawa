@@ -5,8 +5,9 @@ use yuki\Command\TerminalEditorBuffer;
 
 Artisan::command('announce', function (Announcer $announcement, TerminalEditorBuffer $buffer) {
     if ($announcement->available()) {
-        $buffer->initial($announcement->get());
+        $buffer->setInitialText($announcement->get());
     }
+
     $output = $buffer->prompt()->getOutput();
 
     if ($output === $announcement->get()) {

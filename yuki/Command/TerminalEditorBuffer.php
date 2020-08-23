@@ -29,11 +29,12 @@ class TerminalEditorBuffer
 
     public function __construct()
     {
-        $this->initResources();
+        $this->fileResource = tmpfile();
+        $this->fileLocation = stream_get_meta_data($this->fileResource)['uri'];
         $this->editor = env('EDITOR', 'vim');
     }
 
-    public function initial($text)
+    public function setInitialText($text)
     {
         $this->writeToBuffer($text);
 
@@ -45,8 +46,7 @@ class TerminalEditorBuffer
      */
     public function prompt()
     {
-        $process = $this->buildProcess();
-        $this->output = $this->launchEditorAndFetchBuffer($process);
+        $this->output = $this->launchEditorAndFetchBuffer($this->buildProcess());
 
         $this->cleanUp($this->fileResource);
 
@@ -61,12 +61,6 @@ class TerminalEditorBuffer
         return $this->output;
     }
 
-    protected function initResources()
-    {
-        $this->fileResource = tmpfile();
-        $this->fileLocation = stream_get_meta_data($this->fileResource)['uri'];
-    }
-
     protected function writeToBuffer($text)
     {
         fwrite($this->fileResource, $text);
@@ -78,7 +72,9 @@ class TerminalEditorBuffer
      */
     protected function launchEditorAndFetchBuffer(Process $process)
     {
-        $process->mustRun();
+        $process->mustRun(null, [
+            'FILE_LOCATION' => $this->fileLocation,
+        ]);
 
         return $this->getFileContents($this->fileLocation);
     }
@@ -88,10 +84,11 @@ class TerminalEditorBuffer
      */
     protected function buildProcess()
     {
-        return tap(Process::fromShellCommandline("vim {$this->fileLocation}"), function (Process $process) {
-            $process->setTty(true);
-            $process->setTimeout(3600);
-        });
+        $process = Process::fromShellCommandline('"$EDITOR" "$FILE_LOCATION"');
+        $process->setTty(true);
+        $process->setTimeout(3600);
+
+        return $process;
     }
 
     /**
