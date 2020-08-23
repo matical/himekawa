@@ -27,11 +27,11 @@ class TerminalEditorBuffer
      */
     protected $output;
 
-    public function __construct()
+    public function __construct($editor = null)
     {
         $this->fileResource = tmpfile();
         $this->fileLocation = stream_get_meta_data($this->fileResource)['uri'];
-        $this->editor = env('EDITOR', 'vim');
+        $this->editor = $editor ?? env('EDITOR', 'vim');
     }
 
     public function setInitialText($text)
@@ -47,7 +47,6 @@ class TerminalEditorBuffer
     public function prompt()
     {
         $this->output = $this->launchEditorAndFetchBuffer($this->buildProcess());
-
         $this->cleanUp($this->fileResource);
 
         return $this;
@@ -73,6 +72,7 @@ class TerminalEditorBuffer
     protected function launchEditorAndFetchBuffer(Process $process)
     {
         $process->mustRun(null, [
+            'EDITOR'        => $this->editor,
             'FILE_LOCATION' => $this->fileLocation,
         ]);
 
